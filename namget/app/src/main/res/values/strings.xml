@@ -1,3 +1,14 @@
 <resources>
     <string name="app_name">MyArchitecture</string>
+
+
+    <!--menu-->
+    <string name="menu_search">검색</string>
+    <string name="menu_search_hint">Search…</string>
+
+    <!--label-->
+    <string name="label_main">Main</string>
+    <string name="label_search">Search</string>
+    <string name="label_repo">Repo</string>
+
 </resources>
