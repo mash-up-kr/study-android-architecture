@@ -1,8 +1,9 @@
 package com.namget.myarchitecture.data.api
 
-import com.namget.myarchitecture.data.api.response.UserListResponse
+import com.namget.myarchitecture.data.api.response.RepoListResponse
 import io.reactivex.Single
 import retrofit2.http.GET
+import retrofit2.http.Path
 import retrofit2.http.Query
 
 /**
@@ -10,6 +11,12 @@ import retrofit2.http.Query
  */
 interface ApiService {
 
-    @GET("search/users")
-    fun getUserList(@Query("q") searchName: String) : Single<UserListResponse>
+    @GET("search/repositories")
+    fun getRepositoryList(@Query("q") searchName: String): Single<RepoListResponse>
+
+    @GET("user/{id}")
+    fun getUserInfo(@Path("id") id: String): Single<RepoListResponse>
+
+    @GET("search/repositories")
+    fun getRepoInfo(@Query("q") searchName: String): Single<RepoListResponse>
 }
