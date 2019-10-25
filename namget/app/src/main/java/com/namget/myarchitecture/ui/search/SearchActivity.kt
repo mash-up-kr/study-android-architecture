@@ -7,11 +7,11 @@ import android.view.MenuItem
 import androidx.appcompat.widget.SearchView
 import androidx.recyclerview.widget.DiffUtil
 import com.namget.myarchitecture.R
-import com.namget.myarchitecture.data.api.RetrofitBuilder
-import com.namget.myarchitecture.data.api.response.RepoListResponse
+import com.namget.myarchitecture.data.response.RepoListResponse
 import com.namget.myarchitecture.ext.d
+import com.namget.myarchitecture.ext.e
+import com.namget.myarchitecture.ext.makeToast
 import com.namget.myarchitecture.ext.plusAssign
-import com.namget.myarchitecture.ext.withScheduler
 import com.namget.myarchitecture.ui.base.BaseActivity
 import com.namget.myarchitecture.ui.repo.RepoActivity
 import com.namget.myarchitecture.util.URL_REPO_DATA
@@ -57,14 +57,16 @@ class SearchActivity : BaseActivity() {
         SearchAdapter(diffUtilCallback) {
             d(TAG, "selectedItem ${searchAdapter.getAdapterItem(it)}")
             //db 저장도 해야함
+            insertRepoData(searchAdapter.getAdapterItem(it))
 
             //detail
-            startActivity(Intent(this, RepoActivity::class.java).apply {
-                putExtra(URL_REPO_DATA, searchAdapter.getAdapterItem(it).url)
-                putExtra(URL_USER_DATA, searchAdapter.getAdapterItem(it).owner.userUrl)
-            })
+            startRepoActivity(
+                searchAdapter.getAdapterItem(it).fullName,
+                searchAdapter.getAdapterItem(it).owner.login
+            )
         }
     }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -81,6 +83,23 @@ class SearchActivity : BaseActivity() {
             setHasFixedSize(true)
             adapter = searchAdapter
         }
+    }
+
+
+    private fun insertRepoData(repoItem: RepoListResponse.RepoItem) {
+        repoRepository.insertRepoData(repoItem.toRepoEntity())
+
+//        disposable += repoRepository.insertRepoData(repoItem.toRepoEntity())
+//            .subscribe {
+//
+//            }
+    }
+
+    private fun startRepoActivity(fullName: String, userId: String) {
+        startActivity(Intent(this, RepoActivity::class.java).apply {
+            putExtra(URL_REPO_DATA, fullName)
+            putExtra(URL_USER_DATA, userId)
+        })
     }
 
 
@@ -108,13 +127,13 @@ class SearchActivity : BaseActivity() {
 
 
     private fun requestRepoList(query: String) {
-        disposable += RetrofitBuilder.createApiService()
-            .getRepositoryList(query)
-            .withScheduler()
+        disposable += repoRepository.getRepositoryList(query)
             .subscribe({
                 searchAdapter.submitList(it.items)
                 hideDialog()
             }, {
+                e(TAG, "requestRepoList", it)
+                makeToast(getString(R.string.error))
                 hideDialog()
             })
     }

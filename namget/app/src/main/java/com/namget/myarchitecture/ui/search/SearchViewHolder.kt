@@ -6,7 +6,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import coil.api.load
 import com.namget.myarchitecture.R
-import com.namget.myarchitecture.data.api.response.RepoListResponse
+import com.namget.myarchitecture.data.response.RepoListResponse
 
 /**
  * Created by Namget on 2019.10.22.

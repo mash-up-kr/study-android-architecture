@@ -1,4 +1,4 @@
-package com.namget.myarchitecture.data.api
+package com.namget.myarchitecture.data.source.remote
 
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
@@ -21,6 +21,9 @@ object RetrofitBuilder {
     //10 sec
     const val TIMEOUT = 10L
     const val BASE_URL = "https://api.github.com/"
+    val repoApi : ApiService by lazy {
+        createApiService()
+    }
 
     private fun createHeaderInterceptor(): Interceptor =
         Interceptor {

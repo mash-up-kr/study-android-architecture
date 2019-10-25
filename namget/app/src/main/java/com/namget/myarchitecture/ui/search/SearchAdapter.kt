@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import com.namget.myarchitecture.R
-import com.namget.myarchitecture.data.api.response.RepoListResponse
+import com.namget.myarchitecture.data.response.RepoListResponse
 
 /**
  * Created by Namget on 2019.10.22.
