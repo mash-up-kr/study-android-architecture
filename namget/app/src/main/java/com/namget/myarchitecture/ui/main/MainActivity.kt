@@ -2,7 +2,9 @@ package com.namget.myarchitecture.ui.main
 
 import android.content.Intent
 import android.os.Bundle
+import androidx.recyclerview.widget.RecyclerView
 import com.namget.myarchitecture.R
+import com.namget.myarchitecture.data.source.local.entity.RepoItemEntity
 import com.namget.myarchitecture.ext.e
 import com.namget.myarchitecture.ext.makeToast
 import com.namget.myarchitecture.ext.plusAssign
@@ -13,6 +15,10 @@ import kotlinx.android.synthetic.main.activity_main.*
 class MainActivity : BaseActivity() {
 
     private val TAG = "MainActivity"
+    private lateinit var recyclerView: RecyclerView
+    private lateinit var mainAdapter: MainAdapter
+    private val repoList: List<RepoItemEntity> = arrayListOf()
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -23,7 +29,16 @@ class MainActivity : BaseActivity() {
 
     private fun init() {
         initView()
+        initRecyclerView()
         selectRepoData()
+    }
+
+    private fun initRecyclerView() {
+        mainAdapter = MainAdapter(repoList)
+        recyclerView = mainRecyclerView.apply {
+            setHasFixedSize(true)
+            adapter = mainAdapter
+        }
     }
 
     private fun initView() {
@@ -39,7 +54,8 @@ class MainActivity : BaseActivity() {
             }, {
                 makeToast(getString(R.string.error))
                 e(TAG, "selectRepoData", it)
-            },{
+            }, {
+
             })
     }
 
