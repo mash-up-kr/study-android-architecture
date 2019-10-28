@@ -87,12 +87,10 @@ class SearchActivity : BaseActivity() {
 
 
     private fun insertRepoData(repoItem: RepoListResponse.RepoItem) {
-        repoRepository.insertRepoData(repoItem.toRepoEntity())
-
-//        disposable += repoRepository.insertRepoData(repoItem.toRepoEntity())
-//            .subscribe {
-//
-//            }
+        disposable += repoRepository.insertRepoData(repoItem.toRepoEntity())
+            .subscribe {
+                e(TAG,"inserted")
+            }
     }
 
     private fun startRepoActivity(fullName: String, userId: String) {

@@ -20,11 +20,12 @@ data class RepoListResponse(
         @PrimaryKey
         @SerializedName("full_name")
         val fullName: String,
-        val language: String,
+        val language: String?,
         val url: String,
         val owner: Owner
     ) {
-        fun toRepoEntity(): RepoItemEntity = RepoItemEntity(fullName, language, owner.avatarUrl)
+        fun toRepoEntity(): RepoItemEntity =
+            RepoItemEntity(fullName, language ?: "", owner.avatarUrl)
     }
 
     data class Owner(

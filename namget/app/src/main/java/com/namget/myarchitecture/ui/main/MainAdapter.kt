@@ -9,12 +9,24 @@ import com.namget.myarchitecture.data.source.local.entity.RepoItemEntity
 /**
  * Created by Namget on 2019.10.25.
  */
-class MainAdapter(private val list: List<RepoItemEntity>) : RecyclerView.Adapter<MainViewHolder>() {
+class MainAdapter(private val list: MutableList<RepoItemEntity>) :
+    RecyclerView.Adapter<MainViewHolder>() {
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MainViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_search, null, false)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_search, parent, false)
         return MainViewHolder(view)
+    }
+
+    fun replaceItems(replaceList: List<RepoItemEntity>) {
+        list.clear()
+        list.addAll(replaceList)
+        notifyDataSetChanged()
+    }
+
+    fun addItems(item: RepoItemEntity) {
+        list.add(item)
+        notifyItemChanged(list.size - 1)
     }
 
     override fun getItemCount(): Int = list.size

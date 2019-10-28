@@ -10,6 +10,6 @@ import androidx.room.PrimaryKey
 data class RepoItemEntity(
     @PrimaryKey
     val fullName: String,
-    val language: String,
+    val language: String = "",
     val avatarUrl: String
 )
