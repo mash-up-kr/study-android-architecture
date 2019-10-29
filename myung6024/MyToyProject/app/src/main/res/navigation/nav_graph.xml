@@ -5,7 +5,7 @@
     app:startDestination="@+id/main_screen">
     <fragment
         android:id="@+id/main_screen"
-        android:name="com.runeanim.mytoyproject.main.MainFragment"
+        android:name="com.runeanim.mytoyproject.ui.main.MainFragment"
         android:label="Main screen"
         tools:layout="@layout/main_fragment">
         <action
@@ -15,7 +15,17 @@
 
     <fragment
         android:id="@+id/search_screen"
-        android:name="com.runeanim.mytoyproject.search.SearchFragment"
+        android:name="com.runeanim.mytoyproject.ui.search.SearchFragment"
         android:label="Search screen"
-        tools:layout="@layout/search_fragment"/>
+        tools:layout="@layout/search_fragment">
+        <action
+            android:id="@+id/action_search_screen_to_detail_screen"
+            app:destination="@id/detail_screen" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/detail_screen"
+        android:name="com.runeanim.mytoyproject.ui.detail.DetailFragment"
+        android:label="Detail screen"
+        tools:layout="@layout/detail_fragment"/>
 </navigation>

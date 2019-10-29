@@ -9,13 +9,14 @@
 
         <variable
             name="fragment"
-            type="com.runeanim.mytoyproject.search.SearchFragment" />
+            type="com.runeanim.mytoyproject.ui.search.SearchFragment" />
     </data>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:onClick="@{() -> fragment.moveScreenToDetailFragment(item)}">
 
         <ImageView
             android:layout_width="50dp"

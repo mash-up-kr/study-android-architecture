@@ -7,18 +7,19 @@
 
         <variable
             name="fragment"
-            type="com.runeanim.mytoyproject.search.SearchFragment" />
+            type="com.runeanim.mytoyproject.ui.search.SearchFragment" />
     </data>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        tools:context=".search.SearchFragment">
+        tools:context=".ui.search.SearchFragment">
 
         <androidx.appcompat.widget.SearchView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:focusable="true"
             app:iconifiedByDefault="false"
             app:setOnQueryTextListener="@{fragment.searchRepositoryByKeyWord}" />
 

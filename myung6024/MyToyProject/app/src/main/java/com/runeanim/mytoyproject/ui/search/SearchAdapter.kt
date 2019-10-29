@@ -1,4 +1,4 @@
-package com.runeanim.mytoyproject.search
+package com.runeanim.mytoyproject.ui.search
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

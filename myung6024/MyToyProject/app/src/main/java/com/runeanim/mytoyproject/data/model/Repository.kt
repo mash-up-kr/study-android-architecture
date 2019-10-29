@@ -1,6 +1,7 @@
 package com.runeanim.mytoyproject.data.model
 
 import com.google.gson.annotations.SerializedName
+import java.util.*
 
 data class Repository(
     @SerializedName("id") val id: Long,
@@ -13,9 +14,5 @@ data class Repository(
     @SerializedName("stargazers_count") val stargazersCount: Int,
     @SerializedName("watchers_count") val watchersCount: Int,
     @SerializedName("language") val language: String?,
-    @SerializedName("forks_count") val forksCount: Int,
-    @SerializedName("open_issues_count") val openIssuesCount: Int,
-    @SerializedName("master_branch") val masterBranch: String,
-    @SerializedName("default_branch") val defaultBranch: String,
-    @SerializedName("score") val score: Double
+    @SerializedName("updated_at") val updatedAt: Date
 )
