@@ -1,4 +1,4 @@
-package com.runeanim.mytoyproject.main
+package com.runeanim.mytoyproject.ui.main
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -27,7 +27,7 @@ class MainFragment : Fragment() {
         viewDataBinding.lifecycleOwner = this.viewLifecycleOwner
     }
 
-    fun startSearchActivity(){
+    fun moveScreenToSearchFragment(){
         Navigation.findNavController(viewDataBinding.root).navigate(R.id.action_main_screen_to_search_screen)
     }
 }

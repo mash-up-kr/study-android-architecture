@@ -1,4 +1,4 @@
-package com.runeanim.mytoyproject.main
+package com.runeanim.mytoyproject.ui.main
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
