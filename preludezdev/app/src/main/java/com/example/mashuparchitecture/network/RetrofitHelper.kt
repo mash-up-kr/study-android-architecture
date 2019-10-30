@@ -16,7 +16,7 @@ class RetrofitHelper private constructor() {
 
     companion object {
         const val API_URL = "https://api.github.com/"
-        var INSTANCE: RetrofitHelper? = null
+        private var INSTANCE: RetrofitHelper? = null
 
         fun getInstance() = INSTANCE ?: RetrofitHelper().apply { INSTANCE = this }
     }

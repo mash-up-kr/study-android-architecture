@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="ic_image_size">25dp</dimen>
+    <dimen name="item_image_size">60dp</dimen>
+    <dimen name="item_text_name_size">16dp</dimen>
+    <dimen name="item_text_language_size">10dp</dimen>
 </resources>
