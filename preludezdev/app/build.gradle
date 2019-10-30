@@ -1,6 +1,7 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
+apply plugin: 'kotlin-android-extensions'
 
 android {
     compileSdkVersion 29
@@ -20,7 +21,7 @@ android {
         }
     }
 
-    dataBinding{
+    dataBinding {
         enabled = true
     }
 }
@@ -37,4 +38,5 @@ dependencies {
 
     //Floating Action Button
     implementation 'com.google.android.material:material:1.0.0'
+
 }

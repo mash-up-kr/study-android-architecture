@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">MashUpArchitecture</string>
+
+    <!-- SearchActivity -->
+    <string name="et_search_hint">Search&#8230;</string>
 </resources>
