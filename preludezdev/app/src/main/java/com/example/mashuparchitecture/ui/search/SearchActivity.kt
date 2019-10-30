@@ -6,9 +6,8 @@ import android.view.KeyEvent
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
-import androidx.databinding.DataBindingUtil
 import com.example.mashuparchitecture.R
+import com.example.mashuparchitecture.base.BaseActivity
 import com.example.mashuparchitecture.databinding.ActivitySearchBinding
 import com.example.mashuparchitecture.network.RetrofitHelper
 import com.example.mashuparchitecture.network.vo.GithubRepositoriesResponse
@@ -16,14 +15,12 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class SearchActivity : AppCompatActivity() {
+class SearchActivity : BaseActivity<ActivitySearchBinding>(R.layout.activity_search) {
 
-    private lateinit var binding: ActivitySearchBinding
     private val adapter by lazy { GithubAdapter() }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_search)
 
         initRecyclerView()
         initEvent()
