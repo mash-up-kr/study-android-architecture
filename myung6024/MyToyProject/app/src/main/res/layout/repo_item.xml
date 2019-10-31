@@ -8,15 +8,15 @@
             type="com.runeanim.mytoyproject.data.source.local.entity.RepositoryEntity" />
 
         <variable
-            name="fragment"
-            type="com.runeanim.mytoyproject.base.BaseRepoListFragment" />
+            name="listener"
+            type="com.runeanim.mytoyproject.ui.RepoItemClickListener" />
     </data>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:onClick="@{() -> fragment.onClickRepositoryItem(item)}">
+        android:onClick="@{() -> listener.onClickRepositoryItem(item)}">
 
         <ImageView
             android:layout_width="50dp"
