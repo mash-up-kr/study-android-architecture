@@ -1,13 +1,13 @@
 package com.example.mashuparchitecture.data.source
 
-import com.example.mashuparchitecture.data.source.local.LocalDataSourceImpl
-import com.example.mashuparchitecture.data.source.remote.RemoteDataSourceImpl
+import com.example.mashuparchitecture.data.source.local.LocalDataSource
+import com.example.mashuparchitecture.data.source.remote.RemoteDataSource
 import com.example.mashuparchitecture.network.vo.GithubRepositoriesResponse
 import com.example.mashuparchitecture.network.vo.GithubUserResponse
 
 class RepositoryImpl(
-    private val remoteDataSource: RemoteDataSourceImpl,
-    private val localDataSource: LocalDataSourceImpl
+    private val remoteDataSource: RemoteDataSource,
+    private val localDataSource: LocalDataSource
 ) : Repository {
     override fun getUserData(
         login: String,

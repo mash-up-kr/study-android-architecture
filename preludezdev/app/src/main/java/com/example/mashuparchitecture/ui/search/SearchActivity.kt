@@ -7,21 +7,14 @@ import android.view.View
 import android.view.inputmethod.InputMethodManager
 import com.example.mashuparchitecture.R
 import com.example.mashuparchitecture.base.BaseActivity
-import com.example.mashuparchitecture.data.source.RepositoryImpl
-import com.example.mashuparchitecture.data.source.local.LocalDataSourceImpl
-import com.example.mashuparchitecture.data.source.remote.RemoteDataSourceImpl
+import com.example.mashuparchitecture.data.source.Repository
 import com.example.mashuparchitecture.databinding.ActivitySearchBinding
-import com.example.mashuparchitecture.network.RetrofitHelper
+import org.koin.android.ext.android.inject
 
 class SearchActivity : BaseActivity<ActivitySearchBinding>(R.layout.activity_search) {
 
     private val adapter by lazy { GithubAdapter(this) }
-    private val repository by lazy {
-        RepositoryImpl(
-            RemoteDataSourceImpl(RetrofitHelper.getInstance().apiService),
-            LocalDataSourceImpl()
-        )
-    }
+    private val repository: Repository by inject()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

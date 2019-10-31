@@ -5,22 +5,15 @@ import android.view.View
 import com.bumptech.glide.Glide
 import com.example.mashuparchitecture.R
 import com.example.mashuparchitecture.base.BaseActivity
-import com.example.mashuparchitecture.data.source.RepositoryImpl
-import com.example.mashuparchitecture.data.source.local.LocalDataSourceImpl
-import com.example.mashuparchitecture.data.source.remote.RemoteDataSourceImpl
+import com.example.mashuparchitecture.data.source.Repository
 import com.example.mashuparchitecture.databinding.ActivityDetailBinding
-import com.example.mashuparchitecture.network.RetrofitHelper
 import com.example.mashuparchitecture.network.vo.GithubRepositoriesResponse
 import com.example.mashuparchitecture.network.vo.GithubUserResponse
+import org.koin.android.ext.android.inject
 
 class DetailActivity : BaseActivity<ActivityDetailBinding>(R.layout.activity_detail) {
 
-    private val repository by lazy {
-        RepositoryImpl(
-            RemoteDataSourceImpl(RetrofitHelper.getInstance().apiService),
-            LocalDataSourceImpl()
-        )
-    }
+    private val repository: Repository by inject()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
