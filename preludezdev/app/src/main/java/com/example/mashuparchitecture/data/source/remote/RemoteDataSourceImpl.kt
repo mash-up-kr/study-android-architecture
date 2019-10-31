@@ -2,12 +2,36 @@ package com.example.mashuparchitecture.data.source.remote
 
 import com.example.mashuparchitecture.network.GithubApiService
 import com.example.mashuparchitecture.network.vo.GithubRepositoriesResponse
+import com.example.mashuparchitecture.network.vo.GithubUserResponse
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class RemoteDataSourceImpl(private val api: GithubApiService) :
-    RemoteDataSource {
+class RemoteDataSourceImpl(private val api: GithubApiService) : RemoteDataSource {
+    override fun getUserData(
+        login: String,
+        onSuccess: (data: GithubUserResponse?) -> Unit,
+        onFail: (errorMsg: String) -> Unit
+    ) {
+        api
+            .getUserData(login)
+            .enqueue(object : Callback<GithubUserResponse> {
+                override fun onFailure(call: Call<GithubUserResponse>, t: Throwable) {
+                    onFail("데이터 요청에 실패했습니다.")
+                }
+
+                override fun onResponse(
+                    call: Call<GithubUserResponse>,
+                    response: Response<GithubUserResponse>
+                ) {
+                    val data = response.body()
+
+                    if (data != null) {
+                        onSuccess(data)
+                    }
+                }
+            })
+    }
 
     override fun getGithubRepositories(
         query: String,

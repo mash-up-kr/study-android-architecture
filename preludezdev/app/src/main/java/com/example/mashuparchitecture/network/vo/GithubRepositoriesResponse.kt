@@ -1,7 +1,11 @@
 package com.example.mashuparchitecture.network.vo
 
 
+import com.example.mashuparchitecture.data.source.vo.DetailRepoVo
 import com.google.gson.annotations.SerializedName
+import java.io.Serializable
+import java.text.SimpleDateFormat
+import java.util.*
 
 data class GithubRepositoriesResponse(
     @SerializedName("total_count")
@@ -47,7 +51,7 @@ data class GithubRepositoriesResponse(
         @SerializedName("watchers_count")
         val watchersCount: Int,
         @SerializedName("language")
-        val language: String,
+        val language: String?,
         @SerializedName("forks_count")
         val forksCount: Int,
         @SerializedName("open_issues_count")
@@ -58,7 +62,7 @@ data class GithubRepositoriesResponse(
         val defaultBranch: String,
         @SerializedName("score")
         val score: Double
-    ) {
+    ) : Serializable {
         data class Owner(
             @SerializedName("login")
             val login: String,
@@ -76,6 +80,32 @@ data class GithubRepositoriesResponse(
             val receivedEventsUrl: String,
             @SerializedName("type")
             val type: String
-        )
+        ) : Serializable
+
+        fun convertItemIntoDetailRepoVo(
+            githubUserResponse: GithubUserResponse
+        ): DetailRepoVo {
+
+            val date = SimpleDateFormat("yyyy-MM-dd'T'HH:mm", Locale.KOREA).parse(updatedAt)
+            val updatedAtStr = if (date != null) SimpleDateFormat(
+                "yyyy-MM-dd E요일 HH:mm",
+                Locale.KOREA
+            ).format(date) else "No update time specified"
+
+            return DetailRepoVo(
+                id,
+                name,
+                fullName,
+                owner,
+                description,
+                updatedAtStr,
+                "★ $stargazersCount stars",
+                watchersCount,
+                language ?: "No language specified",
+                githubUserResponse.name ?: "No name specified",
+                "Followers : ${githubUserResponse.followers}",
+                "Following : ${githubUserResponse.following}"
+            )
+        }
     }
 }

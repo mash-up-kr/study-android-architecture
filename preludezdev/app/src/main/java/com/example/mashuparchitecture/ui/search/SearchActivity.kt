@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.KeyEvent
 import android.view.View
 import android.view.inputmethod.InputMethodManager
-import android.widget.Toast
 import com.example.mashuparchitecture.R
 import com.example.mashuparchitecture.base.BaseActivity
 import com.example.mashuparchitecture.data.source.RepositoryImpl
@@ -16,7 +15,7 @@ import com.example.mashuparchitecture.network.RetrofitHelper
 
 class SearchActivity : BaseActivity<ActivitySearchBinding>(R.layout.activity_search) {
 
-    private val adapter by lazy { GithubAdapter() }
+    private val adapter by lazy { GithubAdapter(this) }
     private val repository by lazy {
         RepositoryImpl(
             RemoteDataSourceImpl(RetrofitHelper.getInstance().apiService),
@@ -90,9 +89,4 @@ class SearchActivity : BaseActivity<ActivitySearchBinding>(R.layout.activity_sea
         }
     }
 
-    private fun showToastMessage(msg: String?) {
-        if (!msg.isNullOrEmpty()) {
-            Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
-        }
-    }
 }
