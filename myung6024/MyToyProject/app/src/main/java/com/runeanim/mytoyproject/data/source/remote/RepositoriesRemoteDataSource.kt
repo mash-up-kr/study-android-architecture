@@ -5,7 +5,6 @@ import com.runeanim.mytoyproject.data.Result.Error
 import com.runeanim.mytoyproject.data.Result.Success
 import com.runeanim.mytoyproject.data.model.Owner
 import com.runeanim.mytoyproject.data.model.Repository
-import com.runeanim.mytoyproject.data.source.RepositoriesDataSource
 import com.runeanim.mytoyproject.data.source.remote.api.GitHubAPI
 import com.runeanim.mytoyproject.data.source.remote.response.RepositoriesResponse
 import kotlinx.coroutines.CoroutineDispatcher
@@ -16,8 +15,8 @@ import java.lang.Exception
 class RepositoriesRemoteDataSource internal constructor(
     private val gitHubAPI: GitHubAPI,
     private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO
-) : RepositoriesDataSource {
-    override suspend fun searchRepositories(searchKeyWord: String): Result<RepositoriesResponse> =
+) {
+    suspend fun searchRepositories(searchKeyWord: String): Result<RepositoriesResponse> =
         withContext(ioDispatcher) {
             return@withContext try {
                 Success(gitHubAPI.searchRepositories(searchKeyWord))
@@ -26,7 +25,7 @@ class RepositoriesRemoteDataSource internal constructor(
             }
         }
 
-    override suspend fun getRepositoryInfo(repoUrl: String): Result<Repository> =
+    suspend fun getRepositoryInfo(repoUrl: String): Result<Repository> =
         withContext(ioDispatcher) {
             return@withContext try {
                 Success(gitHubAPI.getRepositoryInfo(repoUrl))
@@ -35,7 +34,7 @@ class RepositoriesRemoteDataSource internal constructor(
             }
         }
 
-    override suspend fun getUserInfo(userId: String): Result<Owner> =
+    suspend fun getUserInfo(userId: String): Result<Owner> =
         withContext(ioDispatcher) {
             return@withContext try {
                 Success(gitHubAPI.getUserInfo(userId))

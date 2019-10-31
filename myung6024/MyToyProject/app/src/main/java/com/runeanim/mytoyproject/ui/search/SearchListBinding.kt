@@ -4,13 +4,6 @@ import android.content.Context
 import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.widget.SearchView
 import androidx.databinding.BindingAdapter
-import androidx.recyclerview.widget.RecyclerView
-import com.runeanim.mytoyproject.data.model.Repository
-
-@BindingAdapter("app:items")
-fun setItems(listView: RecyclerView, items: List<Repository>) {
-    (listView.adapter as SearchAdapter).submitList(items)
-}
 
 @BindingAdapter("app:setOnQueryTextListener")
 fun setOnQueryTextListener(searchView: SearchView, searchByKeyWord: (String) -> Unit) {

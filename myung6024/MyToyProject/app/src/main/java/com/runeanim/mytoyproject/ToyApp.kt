@@ -3,7 +3,7 @@ package com.runeanim.mytoyproject
 import android.app.Application
 import com.runeanim.mytoyproject.di.ApiModule
 import com.runeanim.mytoyproject.di.NetworkModule
-import com.runeanim.mytoyproject.di.SearchModule
+import com.runeanim.mytoyproject.di.ApplicationModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
 
@@ -18,7 +18,7 @@ class ToyApp : Application() {
                 listOf(
                     NetworkModule,
                     ApiModule,
-                    SearchModule
+                    ApplicationModule
                 )
             )
         }
