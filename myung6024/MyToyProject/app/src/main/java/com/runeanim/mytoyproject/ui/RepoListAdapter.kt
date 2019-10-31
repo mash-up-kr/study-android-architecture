@@ -1,4 +1,4 @@
-package com.runeanim.mytoyproject.base
+package com.runeanim.mytoyproject.ui
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -8,13 +8,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.runeanim.mytoyproject.data.source.local.entity.RepositoryEntity
 import com.runeanim.mytoyproject.databinding.RepoItemBinding
 
-class RepoListAdapter(private val fragment: BaseRepoListFragment) :
+class RepoListAdapter(private val listener: RepoItemClickListener) :
         ListAdapter<RepositoryEntity, RepoListAdapter.ViewHolder>(TaskDiffCallback()) {
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = getItem(position)
 
-        holder.bind(fragment, item)
+        holder.bind(listener, item)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -24,9 +24,9 @@ class RepoListAdapter(private val fragment: BaseRepoListFragment) :
     class ViewHolder private constructor(private val binding: RepoItemBinding) :
             RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(fragment: BaseRepoListFragment, item: RepositoryEntity) {
+        fun bind(listener: RepoItemClickListener, item: RepositoryEntity) {
 
-            binding.fragment = fragment
+            binding.listener = listener
             binding.item = item
             binding.executePendingBindings()
         }
