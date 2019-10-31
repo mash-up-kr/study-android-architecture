@@ -41,4 +41,5 @@ ext{
     retrofitVersion = '2.6.2'
     koinVersion = '2.0.0-rc-2'
     glideVersion = "4.8.0"
+    roomVersion = '2.1.0'
 }

@@ -1,15 +1,15 @@
-package com.runeanim.mytoyproject.ui.search
+package com.runeanim.mytoyproject.base
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.runeanim.mytoyproject.data.model.Repository
-import com.runeanim.mytoyproject.databinding.SearchItemBinding
+import com.runeanim.mytoyproject.data.source.local.entity.RepositoryEntity
+import com.runeanim.mytoyproject.databinding.RepoItemBinding
 
-class SearchAdapter(private val fragment: SearchFragment) :
-        ListAdapter<Repository, SearchAdapter.ViewHolder>(TaskDiffCallback()) {
+class RepoListAdapter(private val fragment: BaseRepoListFragment) :
+        ListAdapter<RepositoryEntity, RepoListAdapter.ViewHolder>(TaskDiffCallback()) {
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = getItem(position)
@@ -21,10 +21,10 @@ class SearchAdapter(private val fragment: SearchFragment) :
         return ViewHolder.from(parent)
     }
 
-    class ViewHolder private constructor(private val binding: SearchItemBinding) :
+    class ViewHolder private constructor(private val binding: RepoItemBinding) :
             RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(fragment: SearchFragment, item: Repository) {
+        fun bind(fragment: BaseRepoListFragment, item: RepositoryEntity) {
 
             binding.fragment = fragment
             binding.item = item
@@ -34,7 +34,7 @@ class SearchAdapter(private val fragment: SearchFragment) :
         companion object {
             fun from(parent: ViewGroup): ViewHolder {
                 val layoutInflater = LayoutInflater.from(parent.context)
-                val binding = SearchItemBinding.inflate(layoutInflater, parent, false)
+                val binding = RepoItemBinding.inflate(layoutInflater, parent, false)
 
                 return ViewHolder(binding)
             }
@@ -48,12 +48,12 @@ class SearchAdapter(private val fragment: SearchFragment) :
  * Used by ListAdapter to calculate the minimum number of changes between and old list and a new
  * list that's been passed to `submitList`.
  */
-class TaskDiffCallback : DiffUtil.ItemCallback<Repository>() {
-    override fun areItemsTheSame(oldItem: Repository, newItem: Repository): Boolean {
+class TaskDiffCallback : DiffUtil.ItemCallback<RepositoryEntity>() {
+    override fun areItemsTheSame(oldItem: RepositoryEntity, newItem: RepositoryEntity): Boolean {
         return oldItem.id == newItem.id
     }
 
-    override fun areContentsTheSame(oldItem: Repository, newItem: Repository): Boolean {
+    override fun areContentsTheSame(oldItem: RepositoryEntity, newItem: RepositoryEntity): Boolean {
         return oldItem == newItem
     }
 }
