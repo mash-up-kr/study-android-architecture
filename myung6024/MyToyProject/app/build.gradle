@@ -58,4 +58,8 @@ dependencies {
     implementation "org.koin:koin-android:$koinVersion"
     implementation "org.koin:koin-core:$koinVersion"
     implementation "org.koin:koin-core-ext:$koinVersion"
+
+    // glide
+    implementation "com.github.bumptech.glide:okhttp3-integration:$glideVersion"
+    kapt "com.github.bumptech.glide:compiler:$glideVersion"
 }
