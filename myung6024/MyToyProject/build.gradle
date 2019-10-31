@@ -5,6 +5,7 @@ buildscript {
     ext.kotlinVersion = '1.3.50'
     repositories {
         google()
+        mavenCentral()
         jcenter()
         
     }
@@ -39,4 +40,5 @@ ext{
     navigationVersion = '2.2.0-rc01'
     retrofitVersion = '2.6.2'
     koinVersion = '2.0.0-rc-2'
+    glideVersion = "4.8.0"
 }
