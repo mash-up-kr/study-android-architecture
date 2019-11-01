@@ -25,6 +25,8 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation project(':data')
+    implementation project(':domain')
 
     //library
     implementation "com.google.android.material:material:$supportLibraryVersion"
@@ -39,22 +41,6 @@ dependencies {
     implementation "org.koin:koin-android:$koinVersion"
     implementation "org.koin:koin-androidx-viewmodel:$koinVersion"
 
-    //room
-    implementation "androidx.room:room-runtime:$roomVersion"
-    kapt "androidx.room:room-compiler:$roomVersion"
-
-    //optional - RxJava support for Room
-    implementation "androidx.room:room-rxjava2:$roomVersion"
-
-    //retrofit
-    implementation "com.squareup.retrofit2:retrofit:$retrofitVersion"
-    implementation "com.squareup.retrofit2:converter-gson:$retrofitVersion"
-    implementation "com.squareup.retrofit2:adapter-rxjava2:$retrofitVersion"
-
-    //okHttp
-    implementation "com.squareup.okhttp3:logging-interceptor:$okHttpVersion"
-    implementation "com.squareup.okhttp3:okhttp:$okHttpVersion"
-
     //glide
     implementation "com.github.bumptech.glide:glide:$glideVersion"
     kapt "com.github.bumptech.glide:compiler:$glideVersion"
@@ -67,10 +53,6 @@ dependencies {
     //rx android
     implementation "io.reactivex.rxjava2:rxandroid:$rxandoirdVersion"
     implementation "io.reactivex.rxjava2:rxjava:$rxjavaVersion"
-
-    //rx binding
-    implementation "com.jakewharton.rxbinding2:rxbinding-appcompat-v7:$rxbindingVersion"
-    implementation "com.jakewharton.rxbinding2:rxbinding-appcompat-v7-kotlin:$rxbindingVersion"
 
     //timber
     implementation 'com.jakewharton.timber:timber:4.7.1'
