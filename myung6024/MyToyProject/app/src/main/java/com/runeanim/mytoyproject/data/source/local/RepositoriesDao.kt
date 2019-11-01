@@ -23,8 +23,8 @@ interface RepositoriesDao {
      * @param taskId the task id.
      * @return the task with taskId.
      */
-    @Query("SELECT * FROM repos WHERE repoid = :repoId")
-    suspend fun getRepositoryById(repoId: String): RepositoryEntity?
+    @Query("SELECT * FROM repos WHERE fullName = :fullName")
+    suspend fun getRepositoryById(fullName: String): RepositoryEntity?
 
     /**
      * Insert a task in the database. If the task already exists, replace it.
@@ -39,8 +39,8 @@ interface RepositoriesDao {
      *
      * @return the number of tasks deleted. This should always be 1.
      */
-    @Query("DELETE FROM repos WHERE repoid = :repoId")
-    suspend fun deleteRepositoryById(repoId: String): Int
+    @Query("DELETE FROM repos WHERE fullName = :fullName")
+    suspend fun deleteRepositoryById(fullName: String): Int
 
     /**
      * Delete all tasks.
