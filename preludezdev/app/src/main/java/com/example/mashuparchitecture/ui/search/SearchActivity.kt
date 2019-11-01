@@ -31,7 +31,7 @@ class SearchActivity : BaseActivity<ActivitySearchBinding>(R.layout.activity_sea
         binding.etSearch.setOnKeyListener { _, keyCode, keyEvent ->
             if ((keyCode == KeyEvent.KEYCODE_ENTER) && (keyEvent.action == KeyEvent.ACTION_DOWN)) {
                 hideKeyBoard()
-                searchQuery()
+                searchQuery(binding.etSearch.text.toString())
             }
 
             false
@@ -39,7 +39,7 @@ class SearchActivity : BaseActivity<ActivitySearchBinding>(R.layout.activity_sea
 
         binding.ivSearch.setOnClickListener {
             hideKeyBoard()
-            searchQuery()
+            searchQuery(binding.etSearch.text.toString())
         }
 
         binding.ivBack.setOnClickListener {
@@ -47,11 +47,16 @@ class SearchActivity : BaseActivity<ActivitySearchBinding>(R.layout.activity_sea
         }
     }
 
-    private fun searchQuery() {
+    private fun searchQuery(query: String?) {
+        if (query.isNullOrEmpty()) {
+            showToastMessage("검색어를 입력해주세요.")
+            return
+        }
+
         showProgressBar()
 
         repository
-            .getGithubRepositories(binding.etSearch.text.toString(), { response ->
+            .getGithubRepositories(query, { response ->
                 if (response != null) {
                     adapter.setData(response.items)
                 }
