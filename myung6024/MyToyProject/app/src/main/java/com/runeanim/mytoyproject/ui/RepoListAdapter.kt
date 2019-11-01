@@ -50,7 +50,7 @@ class RepoListAdapter(private val listener: RepoItemClickListener) :
  */
 class TaskDiffCallback : DiffUtil.ItemCallback<RepositoryEntity>() {
     override fun areItemsTheSame(oldItem: RepositoryEntity, newItem: RepositoryEntity): Boolean {
-        return oldItem.id == newItem.id
+        return oldItem.order == newItem.order
     }
 
     override fun areContentsTheSame(oldItem: RepositoryEntity, newItem: RepositoryEntity): Boolean {

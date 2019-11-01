@@ -75,7 +75,7 @@ class SearchFragment : BaseFragment<SearchFragmentBinding>(R.layout.search_fragm
     }
 
     private fun mapRepositoryToRepositoryEntity(repository: Repository): RepositoryEntity{
-        return RepositoryEntity(repository.id, repository.fullName, repository.owner.login, repository.language, repository.owner.avatarUrl)
+        return RepositoryEntity(repository.fullName, repository.owner.login, repository.language, repository.owner.avatarUrl)
     }
 
     val searchRepositoryByKeyWord = fun(searchKeyWord: String) {
