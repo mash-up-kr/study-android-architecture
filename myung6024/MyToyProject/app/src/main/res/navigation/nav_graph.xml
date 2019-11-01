@@ -6,14 +6,10 @@
     <fragment
         android:id="@+id/main_screen"
         android:name="com.runeanim.mytoyproject.ui.main.MainFragment"
-        android:label="Main screen"
-        tools:layout="@layout/main_fragment">
+        android:label="Main screen">
         <action
             android:id="@+id/action_main_screen_to_search_screen"
             app:destination="@id/search_screen" />
-        <action
-            android:id="@+id/action_main_screen_to_detail_screen"
-            app:destination="@id/detail_screen" />
     </fragment>
 
     <fragment
@@ -21,9 +17,6 @@
         android:name="com.runeanim.mytoyproject.ui.search.SearchFragment"
         android:label="Search screen"
         tools:layout="@layout/search_fragment">
-        <action
-            android:id="@+id/action_search_screen_to_detail_screen"
-            app:destination="@id/detail_screen" />
     </fragment>
 
     <fragment
@@ -31,4 +24,8 @@
         android:name="com.runeanim.mytoyproject.ui.detail.DetailFragment"
         android:label="Detail screen"
         tools:layout="@layout/detail_fragment"/>
+
+    <action
+        android:id="@+id/action_global_detail_screen"
+        app:destination="@id/detail_screen" />
 </navigation>

@@ -62,7 +62,7 @@ class MainFragment : BaseFragment<MainFragmentBinding>(R.layout.main_fragment) {
         bundle.putString(Constants.EXTRA_USER_NAME, repositoryEntity.ownerName)
         bundle.putString(Constants.EXTRA_REPOSITORY_URL, repositoryEntity.fullName)
         Navigation.findNavController(viewDataBinding.root)
-            .navigate(R.id.action_main_screen_to_detail_screen, bundle)
+            .navigate(R.id.action_global_detail_screen, bundle)
     }
 
     override fun onDestroy() {
