@@ -13,10 +13,7 @@ fun setItems(listView: RecyclerView, items: List<RepositoryEntity>) {
 }
 
 @BindingAdapter("app:userImage")
-fun setUserImage(imageView: ImageView, path: String?) {
-    if (path.isNullOrEmpty())
-        return
-
+fun setUserImage(imageView: ImageView, path: String) {
     Glide.with(imageView.context)
         .load(path)
         .into(imageView)

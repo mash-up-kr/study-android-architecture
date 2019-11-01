@@ -7,10 +7,7 @@ import java.util.*
 
 
 @BindingAdapter("app:updatedAtText")
-fun setUpdatedAtText(textView: TextView, updatedAt: Date?) {
-    if (updatedAt == null)
-        return
-
+fun setUpdatedAtText(textView: TextView, updatedAt: Date) {
     val dateFormatToShow = SimpleDateFormat(
         "yyyy-MM-dd HH:mm:ss", Locale.getDefault()
     )
