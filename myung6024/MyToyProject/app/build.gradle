@@ -26,6 +26,11 @@ android {
         enabled = true
         enabledForTests = true
     }
+    android {
+        kotlinOptions {
+            jvmTarget = "1.8"
+        }
+    }
 }
 
 dependencies {
