@@ -14,7 +14,7 @@ class RepoRepositoryImpl(
         return repoApi.searchRepository(repo).map { it.items.mapToDomain() }
     }
 
-    override fun getRepo(id: String, name: String): Single<RepoEntity> {
-        return repoApi.getRepository(id, name).map { it.mapToDomain() }
+    override fun getRepo(ownerLogin: String, repoName: String): Single<RepoEntity> {
+        return repoApi.getRepository(ownerLogin, repoName).map { it.mapToDomain() }
     }
 }
