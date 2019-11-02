@@ -7,5 +7,5 @@ interface RepoRepository {
 
     fun searchRepos(repo: String): Single<List<RepoEntity>>
 
-    fun getRepo(id: String, name: String): Single<RepoEntity>
+    fun getRepo(ownerLogin: String, repoName: String): Single<RepoEntity>
 }
