@@ -13,4 +13,6 @@
     <string name="start_with_github">Start with Github</string>
     <string name="unknown">Unknown</string>
     <string name="view_repository">View repository</string>
+    <string name="follower">follower</string>
+    <string name="following">following</string>
 </resources>
