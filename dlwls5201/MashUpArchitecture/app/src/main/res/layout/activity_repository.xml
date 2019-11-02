@@ -35,11 +35,10 @@
                 android:layout_marginRight="12dp"
                 android:layout_toEndOf="@+id/ivActivityRepositoryProfile"
                 android:layout_toRightOf="@id/ivActivityRepositoryProfile"
-
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/tvActivityRepositoryName"
+                    android:id="@+id/tvActivityRepositoryTitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="4dp"
@@ -57,9 +56,63 @@
                     android:textAppearance="?android:textAppearanceSmall"
                     android:textColor="@color/githubBlack"
                     tools:text="100 Stars" />
+
             </LinearLayout>
 
         </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tvActivityRepositoryName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp"
+                android:textAppearance="?android:textAppearanceSmall"
+                android:textColor="@color/githubBlack"
+                android:textStyle="bold"
+                tools:text="userName" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="5dp"
+                android:text="@string/follower"
+                android:textAppearance="?android:textAppearanceSmall"
+                android:textColor="@color/githubBlack"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tvActivityRepositoryFollower"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp"
+                android:textAppearance="?android:textAppearanceSmall"
+                android:textColor="@color/githubBlack"
+                tools:text="100" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="5dp"
+                android:text="@string/following"
+                android:textAppearance="?android:textAppearanceSmall"
+                android:textColor="@color/githubBlack"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tvActivityRepositoryFollowing"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:textAppearanceSmall"
+                android:textColor="@color/githubBlack"
+                tools:text="100" />
+
+        </LinearLayout>
 
         <RelativeLayout
             android:layout_width="match_parent"
