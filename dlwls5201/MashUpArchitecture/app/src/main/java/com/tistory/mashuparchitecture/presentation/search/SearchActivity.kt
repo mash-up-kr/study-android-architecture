@@ -13,7 +13,6 @@ import com.tistory.mashuparchitecture.model.mapToPresentation
 import io.reactivex.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.activity_search.*
 import org.koin.android.ext.android.inject
-import timber.log.Timber
 
 class SearchActivity : AppCompatActivity() {
 
@@ -71,15 +70,15 @@ class SearchActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
-    override fun onStart() {
+    override fun onStop() {
         compositeDisposable.clear()
-        super.onStart()
+        super.onStop()
     }
 
     private fun searchRepository(query: String) {
 
         getRepoUsecase.get(query)
-            .map { it.mapToPresentation() }
+            .map { it.mapToPresentation(resources) }
             .doOnSubscribe {
                 clearResults()
                 hideError()
@@ -92,7 +91,6 @@ class SearchActivity : AppCompatActivity() {
                 hideProgress()
             }
             .subscribe({
-                Timber.d(it.toString())
                 searchAdapter.setItems(it)
 
                 if (it.isEmpty()) {
