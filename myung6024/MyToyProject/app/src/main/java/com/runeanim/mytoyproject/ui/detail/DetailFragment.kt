@@ -49,8 +49,8 @@ class DetailFragment : Fragment() {
     }
 
     override fun onDestroy() {
-        super.onDestroy()
         getDetailJob.cancel()
+        super.onDestroy()
     }
 
     private fun getUserAndRepositoryInfo(repoUrl: String, userId: String) {

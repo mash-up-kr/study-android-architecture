@@ -1,6 +1,7 @@
 package com.runeanim.mytoyproject.data.model
 
 import com.google.gson.annotations.SerializedName
+import com.runeanim.mytoyproject.data.source.local.entity.RepositoryEntity
 import java.util.*
 
 data class Repository(
@@ -13,3 +14,6 @@ data class Repository(
     @SerializedName("language") val language: String?,
     @SerializedName("updated_at") val updatedAt: Date
 )
+
+fun Repository.mapToPresentation() =
+    RepositoryEntity(fullName, owner.login, language, owner.avatarUrl)

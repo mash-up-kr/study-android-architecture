@@ -1,6 +1,7 @@
 package com.runeanim.mytoyproject.ui.main
 
 import android.os.Bundle
+import androidx.core.os.bundleOf
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.navigation.Navigation
@@ -58,16 +59,19 @@ class MainFragment : BaseFragment<MainFragmentBinding>(R.layout.main_fragment) {
     }
 
     private fun moveScreenToDetailFragment(repositoryEntity: RepositoryEntity) {
-        val bundle = Bundle()
-        bundle.putString(Constants.EXTRA_USER_NAME, repositoryEntity.ownerName)
-        bundle.putString(Constants.EXTRA_REPOSITORY_URL, repositoryEntity.fullName)
+        val bundle = with(repositoryEntity) {
+            bundleOf(
+                Constants.EXTRA_USER_NAME to ownerName,
+                Constants.EXTRA_REPOSITORY_URL to fullName
+            )
+        }
         Navigation.findNavController(viewDataBinding.root)
             .navigate(R.id.action_global_detail_screen, bundle)
     }
 
     override fun onDestroy() {
-        super.onDestroy()
         getRepositoryJob.cancel()
+        super.onDestroy()
     }
 
     fun moveScreenToSearchFragment() {

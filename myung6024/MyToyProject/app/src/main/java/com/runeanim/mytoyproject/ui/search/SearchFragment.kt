@@ -1,6 +1,7 @@
 package com.runeanim.mytoyproject.ui.search
 
 import android.os.Bundle
+import androidx.core.os.bundleOf
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.navigation.Navigation
@@ -10,8 +11,8 @@ import com.runeanim.mytoyproject.R
 import com.runeanim.mytoyproject.base.BaseFragment
 import com.runeanim.mytoyproject.ui.RepoListAdapter
 import com.runeanim.mytoyproject.data.Result.Success
-import com.runeanim.mytoyproject.data.model.Repository
 import com.runeanim.mytoyproject.data.source.local.entity.RepositoryEntity
+import com.runeanim.mytoyproject.data.source.remote.response.mapToPresentation
 import com.runeanim.mytoyproject.databinding.SearchFragmentBinding
 import com.runeanim.mytoyproject.domain.SaveRepositoryUseCase
 import com.runeanim.mytoyproject.domain.SearchRepositoriesUseCase
@@ -44,9 +45,9 @@ class SearchFragment : BaseFragment<SearchFragmentBinding>(R.layout.search_fragm
     }
 
     override fun onDestroy() {
-        super.onDestroy()
         searchJob.cancel()
         saveJob.cancel()
+        super.onDestroy()
     }
 
     private fun setupListAdapter() {
@@ -61,9 +62,12 @@ class SearchFragment : BaseFragment<SearchFragmentBinding>(R.layout.search_fragm
     }
 
     private fun moveScreenToDetailFragment(repositoryEntity: RepositoryEntity) {
-        val bundle = Bundle()
-        bundle.putString(Constants.EXTRA_USER_NAME, repositoryEntity.ownerName)
-        bundle.putString(Constants.EXTRA_REPOSITORY_URL, repositoryEntity.fullName)
+        val bundle = with(repositoryEntity) {
+            bundleOf(
+                Constants.EXTRA_USER_NAME to ownerName,
+                Constants.EXTRA_REPOSITORY_URL to fullName
+            )
+        }
         Navigation.findNavController(viewDataBinding.root)
             .navigate(R.id.action_global_detail_screen, bundle)
     }
@@ -74,15 +78,11 @@ class SearchFragment : BaseFragment<SearchFragmentBinding>(R.layout.search_fragm
         }
     }
 
-    private fun mapRepositoryToRepositoryEntity(repository: Repository): RepositoryEntity{
-        return RepositoryEntity(repository.fullName, repository.owner.login, repository.language, repository.owner.avatarUrl)
-    }
-
     val searchRepositoryByKeyWord = fun(searchKeyWord: String) {
         searchJob.launch {
             val result = searchRepositoriesUseCase(searchKeyWord)
             if (result is Success) {
-                _items.value = result.data.repositories.map { mapRepositoryToRepositoryEntity(it) }
+                _items.value = result.data.mapToPresentation()
             }
         }
     }
