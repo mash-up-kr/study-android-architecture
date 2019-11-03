@@ -1,7 +1,6 @@
 package com.tistory.blackjin.data.model
 
 import com.google.gson.annotations.SerializedName
-import com.tistory.blackjin.domain.entity.RepoEntity
 
 data class RepoSearchResponse(
     @SerializedName("total_count")
@@ -10,13 +9,4 @@ data class RepoSearchResponse(
     val items: List<Repo>
 )
 
-fun List<Repo>.mapToDomain() = map {
-    RepoEntity(
-        it.name,
-        it.owner.mapToDomain(),
-        it.description,
-        it.language,
-        it.updatedAt,
-        it.stars
-    )
-}
+fun List<Repo>.mapToDomain() = map { it.mapToDomain() }
