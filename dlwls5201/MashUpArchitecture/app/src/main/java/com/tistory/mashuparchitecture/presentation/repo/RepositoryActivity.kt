@@ -118,7 +118,7 @@ class RepositoryActivity : AppCompatActivity() {
 
         const val KEY_REPO_NAME = "repo_name"
 
-        fun startRepository(context: Context, ownerName: String, repoName: String) {
+        fun startRepositoryActivity(context: Context, ownerName: String, repoName: String) {
             context.startActivity(
                 Intent(context, RepositoryActivity::class.java).apply {
                     putExtra(KEY_OWNER_NAME, ownerName)

@@ -23,7 +23,7 @@ class SearchAdapter : RecyclerView.Adapter<SearchAdapter.RepositoryHolder>() {
             itemView.setOnClickListener {
 
                 val item = items[adapterPosition]
-                RepositoryActivity.startRepository(
+                RepositoryActivity.startRepositoryActivity(
                     it.context,
                     item.owner.ownerName,
                     item.repoName
