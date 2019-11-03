@@ -2,6 +2,7 @@ package com.tistory.blackjin.data.model
 
 import com.google.gson.annotations.SerializedName
 import com.tistory.blackjin.domain.entity.RepoEntity
+import java.util.*
 
 data class Repo(
     @SerializedName("name")
@@ -15,7 +16,7 @@ data class Repo(
     @SerializedName("language")
     val language: String?,
     @SerializedName("updated_at")
-    val updatedAt: String,
+    val updatedAt: Date,
     @SerializedName("stargazers_count")
     val stars: Int
 ) {

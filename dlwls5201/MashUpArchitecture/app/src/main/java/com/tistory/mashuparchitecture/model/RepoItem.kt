@@ -27,10 +27,6 @@ fun List<RepoEntity>.mapToPresentation(resources: Resources): List<RepoItem> =
 
 fun RepoEntity.mapToPresentation(resources: Resources) = let {
 
-    val dateFormatInResponse = SimpleDateFormat(
-        "yyyy-MM-dd'T'HH:mm:ssX", Locale.getDefault()
-    )
-
     val dateFormatToShow = SimpleDateFormat(
         "yyyy-MM-dd HH:mm:ss", Locale.getDefault()
     )
@@ -51,9 +47,8 @@ fun RepoEntity.mapToPresentation(resources: Resources) = let {
             it.language,
 
         updatedAt = try {
-            val lastUpdate = dateFormatInResponse.parse(it.updatedAt)
-            dateFormatToShow.format(lastUpdate)
-        } catch (e: Exception) {
+            dateFormatToShow.format(it.updatedAt)
+        } catch (e: IllegalArgumentException) {
             resources.getString(R.string.unknown)
         },
 
