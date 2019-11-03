@@ -12,22 +12,12 @@ import com.tistory.mashuparchitecture.model.mapToPresentation
 import io.reactivex.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.activity_repository.*
 import org.koin.android.ext.android.inject
-import java.text.SimpleDateFormat
-import java.util.*
 
 class RepositoryActivity : AppCompatActivity() {
 
     private val compositeDisposable = CompositeDisposable()
 
     private val getRepoUsecase: GetRepoUsecase by inject()
-
-    private val dateFormatInResponse = SimpleDateFormat(
-        "yyyy-MM-dd'T'HH:mm:ssX", Locale.getDefault()
-    )
-
-    private val dateFormatToShow = SimpleDateFormat(
-        "yyyy-MM-dd HH:mm:ss", Locale.getDefault()
-    )
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
