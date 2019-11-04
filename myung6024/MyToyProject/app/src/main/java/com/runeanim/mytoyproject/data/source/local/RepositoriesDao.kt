@@ -14,7 +14,7 @@ interface RepositoriesDao {
      *
      * @return all tasks.
      */
-    @Query("SELECT * FROM repos")
+    @Query("SELECT * FROM repos ORDER BY itemOrder ASC")
     suspend fun getRepositories(): List<RepositoryEntity>
 
     /**
@@ -32,7 +32,7 @@ interface RepositoriesDao {
      * @param task the task to be inserted.
      */
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertRepository(task: RepositoryEntity)
+    suspend fun insertRepository(repositoryEntity: RepositoryEntity)
 
     /**
      * Delete a task by id.

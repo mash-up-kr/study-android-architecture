@@ -16,4 +16,4 @@ data class Repository(
 )
 
 fun Repository.mapToPresentation() =
-    RepositoryEntity(fullName, owner.login, language, owner.avatarUrl)
+    RepositoryEntity(id, fullName, owner.login, language, owner.avatarUrl)

@@ -6,9 +6,10 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "repos")
 data class RepositoryEntity(
+    @PrimaryKey val id:Long,
     @ColumnInfo(name = "fullName") val fullName: String,
     val ownerName: String,
     val language: String?,
     val avatarUrl: String,
-    @PrimaryKey(autoGenerate = true) val order: Int = 0
+    @ColumnInfo(name = "itemOrder") var order: Long = 0
 )

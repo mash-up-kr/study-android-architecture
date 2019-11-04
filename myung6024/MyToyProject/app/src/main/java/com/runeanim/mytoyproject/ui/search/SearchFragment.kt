@@ -74,7 +74,7 @@ class SearchFragment : BaseFragment<SearchFragmentBinding>(R.layout.search_fragm
 
     private fun saveRepository(repositoryEntity: RepositoryEntity) {
         saveJob.launch {
-            saveRepositoriesUseCase(repositoryEntity)
+            saveRepositoriesUseCase(repositoryEntity.apply { order = System.currentTimeMillis() })
         }
     }
 
