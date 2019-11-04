@@ -37,11 +37,11 @@ data class GithubRepositoriesResponse(
         @SerializedName("url")
         val url: String,
         @SerializedName("created_at")
-        val createdAt: String,
+        val createdAt: Date?,
         @SerializedName("updated_at")
-        val updatedAt: String,
+        val updatedAt: Date?,
         @SerializedName("pushed_at")
-        val pushedAt: String,
+        val pushedAt: Date?,
         @SerializedName("homepage")
         val homepage: String,
         @SerializedName("size")
@@ -86,11 +86,10 @@ data class GithubRepositoriesResponse(
             githubUserResponse: GithubUserResponse
         ): DetailRepoVo {
 
-            val date = SimpleDateFormat("yyyy-MM-dd'T'HH:mm", Locale.KOREA).parse(updatedAt)
-            val updatedAtStr = if (date != null) SimpleDateFormat(
+            val updatedAtStr = if (updatedAt != null) SimpleDateFormat(
                 "yyyy-MM-dd E요일 HH:mm",
                 Locale.KOREA
-            ).format(date) else "No update time specified"
+            ).format(updatedAt) else "No update time specified"
 
             return DetailRepoVo(
                 id,
