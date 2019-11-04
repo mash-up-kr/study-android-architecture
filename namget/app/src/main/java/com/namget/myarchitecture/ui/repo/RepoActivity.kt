@@ -16,8 +16,10 @@ import kotlinx.android.synthetic.main.activity_repo.*
  * Created by Namget on 2019.10.22.
  */
 class RepoActivity : BaseActivity() {
+    companion object {
+        private const val TAG = "RepoActivity"
+    }
 
-    private val TAG = "RepoActivity"
     private lateinit var repoUrl: String
     private lateinit var userUrl: String
 
@@ -52,11 +54,11 @@ class RepoActivity : BaseActivity() {
                         repoProfileImage.load(avatarUrl)
                         repoFollowerTitle.text =
                             String.format(getString(R.string.follow_format), followers, following)
-                        repoNameTitle.text = name
+                        repoUserName.text = name
                     }
                     with(it.second) {
                         repoProfileTitle.text = fullName
-                        repoNameTitle.text = name
+                        repoUserName.text = name
                         repoProfileStars.text =
                             String.format(getString(R.string.stars_format), starCount)
                         repoDescriptionTitle.text = description

@@ -8,10 +8,9 @@ import androidx.appcompat.widget.SearchView
 import androidx.recyclerview.widget.DiffUtil
 import com.namget.myarchitecture.R
 import com.namget.myarchitecture.data.response.RepoListResponse
+import com.namget.myarchitecture.ext.*
 import com.namget.myarchitecture.ext.d
 import com.namget.myarchitecture.ext.e
-import com.namget.myarchitecture.ext.makeToast
-import com.namget.myarchitecture.ext.plusAssign
 import com.namget.myarchitecture.ui.base.BaseActivity
 import com.namget.myarchitecture.ui.repo.RepoActivity
 import com.namget.myarchitecture.util.URL_REPO_DATA
@@ -31,7 +30,10 @@ import kotlinx.android.synthetic.main.activity_search.*
  */
 
 class SearchActivity : BaseActivity() {
-    private val TAG = "SearchActivity"
+    companion object {
+        private const val TAG = "SearchActivity"
+    }
+
     private lateinit var menuSearch: MenuItem
     private lateinit var searchView: SearchView
     private val diffUtilCallback =
@@ -40,7 +42,7 @@ class SearchActivity : BaseActivity() {
                 oldItem: RepoListResponse.RepoItem,
                 newItem: RepoListResponse.RepoItem
             ): Boolean {
-                return oldItem.fullName == newItem.fullName
+                return oldItem.nodeId == newItem.nodeId
             }
 
             override fun areContentsTheSame(
@@ -89,7 +91,7 @@ class SearchActivity : BaseActivity() {
     private fun insertRepoData(repoItem: RepoListResponse.RepoItem) {
         disposable += repoRepository.insertRepoData(repoItem.toRepoEntity())
             .subscribe {
-                e(TAG,"inserted")
+                e(TAG, "inserted")
             }
     }
 
@@ -108,6 +110,7 @@ class SearchActivity : BaseActivity() {
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 if (!query.isNullOrEmpty()) {
+                    hideKeyboard()
                     showDialog()
                     requestRepoList(query)
                 }

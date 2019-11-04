@@ -44,7 +44,7 @@ class MainActivity : BaseActivity() {
         }
     }
 
-    private fun initView() {
+    private fun initEvent() {
         floatingActionButton.setOnClickListener {
             startActivity(Intent(this, SearchActivity::class.java))
         }

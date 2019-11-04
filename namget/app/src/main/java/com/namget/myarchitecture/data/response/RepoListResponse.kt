@@ -22,10 +22,12 @@ data class RepoListResponse(
         val fullName: String,
         val language: String?,
         val url: String,
-        val owner: Owner
+        val owner: Owner,
+        @SerializedName("node_id")
+        val nodeId : String
     ) {
         fun toRepoEntity(): RepoItemEntity =
-            RepoItemEntity(fullName, language ?: "", owner.avatarUrl)
+            RepoItemEntity(fullName, language ?: "No language specified", owner.avatarUrl)
     }
 
     data class Owner(
