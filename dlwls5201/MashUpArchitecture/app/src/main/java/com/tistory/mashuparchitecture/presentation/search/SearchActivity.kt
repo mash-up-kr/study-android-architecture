@@ -90,18 +90,22 @@ class SearchActivity : AppCompatActivity() {
             .doOnError {
                 hideProgress()
             }
-            .subscribe({
-                searchAdapter.setItems(it)
+            .subscribe(
+                {
+                    searchAdapter.setItems(it)
 
-                if (it.isEmpty()) {
-                    showError(getString(R.string.no_search_result))
-                }
+                    if (it.isEmpty()) {
+                        showError(getString(R.string.no_search_result))
+                    }
 
-            }) {
-                showError(it.message)
-            }.also {
+                }, ::handleException
+            ).also {
                 compositeDisposable.add(it)
             }
+    }
+
+    private fun handleException(throwable: Throwable) {
+        showError(throwable.message)
     }
 
     private fun updateTitle(query: String) {

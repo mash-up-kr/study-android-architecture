@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
+import com.tistory.blackjin.domain.error.ErrorEntity
 import com.tistory.blackjin.domain.interactor.usecases.GetRepoUsecase
 import com.tistory.mashuparchitecture.R
 import com.tistory.mashuparchitecture.model.mapToPresentation
@@ -71,18 +72,17 @@ class RepositoryActivity : AppCompatActivity() {
 
                 tvActivityRepositoryLastUpdate.text = repo.updatedAt
 
-                /*try {
-                    val lastUpdate = dateFormatInResponse.parse(repo.updatedAt)
-                    tvActivityRepositoryLastUpdate.text = dateFormatToShow.format(lastUpdate)
-                } catch (e: Exception) {
-                    tvActivityRepositoryLastUpdate.text = getString(R.string.unknown)
-                }*/
-
-            }) {
-                showError(it.message)
-            }.also {
+            }, ::handleException).also {
                 compositeDisposable.add(it)
             }
+    }
+
+    private fun handleException(throwable: Throwable) {
+        when (throwable) {
+            is ErrorEntity.RateLimitException -> showError(getString(R.string.rate_limit_error))
+            is ErrorEntity.NetworkException -> showError(getString(R.string.network_error))
+            else -> showError(getString(R.string.unexpected_error))
+        }
     }
 
     private fun showProgress() {

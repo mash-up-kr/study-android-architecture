@@ -11,10 +11,12 @@ class RepoRepositoryImpl(
 ) : RepoRepository {
 
     override fun searchRepos(repo: String): Single<List<RepoEntity>> {
-        return repoApi.searchRepository(repo).map { it.items.mapToDomain() }
+        return repoApi.searchRepository(repo)
+            .map { it.items.mapToDomain() }
     }
 
     override fun getRepo(ownerLogin: String, repoName: String): Single<RepoEntity> {
-        return repoApi.getRepository(ownerLogin, repoName).map { it.mapToDomain() }
+        return repoApi.getRepository(ownerLogin, repoName)
+            .map { it.mapToDomain() }
     }
 }
