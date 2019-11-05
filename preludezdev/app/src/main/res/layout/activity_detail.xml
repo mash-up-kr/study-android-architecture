@@ -29,7 +29,7 @@
                 android:contentDescription="@null"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:srcCompat="@tools:sample/avatars" />
+                app:setImageUrl="@{repo.owner.avatarUrl}" />
 
             <TextView
                 android:id="@+id/tv_title"

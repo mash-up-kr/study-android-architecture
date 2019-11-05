@@ -2,13 +2,11 @@ package com.example.mashuparchitecture.ui.detail
 
 import android.os.Bundle
 import android.view.View
-import com.bumptech.glide.Glide
 import com.example.mashuparchitecture.R
 import com.example.mashuparchitecture.base.BaseActivity
 import com.example.mashuparchitecture.data.source.Repository
 import com.example.mashuparchitecture.databinding.ActivityDetailBinding
 import com.example.mashuparchitecture.network.vo.GithubRepositoriesResponse
-import com.example.mashuparchitecture.network.vo.GithubUserResponse
 import org.koin.android.ext.android.inject
 
 class DetailActivity : BaseActivity<ActivityDetailBinding>(R.layout.activity_detail) {
@@ -26,30 +24,16 @@ class DetailActivity : BaseActivity<ActivityDetailBinding>(R.layout.activity_det
         val repo = (intent.getParcelableExtra("item") as GithubRepositoriesResponse.Item)
 
         repository
-            .getUserData(repo.owner.login, { userDataResponse ->
-                if (userDataResponse != null) {
-                    bindRepoAndUserData(userDataResponse, repo)
+            .getUserData(repo.owner.login, { userData ->
+                if (userData != null) {
+                    binding.repo = repo.convertItemIntoDetailRepoVo(userData)
                 }
+
                 hideProgressBar()
             }, {
                 showToastMessage(it)
                 hideProgressBar()
             })
-    }
-
-    private fun bindRepoAndUserData(
-        userData: GithubUserResponse,
-        repo: GithubRepositoriesResponse.Item
-    ) {
-        val detailRepoVo = repo.convertItemIntoDetailRepoVo(userData)
-        binding.repo = detailRepoVo
-
-        Glide
-            .with(binding.root)
-            .load(detailRepoVo.owner.avatarUrl)
-            .placeholder(R.drawable.loading)
-            .error(R.drawable.error)
-            .into(binding.ivAvatar)
     }
 
     private fun showProgressBar() {
