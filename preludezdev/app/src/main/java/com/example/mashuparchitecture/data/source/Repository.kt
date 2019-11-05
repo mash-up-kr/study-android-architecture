@@ -6,14 +6,14 @@ import com.example.mashuparchitecture.network.vo.GithubUserResponse
 interface Repository {
     //remote
     fun getUserData(
-        login: String,
+        login: String?,
         onSuccess: (data: GithubUserResponse?) -> Unit,
         onFail: (errorMsg: String) -> Unit
     )
 
     //remote
     fun getGithubRepositories(
-        query: String,
+        query: String?,
         onSuccess: (data: GithubRepositoriesResponse?) -> Unit,
         onFail: (errorMsg: String) -> Unit
     )

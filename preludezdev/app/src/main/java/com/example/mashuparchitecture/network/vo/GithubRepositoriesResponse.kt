@@ -1,9 +1,10 @@
 package com.example.mashuparchitecture.network.vo
 
 
+import android.os.Parcel
+import android.os.Parcelable
 import com.example.mashuparchitecture.data.source.vo.DetailRepoVo
 import com.google.gson.annotations.SerializedName
-import java.io.Serializable
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -18,93 +19,110 @@ data class GithubRepositoriesResponse(
     data class Item(
         @SerializedName("id")
         val id: Int,
-        @SerializedName("node_id")
-        val nodeId: String,
         @SerializedName("name")
-        val name: String,
+        val name: String?,
         @SerializedName("full_name")
-        val fullName: String,
+        val fullName: String?,
         @SerializedName("owner")
         val owner: Owner,
-        @SerializedName("private")
-        val `private`: Boolean,
-        @SerializedName("html_url")
-        val htmlUrl: String,
         @SerializedName("description")
-        val description: String,
-        @SerializedName("fork")
-        val fork: Boolean,
-        @SerializedName("url")
-        val url: String,
-        @SerializedName("created_at")
-        val createdAt: Date?,
+        val description: String?,
         @SerializedName("updated_at")
-        val updatedAt: Date?,
-        @SerializedName("pushed_at")
-        val pushedAt: Date?,
-        @SerializedName("homepage")
-        val homepage: String,
-        @SerializedName("size")
-        val size: Int,
+        val updatedAt: Date,
         @SerializedName("stargazers_count")
         val stargazersCount: Int,
         @SerializedName("watchers_count")
         val watchersCount: Int,
         @SerializedName("language")
-        val language: String?,
-        @SerializedName("forks_count")
-        val forksCount: Int,
-        @SerializedName("open_issues_count")
-        val openIssuesCount: Int,
-        @SerializedName("master_branch")
-        val masterBranch: String,
-        @SerializedName("default_branch")
-        val defaultBranch: String,
-        @SerializedName("score")
-        val score: Double
-    ) : Serializable {
+        val language: String?
+    ) : Parcelable {
         data class Owner(
             @SerializedName("login")
-            val login: String,
+            val login: String?,
             @SerializedName("id")
             val id: Int,
-            @SerializedName("node_id")
-            val nodeId: String,
             @SerializedName("avatar_url")
-            val avatarUrl: String,
-            @SerializedName("gravatar_id")
-            val gravatarId: String,
-            @SerializedName("url")
-            val url: String,
-            @SerializedName("received_events_url")
-            val receivedEventsUrl: String,
-            @SerializedName("type")
-            val type: String
-        ) : Serializable
+            val avatarUrl: String?
+        ) : Parcelable {
+            constructor(parcel: Parcel) : this(
+                parcel.readString(),
+                parcel.readInt(),
+                parcel.readString()
+            )
+
+            override fun writeToParcel(parcel: Parcel, flags: Int) {
+                parcel.writeString(login)
+                parcel.writeInt(id)
+                parcel.writeString(avatarUrl)
+            }
+
+            override fun describeContents(): Int = 0
+
+            companion object CREATOR : Parcelable.Creator<Owner> {
+                override fun createFromParcel(parcel: Parcel): Owner {
+                    return Owner(parcel)
+                }
+
+                override fun newArray(size: Int): Array<Owner?> {
+                    return arrayOfNulls(size)
+                }
+            }
+        }
+
+        constructor(parcel: Parcel) : this(
+            parcel.readInt(),
+            parcel.readString(),
+            parcel.readString(),
+            parcel.readParcelable(Owner::class.java.classLoader)!!,
+            parcel.readString(),
+            Date(parcel.readLong()),
+            parcel.readInt(),
+            parcel.readInt(),
+            parcel.readString()
+        )
+
+        override fun writeToParcel(parcel: Parcel, flags: Int) {
+            parcel.writeInt(id)
+            parcel.writeString(name)
+            parcel.writeString(fullName)
+            parcel.writeParcelable(owner, flags)
+            parcel.writeString(description)
+            parcel.writeLong(updatedAt.time)
+            parcel.writeInt(stargazersCount)
+            parcel.writeInt(watchersCount)
+            parcel.writeString(language)
+        }
+
+        override fun describeContents(): Int {
+            return 0
+        }
+
+        companion object CREATOR : Parcelable.Creator<Item> {
+            override fun createFromParcel(parcel: Parcel): Item {
+                return Item(parcel)
+            }
+
+            override fun newArray(size: Int): Array<Item?> {
+                return arrayOfNulls(size)
+            }
+        }
 
         fun convertItemIntoDetailRepoVo(
             githubUserResponse: GithubUserResponse
-        ): DetailRepoVo {
+        ) = DetailRepoVo(
+            id,
+            name,
+            fullName,
+            owner,
+            description,
+            SimpleDateFormat("yyyy-MM-dd E요일 HH:mm", Locale.KOREA).format(updatedAt),
+            "★ $stargazersCount stars",
+            watchersCount,
+            language ?: "No language specified",
+            githubUserResponse.name ?: "No name specified",
+            "Followers : ${githubUserResponse.followers}",
+            "Following : ${githubUserResponse.following}"
+        )
 
-            val updatedAtStr = if (updatedAt != null) SimpleDateFormat(
-                "yyyy-MM-dd E요일 HH:mm",
-                Locale.KOREA
-            ).format(updatedAt) else "No update time specified"
-
-            return DetailRepoVo(
-                id,
-                name,
-                fullName,
-                owner,
-                description,
-                updatedAtStr,
-                "★ $stargazersCount stars",
-                watchersCount,
-                language ?: "No language specified",
-                githubUserResponse.name ?: "No name specified",
-                "Followers : ${githubUserResponse.followers}",
-                "Following : ${githubUserResponse.following}"
-            )
-        }
     }
 }

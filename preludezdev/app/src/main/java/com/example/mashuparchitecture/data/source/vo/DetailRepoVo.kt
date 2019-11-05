@@ -7,15 +7,15 @@ data class DetailRepoVo(
     @SerializedName("id")
     val id: Int,
     @SerializedName("name")
-    val name: String,
+    val name: String?,
     @SerializedName("full_name")
-    val fullName: String,
+    val fullName: String?,
     @SerializedName("owner")
     val owner: GithubRepositoriesResponse.Item.Owner,
     @SerializedName("description")
-    val description: String,
+    val description: String?,
     @SerializedName("updated_at")
-    val updatedAt: String,
+    val updatedAt: String?,
     @SerializedName("stargazers_count")
     val stargazersCount: String,
     @SerializedName("watchers_count")

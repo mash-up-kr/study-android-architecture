@@ -10,7 +10,7 @@ class RepositoryImpl(
     private val localDataSource: LocalDataSource
 ) : Repository {
     override fun getUserData(
-        login: String,
+        login: String?,
         onSuccess: (data: GithubUserResponse?) -> Unit,
         onFail: (errorMsg: String) -> Unit
     ) {
@@ -18,7 +18,7 @@ class RepositoryImpl(
     }
 
     override fun getGithubRepositories(
-        query: String,
+        query: String?,
         onSuccess: (data: GithubRepositoriesResponse?) -> Unit,
         onFail: (errorMsg: String) -> Unit
     ) {

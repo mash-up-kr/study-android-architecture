@@ -9,10 +9,12 @@ import retrofit2.Response
 
 class RemoteDataSourceImpl(private val api: GithubApiService) : RemoteDataSource {
     override fun getUserData(
-        login: String,
+        login: String?,
         onSuccess: (data: GithubUserResponse?) -> Unit,
         onFail: (errorMsg: String) -> Unit
     ) {
+        if (login.isNullOrEmpty()) return
+
         api
             .getUserData(login)
             .enqueue(object : Callback<GithubUserResponse> {
@@ -34,10 +36,12 @@ class RemoteDataSourceImpl(private val api: GithubApiService) : RemoteDataSource
     }
 
     override fun getGithubRepositories(
-        query: String,
+        query: String?,
         onSuccess: (data: GithubRepositoriesResponse?) -> Unit,
         onFail: (errorMsg: String) -> Unit
     ) {
+        if (query.isNullOrEmpty()) return
+
         api
             .searchRepositories(query)
             .enqueue(object : Callback<GithubRepositoriesResponse?> {

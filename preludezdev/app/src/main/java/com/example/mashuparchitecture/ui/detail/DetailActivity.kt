@@ -23,7 +23,7 @@ class DetailActivity : BaseActivity<ActivityDetailBinding>(R.layout.activity_det
 
     private fun loadData() {
         showProgressBar()
-        val repo = (intent.getSerializableExtra("item") as GithubRepositoriesResponse.Item)
+        val repo = (intent.getParcelableExtra("item") as GithubRepositoriesResponse.Item)
 
         repository
             .getUserData(repo.owner.login, { userDataResponse ->
