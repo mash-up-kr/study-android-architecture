@@ -42,17 +42,7 @@ class DetailActivity : BaseActivity<ActivityDetailBinding>(R.layout.activity_det
         repo: GithubRepositoriesResponse.Item
     ) {
         val detailRepoVo = repo.convertItemIntoDetailRepoVo(userData)
-
-        with(binding) {
-            tvTitle.text = detailRepoVo.fullName
-            tvStars.text = detailRepoVo.stargazersCount
-            tvUserName.text = detailRepoVo.userName
-            tvUserFollowers.text = detailRepoVo.userFollowers
-            tvUserFollowing.text = detailRepoVo.userFollowing
-            tvDescriptionVal.text = detailRepoVo.description
-            tvLanguageVal.text = detailRepoVo.language
-            tvLastUpdateVal.text = detailRepoVo.updatedAt
-        }
+        binding.repo = detailRepoVo
 
         Glide
             .with(binding.root)

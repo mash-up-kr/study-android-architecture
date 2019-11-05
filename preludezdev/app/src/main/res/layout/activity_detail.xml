@@ -5,6 +5,9 @@
 
     <data>
 
+        <variable
+            name="repo"
+            type="com.example.mashuparchitecture.data.source.vo.DetailRepoVo" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -35,6 +38,7 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginEnd="16dp"
                 android:textSize="@dimen/detail_text_title_size"
+                android:text="@{repo.fullName}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/iv_avatar"
                 app:layout_constraintTop_toTopOf="@+id/iv_avatar"
@@ -46,6 +50,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="2dp"
                 android:textSize="@dimen/detail_text_stars_size"
+                android:text="@{repo.stargazersCount}"
                 app:layout_constraintEnd_toEndOf="@+id/tv_title"
                 app:layout_constraintStart_toStartOf="@+id/tv_title"
                 app:layout_constraintTop_toBottomOf="@+id/tv_title"
@@ -57,6 +62,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="2dp"
                 android:textSize="@dimen/detail_text_userinfo_size"
+                android:text="@{repo.userName}"
                 app:layout_constraintEnd_toEndOf="@+id/tv_stars"
                 app:layout_constraintStart_toStartOf="@+id/tv_stars"
                 app:layout_constraintTop_toBottomOf="@+id/tv_stars"
@@ -68,6 +74,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="2dp"
                 android:textSize="@dimen/detail_text_userinfo_size"
+                android:text="@{repo.userFollowers}"
                 app:layout_constraintStart_toStartOf="@+id/tv_user_name"
                 app:layout_constraintTop_toBottomOf="@+id/tv_user_name"
                 tools:ignore="SpUsage" />
@@ -78,6 +85,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:textSize="@dimen/detail_text_userinfo_size"
+                android:text="@{repo.userFollowing}"
                 app:layout_constraintStart_toEndOf="@+id/tv_user_followers"
                 app:layout_constraintTop_toTopOf="@+id/tv_user_followers"
                 tools:ignore="SpUsage" />
@@ -113,6 +121,7 @@
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="8dp"
                 android:textSize="@dimen/detail_text_sub_content_size"
+                android:text="@{repo.description}"
                 app:layout_constraintEnd_toEndOf="@+id/divider"
                 app:layout_constraintStart_toEndOf="@+id/iv_description"
                 app:layout_constraintTop_toBottomOf="@+id/divider"
@@ -160,6 +169,7 @@
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="8dp"
                 android:textSize="@dimen/detail_text_sub_content_size"
+                android:text="@{repo.language}"
                 app:layout_constraintEnd_toEndOf="@+id/divider2"
                 app:layout_constraintStart_toEndOf="@+id/iv_language"
                 app:layout_constraintTop_toBottomOf="@+id/divider2"
@@ -207,6 +217,7 @@
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="8dp"
                 android:textSize="@dimen/detail_text_sub_content_size"
+                android:text="@{repo.updatedAt}"
                 app:layout_constraintEnd_toEndOf="@+id/divider3"
                 app:layout_constraintStart_toEndOf="@+id/iv_last_update"
                 app:layout_constraintTop_toBottomOf="@+id/divider3"
