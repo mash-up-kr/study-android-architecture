@@ -9,9 +9,8 @@ import androidx.recyclerview.widget.DiffUtil
 import com.namget.myarchitecture.R
 import com.namget.myarchitecture.data.response.RepoListResponse
 import com.namget.myarchitecture.ext.*
-import com.namget.myarchitecture.ext.d
-import com.namget.myarchitecture.ext.e
 import com.namget.myarchitecture.ui.base.BaseActivity
+import com.namget.myarchitecture.ui.base.BaseView
 import com.namget.myarchitecture.ui.repo.RepoActivity
 import com.namget.myarchitecture.util.URL_REPO_DATA
 import com.namget.myarchitecture.util.URL_USER_DATA
@@ -29,7 +28,7 @@ import kotlinx.android.synthetic.main.activity_search.*
  *  Companion object
  */
 
-class SearchActivity : BaseActivity() {
+class SearchActivity : BaseActivity() , BaseView {
     companion object {
         private const val TAG = "SearchActivity"
     }
@@ -87,6 +86,15 @@ class SearchActivity : BaseActivity() {
         }
     }
 
+    override fun showDialog() {
+        progressBar.setVisible(true)
+        searchRecylcerView.setVisible(false)
+    }
+
+    override fun hideDialog() {
+        progressBar.setVisible(false)
+        searchRecylcerView.setVisible(true)
+    }
 
     private fun insertRepoData(repoItem: RepoListResponse.RepoItem) {
         disposable += repoRepository.insertRepoData(repoItem.toRepoEntity())

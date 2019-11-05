@@ -30,7 +30,7 @@ class MainActivity : BaseActivity() {
     }
 
     private fun init() {
-        initView()
+        initEvent()
         initRecyclerView()
         selectRepoData()
     }

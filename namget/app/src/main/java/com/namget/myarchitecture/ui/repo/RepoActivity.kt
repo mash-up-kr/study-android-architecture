@@ -3,11 +3,9 @@ package com.namget.myarchitecture.ui.repo
 import android.os.Bundle
 import coil.api.load
 import com.namget.myarchitecture.R
-import com.namget.myarchitecture.ext.dateToNumberFormat
-import com.namget.myarchitecture.ext.e
-import com.namget.myarchitecture.ext.makeToast
-import com.namget.myarchitecture.ext.plusAssign
+import com.namget.myarchitecture.ext.*
 import com.namget.myarchitecture.ui.base.BaseActivity
+import com.namget.myarchitecture.ui.base.BaseView
 import com.namget.myarchitecture.util.URL_REPO_DATA
 import com.namget.myarchitecture.util.URL_USER_DATA
 import kotlinx.android.synthetic.main.activity_repo.*
@@ -15,7 +13,7 @@ import kotlinx.android.synthetic.main.activity_repo.*
 /**
  * Created by Namget on 2019.10.22.
  */
-class RepoActivity : BaseActivity() {
+class RepoActivity : BaseActivity(), BaseView {
     companion object {
         private const val TAG = "RepoActivity"
     }
@@ -40,6 +38,17 @@ class RepoActivity : BaseActivity() {
             userUrl = intent.getStringExtra(URL_USER_DATA)!!
         }
     }
+
+    override fun showDialog() {
+        progressBar.setVisible(true)
+        repoLayout.setVisible(false)
+    }
+
+    override fun hideDialog() {
+        progressBar.setVisible(false)
+        repoLayout.setVisible(true)
+    }
+
 
     private fun requestUserData() {
         e(TAG, "repoUrl : $repoUrl")

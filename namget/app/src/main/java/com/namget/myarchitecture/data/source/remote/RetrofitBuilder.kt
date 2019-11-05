@@ -64,7 +64,7 @@ object RetrofitBuilder {
             .addCallAdapterFactory(RxJava2CallAdapterFactory.createWithScheduler(Schedulers.io()))
             .addConverterFactory(GsonConverterFactory.create(createGsonBuilder()))
             .client(createOkHttpClient())
-            .baseUrl(BASE_URL)
+            .baseUrl(baseUrl)
             .build()
 
     fun createApiService(): ApiService =
