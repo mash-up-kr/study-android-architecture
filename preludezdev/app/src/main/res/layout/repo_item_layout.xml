@@ -5,6 +5,9 @@
 
     <data>
 
+        <variable
+            name="repo"
+            type="com.example.mashuparchitecture.network.vo.GithubRepositoriesResponse.Item" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -23,7 +26,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:srcCompat="@tools:sample/avatars" />
+            app:setImageUrl="@{repo.owner.avatarUrl}" />
 
         <TextView
             android:id="@+id/tv_repo_name"
@@ -36,6 +39,7 @@
             android:maxLines="1"
             android:textColor="@color/black"
             android:textSize="@dimen/item_text_name_size"
+            android:text="@{repo.fullName}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/iv_avatar"
             app:layout_constraintTop_toTopOf="@+id/iv_avatar"
@@ -52,6 +56,7 @@
             android:maxLines="1"
             android:textColor="@color/gray"
             android:textSize="@dimen/item_text_language_size"
+            android:text="@{repo.language}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toEndOf="@+id/iv_avatar"

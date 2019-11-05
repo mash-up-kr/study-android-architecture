@@ -1,6 +1,7 @@
 package com.example.mashuparchitecture.ui.search
 
 import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.view.KeyEvent
 import android.view.View
@@ -9,11 +10,12 @@ import com.example.mashuparchitecture.R
 import com.example.mashuparchitecture.base.BaseActivity
 import com.example.mashuparchitecture.data.source.Repository
 import com.example.mashuparchitecture.databinding.ActivitySearchBinding
+import com.example.mashuparchitecture.ui.detail.DetailActivity
 import org.koin.android.ext.android.inject
 
 class SearchActivity : BaseActivity<ActivitySearchBinding>(R.layout.activity_search) {
 
-    private val adapter by lazy { GithubAdapter(this) }
+    private val adapter by lazy { GithubAdapter { clickCallback(it) } }
     private val repository: Repository by inject()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -21,6 +23,13 @@ class SearchActivity : BaseActivity<ActivitySearchBinding>(R.layout.activity_sea
 
         initRecyclerView()
         initEvent()
+    }
+
+    private fun clickCallback(position: Int) {
+        startActivity(
+            Intent(this, DetailActivity::class.java).apply {
+                putExtra("item", adapter.getItem(position))
+            })
     }
 
     private fun initRecyclerView() {
