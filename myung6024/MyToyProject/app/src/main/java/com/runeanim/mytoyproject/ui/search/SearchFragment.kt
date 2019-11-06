@@ -1,12 +1,10 @@
 package com.runeanim.mytoyproject.ui.search
 
 import android.os.Bundle
-import androidx.core.os.bundleOf
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.navigation.Navigation
+import androidx.navigation.fragment.findNavController
 import com.runeanim.mytoyproject.ui.RepoItemClickListener
-import com.runeanim.mytoyproject.Constants
 import com.runeanim.mytoyproject.R
 import com.runeanim.mytoyproject.base.BaseFragment
 import com.runeanim.mytoyproject.ui.RepoListAdapter
@@ -16,7 +14,8 @@ import com.runeanim.mytoyproject.data.source.remote.response.mapToPresentation
 import com.runeanim.mytoyproject.databinding.SearchFragmentBinding
 import com.runeanim.mytoyproject.domain.SaveRepositoryUseCase
 import com.runeanim.mytoyproject.domain.SearchRepositoriesUseCase
-import kotlinx.coroutines.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
 
 class SearchFragment : BaseFragment<SearchFragmentBinding>(R.layout.search_fragment) {
@@ -53,14 +52,12 @@ class SearchFragment : BaseFragment<SearchFragmentBinding>(R.layout.search_fragm
     }
 
     private fun moveScreenToDetailFragment(repositoryEntity: RepositoryEntity) {
-        val bundle = with(repositoryEntity) {
-            bundleOf(
-                Constants.EXTRA_USER_NAME to ownerName,
-                Constants.EXTRA_REPOSITORY_URL to fullName
-            )
+        with(repositoryEntity) {
+            SearchFragmentDirections.actionGlobalDetailScreen(
+                fullName,
+                ownerName
+            ).also { findNavController().navigate(it) }
         }
-        Navigation.findNavController(viewDataBinding.root)
-            .navigate(R.id.action_global_detail_screen, bundle)
     }
 
     private fun saveRepository(repositoryEntity: RepositoryEntity) {

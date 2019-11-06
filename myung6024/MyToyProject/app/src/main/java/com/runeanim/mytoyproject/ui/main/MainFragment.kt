@@ -1,12 +1,10 @@
 package com.runeanim.mytoyproject.ui.main
 
 import android.os.Bundle
-import androidx.core.os.bundleOf
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.navigation.Navigation
+import androidx.navigation.fragment.findNavController
 import com.runeanim.mytoyproject.ui.RepoItemClickListener
-import com.runeanim.mytoyproject.Constants
 import com.runeanim.mytoyproject.R
 import com.runeanim.mytoyproject.base.BaseFragment
 import com.runeanim.mytoyproject.databinding.MainFragmentBinding
@@ -58,18 +56,16 @@ class MainFragment : BaseFragment<MainFragmentBinding>(R.layout.main_fragment) {
     }
 
     private fun moveScreenToDetailFragment(repositoryEntity: RepositoryEntity) {
-        val bundle = with(repositoryEntity) {
-            bundleOf(
-                Constants.EXTRA_USER_NAME to ownerName,
-                Constants.EXTRA_REPOSITORY_URL to fullName
-            )
+        with(repositoryEntity) {
+            MainFragmentDirections.actionGlobalDetailScreen(
+                fullName,
+                ownerName
+            ).also { findNavController().navigate(it) }
         }
-        Navigation.findNavController(viewDataBinding.root)
-            .navigate(R.id.action_global_detail_screen, bundle)
     }
 
     fun moveScreenToSearchFragment() {
-        Navigation.findNavController(viewDataBinding.root)
-            .navigate(R.id.action_main_screen_to_search_screen)
+        MainFragmentDirections.actionMainScreenToSearchScreen()
+            .also { findNavController().navigate(it) }
     }
 }

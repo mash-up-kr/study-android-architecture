@@ -4,7 +4,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.runeanim.mytoyproject.Constants
+import androidx.navigation.fragment.navArgs
 import com.runeanim.mytoyproject.R
 import com.runeanim.mytoyproject.base.BaseFragment
 import com.runeanim.mytoyproject.data.Result
@@ -15,12 +15,16 @@ import com.runeanim.mytoyproject.databinding.DetailFragmentBinding
 import com.runeanim.mytoyproject.domain.GetRepositoryInfoUseCase
 import com.runeanim.mytoyproject.domain.GetUserInfoUseCase
 import kotlinx.android.synthetic.main.detail_fragment.*
-import kotlinx.coroutines.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
+import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
 
 class DetailFragment : BaseFragment<DetailFragmentBinding>(R.layout.detail_fragment) {
     private val getRepositoryInfoUseCase: GetRepositoryInfoUseCase by inject()
     private val getUserInfoUseCase: GetUserInfoUseCase by inject()
+
+    private val args: DetailFragmentArgs by navArgs()
 
     private val _dataLoading = MutableLiveData<Boolean>(true)
     val dataLoading: LiveData<Boolean> = _dataLoading
@@ -30,13 +34,14 @@ class DetailFragment : BaseFragment<DetailFragmentBinding>(R.layout.detail_fragm
         viewDataBinding.apply {
             fragment = this@DetailFragment
         }
+    }
 
-        arguments?.run {
-            getUserAndRepositoryInfo(
-                getString(Constants.EXTRA_REPOSITORY_URL) ?: "",
-                getString(Constants.EXTRA_USER_NAME) ?: ""
-            )
-        }
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        getUserAndRepositoryInfo(
+            args.repoUrl,
+            args.userName
+        )
     }
 
     private fun getUserAndRepositoryInfo(repoUrl: String, userId: String) {
