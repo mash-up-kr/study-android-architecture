@@ -19,8 +19,8 @@ import java.util.concurrent.TimeUnit
 object RetrofitBuilder {
 
     //10 sec
-    const val TIMEOUT = 10L
-    const val BASE_URL = "https://api.github.com/"
+    private const val TIMEOUT = 10L
+    private const val BASE_URL = "https://api.github.com/"
     val repoApi : ApiService by lazy {
         createApiService()
     }
@@ -67,7 +67,7 @@ object RetrofitBuilder {
             .baseUrl(baseUrl)
             .build()
 
-    fun createApiService(): ApiService =
+    private fun createApiService(): ApiService =
         createRetrofit().create(ApiService::class.java)
 
 

@@ -45,6 +45,9 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation"org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
+    def coreKtxVersion = "1.0.0"
+    implementation "androidx.core:core-ktx:1.0.0"
+
     def androidXVersion = "1.1.0"
     implementation "androidx.appcompat:appcompat:$androidXVersion"
     implementation "androidx.core:core-ktx:$androidXVersion"

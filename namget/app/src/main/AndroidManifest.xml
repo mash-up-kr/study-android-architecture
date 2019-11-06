@@ -27,7 +27,7 @@
         <activity
             android:name=".ui.repo.RepoActivity"
             android:label="@string/label_repo"
-            android:parentActivityName=".ui.main.MainActivity">
+            android:parentActivityName=".ui.search.SearchActivity">
         </activity>
         <activity
             android:name=".ui.search.SearchActivity"

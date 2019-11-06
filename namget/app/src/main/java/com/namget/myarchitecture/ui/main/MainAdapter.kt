@@ -24,11 +24,6 @@ class MainAdapter(private val list: MutableList<RepoItemEntity>) :
         notifyDataSetChanged()
     }
 
-    fun addItems(item: RepoItemEntity) {
-        list.add(item)
-        notifyItemChanged(list.size - 1)
-    }
-
     override fun getItemCount(): Int = list.size
 
     override fun onBindViewHolder(holder: MainViewHolder, position: Int) {

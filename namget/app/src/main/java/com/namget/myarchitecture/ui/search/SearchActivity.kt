@@ -29,9 +29,7 @@ import kotlinx.android.synthetic.main.activity_search.*
  */
 
 class SearchActivity : BaseActivity() , BaseView {
-    companion object {
-        private const val TAG = "SearchActivity"
-    }
+
 
     private lateinit var menuSearch: MenuItem
     private lateinit var searchView: SearchView
@@ -155,5 +153,7 @@ class SearchActivity : BaseActivity() , BaseView {
         return super.onOptionsItemSelected(item)
     }
 
-
+    companion object {
+        private const val TAG = "SearchActivity"
+    }
 }

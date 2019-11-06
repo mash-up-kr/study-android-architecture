@@ -11,7 +11,7 @@ data class RepoInfoResponse(
     val fullName: String,
     val name : String,
     val description: String,
-    val language: String,
+    val language: String?,
     @SerializedName("updated_at")
     val updateTime: Date,
     @SerializedName("stargazers_count")

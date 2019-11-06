@@ -16,7 +16,8 @@ import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : BaseActivity() {
 
-    private val TAG = "MainActivity"
+
+
     private lateinit var recyclerView: RecyclerView
     private lateinit var mainAdapter: MainAdapter
     private val repoList: MutableList<RepoItemEntity> = arrayListOf()
@@ -39,7 +40,12 @@ class MainActivity : BaseActivity() {
         mainAdapter = MainAdapter(repoList)
         recyclerView = mainRecyclerView.apply {
             setHasFixedSize(true)
-            addItemDecoration(DividerItemDecoration(this@MainActivity,LinearLayoutManager.VERTICAL))
+            addItemDecoration(
+                DividerItemDecoration(
+                    this@MainActivity,
+                    LinearLayoutManager.VERTICAL
+                )
+            )
             adapter = mainAdapter
         }
     }
@@ -63,5 +69,8 @@ class MainActivity : BaseActivity() {
             })
     }
 
+    companion object {
+        private val TAG = "MainActivity"
+    }
 
 }

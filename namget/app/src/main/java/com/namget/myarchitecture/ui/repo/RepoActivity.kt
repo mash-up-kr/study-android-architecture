@@ -14,9 +14,7 @@ import kotlinx.android.synthetic.main.activity_repo.*
  * Created by Namget on 2019.10.22.
  */
 class RepoActivity : BaseActivity(), BaseView {
-    companion object {
-        private const val TAG = "RepoActivity"
-    }
+
 
     private lateinit var repoUrl: String
     private lateinit var userUrl: String
@@ -67,11 +65,11 @@ class RepoActivity : BaseActivity(), BaseView {
                     }
                     with(it.second) {
                         repoProfileTitle.text = fullName
-                        repoUserName.text = name
                         repoProfileStars.text =
                             String.format(getString(R.string.stars_format), starCount)
                         repoDescriptionTitle.text = description
-                        repoLanguageTitle.text = language
+                        repoLanguageTitle.text =
+                            if (language.isNullOrBlank()) "No language specified" else language
                         repoLastUpdateTitle.text = updateTime.dateToNumberFormat()
                     }
                     hideDialog()
@@ -85,5 +83,7 @@ class RepoActivity : BaseActivity(), BaseView {
         }
     }
 
-
+    companion object {
+        private const val TAG = "RepoActivity"
+    }
 }
