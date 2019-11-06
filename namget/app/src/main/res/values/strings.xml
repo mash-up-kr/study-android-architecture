@@ -1,3 +1,31 @@
 <resources>
     <string name="app_name">MyArchitecture</string>
+
+
+    <!--menu-->
+    <string name="menu_search">검색</string>
+    <string name="menu_search_hint">Search…</string>
+
+    <!--label-->
+    <string name="label_main">Main</string>
+    <string name="label_search">Search</string>
+    <string name="label_repo">Repo</string>
+
+    <!--search -->
+    <string name="search_no_result">검색 결과가 없습니다.</string>
+
+    <string name="error">에러가 발생했습니다..</string>
+
+    <string name="description">Description</string>
+    <string name="follower">Follower/Following</string>
+    <string name="name">Name</string>
+    <string name="language">Language</string>
+    <string name="last_update">Last update</string>
+
+    <!--follow format-->
+    <string name="follow_format">%s / %s</string>
+
+    <!--stars format-->
+    <string name="stars_format">%d stars</string>
+
 </resources>
