@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">MashUpArchitecture</string>
+
+    <!-- SearchActivity -->
+    <string name="et_search_hint">Search&#8230;</string>
+
+    <!-- DetailActivity -->
+    <string name="detail_description">Description</string>
+    <string name="detail_language">Language</string>
+    <string name="detail_last_update">Last update</string>
 </resources>

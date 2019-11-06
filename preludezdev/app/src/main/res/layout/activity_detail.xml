@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="repo"
+            type="com.example.mashuparchitecture.data.source.vo.DetailRepoVo" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".ui.detail.DetailActivity">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/con_detail"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/iv_avatar"
+                android:layout_width="@dimen/detail_image_size"
+                android:layout_height="@dimen/detail_image_size"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:contentDescription="@null"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:setImageUrl="@{repo.owner.avatarUrl}" />
+
+            <TextView
+                android:id="@+id/tv_title"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:textSize="@dimen/detail_text_title_size"
+                android:text="@{repo.fullName}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/iv_avatar"
+                app:layout_constraintTop_toTopOf="@+id/iv_avatar"
+                tools:ignore="SpUsage" />
+
+            <TextView
+                android:id="@+id/tv_stars"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:textSize="@dimen/detail_text_stars_size"
+                android:text="@{repo.stargazersCount}"
+                app:layout_constraintEnd_toEndOf="@+id/tv_title"
+                app:layout_constraintStart_toStartOf="@+id/tv_title"
+                app:layout_constraintTop_toBottomOf="@+id/tv_title"
+                tools:ignore="SpUsage" />
+
+            <TextView
+                android:id="@+id/tv_user_name"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:textSize="@dimen/detail_text_userinfo_size"
+                android:text="@{repo.userName}"
+                app:layout_constraintEnd_toEndOf="@+id/tv_stars"
+                app:layout_constraintStart_toStartOf="@+id/tv_stars"
+                app:layout_constraintTop_toBottomOf="@+id/tv_stars"
+                tools:ignore="SpUsage" />
+
+            <TextView
+                android:id="@+id/tv_user_followers"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:textSize="@dimen/detail_text_userinfo_size"
+                android:text="@{repo.userFollowers}"
+                app:layout_constraintStart_toStartOf="@+id/tv_user_name"
+                app:layout_constraintTop_toBottomOf="@+id/tv_user_name"
+                tools:ignore="SpUsage" />
+
+            <TextView
+                android:id="@+id/tv_user_following"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:textSize="@dimen/detail_text_userinfo_size"
+                android:text="@{repo.userFollowing}"
+                app:layout_constraintStart_toEndOf="@+id/tv_user_followers"
+                app:layout_constraintTop_toTopOf="@+id/tv_user_followers"
+                tools:ignore="SpUsage" />
+
+            <View
+                android:id="@+id/divider"
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:background="#000"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/iv_avatar" />
+
+            <ImageView
+                android:id="@+id/iv_description"
+                android:layout_width="@dimen/ic_image_size"
+                android:layout_height="@dimen/ic_image_size"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:contentDescription="@null"
+                app:layout_constraintStart_toStartOf="@+id/divider"
+                app:layout_constraintTop_toTopOf="@+id/tv_description_val"
+                app:srcCompat="@drawable/ic_file" />
+
+            <TextView
+                android:id="@+id/tv_description_val"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="8dp"
+                android:textSize="@dimen/detail_text_sub_content_size"
+                android:text="@{repo.description}"
+                app:layout_constraintEnd_toEndOf="@+id/divider"
+                app:layout_constraintStart_toEndOf="@+id/iv_description"
+                app:layout_constraintTop_toBottomOf="@+id/divider"
+                tools:ignore="SpUsage" />
+
+            <TextView
+                android:id="@+id/tv_description"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="@string/detail_description"
+                android:textSize="@dimen/detail_text_sub_name_size"
+                app:layout_constraintEnd_toEndOf="@+id/tv_description_val"
+                app:layout_constraintStart_toStartOf="@+id/tv_description_val"
+                app:layout_constraintTop_toBottomOf="@+id/tv_description_val"
+                tools:ignore="SpUsage" />
+
+            <View
+                android:id="@+id/divider2"
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_marginTop="16dp"
+                android:background="#000"
+                app:layout_constraintEnd_toEndOf="@+id/divider"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="@+id/divider"
+                app:layout_constraintTop_toBottomOf="@+id/tv_description" />
+
+            <ImageView
+                android:id="@+id/iv_language"
+                android:layout_width="@dimen/ic_image_size"
+                android:layout_height="@dimen/ic_image_size"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:contentDescription="@null"
+                app:layout_constraintStart_toStartOf="@+id/divider2"
+                app:layout_constraintTop_toTopOf="@+id/tv_language_val"
+                app:srcCompat="@drawable/ic_internet" />
+
+            <TextView
+                android:id="@+id/tv_language_val"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="8dp"
+                android:textSize="@dimen/detail_text_sub_content_size"
+                android:text="@{repo.language}"
+                app:layout_constraintEnd_toEndOf="@+id/divider2"
+                app:layout_constraintStart_toEndOf="@+id/iv_language"
+                app:layout_constraintTop_toBottomOf="@+id/divider2"
+                tools:ignore="SpUsage" />
+
+            <TextView
+                android:id="@+id/tv_language"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="@string/detail_language"
+                android:textSize="@dimen/detail_text_sub_name_size"
+                app:layout_constraintEnd_toEndOf="@+id/tv_language_val"
+                app:layout_constraintStart_toStartOf="@+id/tv_language_val"
+                app:layout_constraintTop_toBottomOf="@+id/tv_language_val"
+                tools:ignore="SpUsage" />
+
+            <View
+                android:id="@+id/divider3"
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_marginTop="16dp"
+                android:background="#000"
+                app:layout_constraintEnd_toEndOf="@+id/divider"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="@+id/divider"
+                app:layout_constraintTop_toBottomOf="@+id/tv_language" />
+
+            <ImageView
+                android:id="@+id/iv_last_update"
+                android:layout_width="@dimen/ic_image_size"
+                android:layout_height="@dimen/ic_image_size"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:contentDescription="@null"
+                app:layout_constraintStart_toStartOf="@+id/divider3"
+                app:layout_constraintTop_toTopOf="@+id/tv_last_update_val"
+                app:srcCompat="@drawable/ic_clock" />
+
+            <TextView
+                android:id="@+id/tv_last_update_val"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="8dp"
+                android:textSize="@dimen/detail_text_sub_content_size"
+                android:text="@{repo.updatedAt}"
+                app:layout_constraintEnd_toEndOf="@+id/divider3"
+                app:layout_constraintStart_toEndOf="@+id/iv_last_update"
+                app:layout_constraintTop_toBottomOf="@+id/divider3"
+                tools:ignore="SpUsage" />
+
+            <TextView
+                android:id="@+id/tv_last_update"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="@string/detail_last_update"
+                android:textSize="@dimen/detail_text_sub_name_size"
+                app:layout_constraintEnd_toEndOf="@+id/tv_last_update_val"
+                app:layout_constraintStart_toStartOf="@+id/tv_last_update_val"
+                app:layout_constraintTop_toBottomOf="@+id/tv_last_update_val"
+                tools:ignore="SpUsage" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <ProgressBar
+            android:id="@+id/pb_detail"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
