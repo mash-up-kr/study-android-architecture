@@ -15,9 +15,6 @@ import com.namget.myarchitecture.ui.search.SearchActivity
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : BaseActivity() {
-
-
-
     private lateinit var recyclerView: RecyclerView
     private lateinit var mainAdapter: MainAdapter
     private val repoList: MutableList<RepoItemEntity> = arrayListOf()
@@ -70,7 +67,7 @@ class MainActivity : BaseActivity() {
     }
 
     companion object {
-        private val TAG = "MainActivity"
+        private const val TAG = "MainActivity"
     }
 
 }
