@@ -26,9 +26,6 @@ class SearchFragment : BaseFragment<SearchFragmentBinding>(R.layout.search_fragm
 
     private lateinit var listAdapter: RepoListAdapter
 
-    private val saveJob = CoroutineScope(Dispatchers.IO)
-    private val searchJob = CoroutineScope(Dispatchers.Main)
-
     private val _items = MutableLiveData<List<RepositoryEntity>>().apply { value = emptyList() }
     val items: LiveData<List<RepositoryEntity>> = _items
 
@@ -42,12 +39,6 @@ class SearchFragment : BaseFragment<SearchFragmentBinding>(R.layout.search_fragm
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         setupListAdapter()
-    }
-
-    override fun onDestroy() {
-        searchJob.cancel()
-        saveJob.cancel()
-        super.onDestroy()
     }
 
     private fun setupListAdapter() {
@@ -73,13 +64,13 @@ class SearchFragment : BaseFragment<SearchFragmentBinding>(R.layout.search_fragm
     }
 
     private fun saveRepository(repositoryEntity: RepositoryEntity) {
-        saveJob.launch {
+        coroutineScope.launch(Dispatchers.IO) {
             saveRepositoriesUseCase(repositoryEntity.apply { order = System.currentTimeMillis() })
         }
     }
 
     val searchRepositoryByKeyWord = fun(searchKeyWord: String) {
-        searchJob.launch {
+        coroutineScope.launch {
             val result = searchRepositoriesUseCase(searchKeyWord)
             if (result is Success) {
                 _items.value = result.data.mapToPresentation()

@@ -1,15 +1,16 @@
 package com.runeanim.mytoyproject.ui.detail
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.runeanim.mytoyproject.Constants
 import com.runeanim.mytoyproject.R
+import com.runeanim.mytoyproject.base.BaseFragment
+import com.runeanim.mytoyproject.data.Result
 import com.runeanim.mytoyproject.data.Result.Success
+import com.runeanim.mytoyproject.data.model.Owner
+import com.runeanim.mytoyproject.data.model.Repository
 import com.runeanim.mytoyproject.databinding.DetailFragmentBinding
 import com.runeanim.mytoyproject.domain.GetRepositoryInfoUseCase
 import com.runeanim.mytoyproject.domain.GetUserInfoUseCase
@@ -17,26 +18,18 @@ import kotlinx.android.synthetic.main.detail_fragment.*
 import kotlinx.coroutines.*
 import org.koin.android.ext.android.inject
 
-class DetailFragment : Fragment() {
+class DetailFragment : BaseFragment<DetailFragmentBinding>(R.layout.detail_fragment) {
     private val getRepositoryInfoUseCase: GetRepositoryInfoUseCase by inject()
     private val getUserInfoUseCase: GetUserInfoUseCase by inject()
 
     private val _dataLoading = MutableLiveData<Boolean>(true)
     val dataLoading: LiveData<Boolean> = _dataLoading
 
-    private val getDetailJob = CoroutineScope(Dispatchers.Main)
-
-    private lateinit var viewDataBinding: DetailFragmentBinding
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        val view = inflater.inflate(R.layout.detail_fragment, container, false)
-        viewDataBinding = DetailFragmentBinding.bind(view).apply {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        viewDataBinding.apply {
             fragment = this@DetailFragment
         }
-        viewDataBinding.lifecycleOwner = this.viewLifecycleOwner
 
         arguments?.run {
             getUserAndRepositoryInfo(
@@ -44,13 +37,6 @@ class DetailFragment : Fragment() {
                 getString(Constants.EXTRA_USER_NAME) ?: ""
             )
         }
-
-        return view
-    }
-
-    override fun onDestroy() {
-        getDetailJob.cancel()
-        super.onDestroy()
     }
 
     private fun getUserAndRepositoryInfo(repoUrl: String, userId: String) {
@@ -58,26 +44,21 @@ class DetailFragment : Fragment() {
             return
 
         _dataLoading.value = true
-        getDetailJob.launch {
-            val repoInfoResult =
-                withContext(CoroutineScope(Dispatchers.IO).coroutineContext) {
-                    getRepositoryInfoUseCase(
-                        repoUrl
-                    )
-                }
-            val userInfoResult =
-                withContext(CoroutineScope(Dispatchers.IO).coroutineContext) {
-                    getUserInfoUseCase(
-                        userId
-                    )
-                }
-            if (repoInfoResult is Success && userInfoResult is Success) {
-                viewDataBinding.repo = repoInfoResult.data
-                viewDataBinding.owner = userInfoResult.data
-            } else {
-                showError()
-            }
+        coroutineScope.launch {
+            val getRepoJob = async(Dispatchers.IO) { getRepositoryInfoUseCase(repoUrl) }
+            val getUserJob = async(Dispatchers.IO) { getUserInfoUseCase(userId) }
+
+            setDataBindingItems(getRepoJob.await(), getUserJob.await())
             _dataLoading.value = false
+        }
+    }
+
+    private fun setDataBindingItems(repoResult: Result<Repository>, userResult: Result<Owner>) {
+        if (repoResult is Success && userResult is Success) {
+            viewDataBinding.repo = repoResult.data
+            viewDataBinding.owner = userResult.data
+        } else {
+            showError()
         }
     }
 

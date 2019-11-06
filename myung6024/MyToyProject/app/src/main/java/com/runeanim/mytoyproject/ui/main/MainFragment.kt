@@ -14,9 +14,6 @@ import com.runeanim.mytoyproject.data.Result.Success
 import com.runeanim.mytoyproject.data.source.local.entity.RepositoryEntity
 import com.runeanim.mytoyproject.domain.GetRepositoriesUseCase
 import com.runeanim.mytoyproject.ui.RepoListAdapter
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
 
@@ -24,8 +21,6 @@ class MainFragment : BaseFragment<MainFragmentBinding>(R.layout.main_fragment) {
     private val getRepositoriesUseCase: GetRepositoriesUseCase by inject()
 
     private lateinit var listAdapter: RepoListAdapter
-
-    private val getRepositoryJob = CoroutineScope(Dispatchers.Main)
 
     private val _items = MutableLiveData<List<RepositoryEntity>>().apply { value = emptyList() }
     val items: LiveData<List<RepositoryEntity>> = _items
@@ -40,7 +35,11 @@ class MainFragment : BaseFragment<MainFragmentBinding>(R.layout.main_fragment) {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         setupListAdapter()
-        getRepositoryJob.launch {
+        getClickedRepositories()
+    }
+
+    private fun getClickedRepositories() {
+        coroutineScope.launch {
             val result = getRepositoriesUseCase()
             if (result is Success) {
                 _items.value = result.data
@@ -67,11 +66,6 @@ class MainFragment : BaseFragment<MainFragmentBinding>(R.layout.main_fragment) {
         }
         Navigation.findNavController(viewDataBinding.root)
             .navigate(R.id.action_global_detail_screen, bundle)
-    }
-
-    override fun onDestroy() {
-        getRepositoryJob.cancel()
-        super.onDestroy()
     }
 
     fun moveScreenToSearchFragment() {
