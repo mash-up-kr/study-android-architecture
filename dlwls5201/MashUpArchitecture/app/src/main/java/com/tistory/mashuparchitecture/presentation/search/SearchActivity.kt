@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import com.tistory.blackjin.domain.interactor.usecases.GetReposUsecase
 import com.tistory.mashuparchitecture.R
+import com.tistory.mashuparchitecture.di.ResourcesProvider
 import com.tistory.mashuparchitecture.model.mapToPresentation
 import io.reactivex.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.activity_search.*
@@ -25,6 +26,8 @@ class SearchActivity : AppCompatActivity() {
     private val searchAdapter by lazy { SearchAdapter() }
 
     private val getRepoUsecase: GetReposUsecase by inject()
+
+    private val resourceProvider: ResourcesProvider by inject()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -78,7 +81,7 @@ class SearchActivity : AppCompatActivity() {
     private fun searchRepository(query: String) {
 
         getRepoUsecase.get(query)
-            .map { it.mapToPresentation(resources) }
+            .map { it.mapToPresentation(resourceProvider) }
             .doOnSubscribe {
                 clearResults()
                 hideError()

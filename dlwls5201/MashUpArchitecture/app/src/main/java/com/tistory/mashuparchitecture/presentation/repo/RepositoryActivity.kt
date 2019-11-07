@@ -9,16 +9,19 @@ import com.bumptech.glide.Glide
 import com.tistory.blackjin.domain.error.ErrorEntity
 import com.tistory.blackjin.domain.interactor.usecases.GetRepoUsecase
 import com.tistory.mashuparchitecture.R
-import com.tistory.mashuparchitecture.model.mapToPresentation
-import io.reactivex.disposables.CompositeDisposable
+import com.tistory.mashuparchitecture.di.ResourcesProvider
+import com.tistory.mashuparchitecture.model.RepoItem
+import com.tistory.mashuparchitecture.model.UserItem
 import kotlinx.android.synthetic.main.activity_repository.*
 import org.koin.android.ext.android.inject
 
-class RepositoryActivity : AppCompatActivity() {
+class RepositoryActivity : AppCompatActivity(), RepositoryContract.View {
 
-    private val compositeDisposable = CompositeDisposable()
+    override lateinit var presenter: RepositoryContract.Presenter
 
     private val getRepoUsecase: GetRepoUsecase by inject()
+
+    private val resourceProvider: ResourcesProvider by inject()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,71 +34,54 @@ class RepositoryActivity : AppCompatActivity() {
             "No repo info exists in extras"
         )
 
-        showRepositoryInfo(login, repo)
+        presenter = RepositoryPresenter(
+            this,
+            getRepoUsecase,
+            resourceProvider
+        )
+
+        presenter.loadRepository(login, repo)
     }
 
-    private fun showRepositoryInfo(login: String, repoName: String) {
-        showProgress()
-
-        getRepoUsecase.get(Pair(login, repoName))
-            .doOnSubscribe {
-                showProgress()
-            }
-            .doOnSuccess {
-                hideProgress(true)
-            }
-            .doOnError {
-                hideProgress(false)
-            }
-            .subscribe({
-
-                val user = it.first.mapToPresentation(resources)
-                val repo = it.second.mapToPresentation(resources)
-
-                Glide.with(this@RepositoryActivity)
-                    .load(user.profileUrl)
-                    .into(ivActivityRepositoryProfile)
-
-                tvActivityRepositoryName.text = user.name
-
-                tvActivityRepositoryFollower.text = user.followers
-
-                tvActivityRepositoryFollowing.text = user.following
-
-                tvActivityRepositoryTitle.text = repo.title
-
-                tvActivityRepositoryStars.text = repo.stars
-
-                tvActivityRepositoryDescription.text = repo.description
-
-                tvActivityRepositoryLanguage.text = repo.language
-
-                tvActivityRepositoryLastUpdate.text = repo.updatedAt
-
-            }, ::handleException).also {
-                compositeDisposable.add(it)
-            }
+    override fun onDestroy() {
+        presenter.destroyView()
+        super.onDestroy()
     }
 
-    private fun handleException(throwable: Throwable) {
-        when (throwable) {
-            is ErrorEntity.RateLimitException -> showError(getString(R.string.rate_limit_error))
-            is ErrorEntity.NetworkException -> showError(getString(R.string.network_error))
-            else -> showError(getString(R.string.unexpected_error))
-        }
+    override fun showRepositoryInfo(user: UserItem, repo: RepoItem) {
+
+        Glide.with(this@RepositoryActivity)
+            .load(user.profileUrl)
+            .into(ivActivityRepositoryProfile)
+
+        tvActivityRepositoryName.text = user.name
+
+        tvActivityRepositoryFollower.text = user.followers
+
+        tvActivityRepositoryFollowing.text = user.following
+
+        tvActivityRepositoryTitle.text = repo.title
+
+        tvActivityRepositoryStars.text = repo.stars
+
+        tvActivityRepositoryDescription.text = repo.description
+
+        tvActivityRepositoryLanguage.text = repo.language
+
+        tvActivityRepositoryLastUpdate.text = repo.updatedAt
     }
 
-    private fun showProgress() {
+    override fun showProgress() {
         llActivityRepositoryContent.visibility = View.GONE
         pbActivityRepository.visibility = View.VISIBLE
     }
 
-    private fun hideProgress(isSucceed: Boolean) {
+    override fun hideProgress(isSucceed: Boolean) {
         llActivityRepositoryContent.visibility = if (isSucceed) View.VISIBLE else View.GONE
         pbActivityRepository.visibility = View.GONE
     }
 
-    private fun showError(message: String?) {
+    override fun showError(message: String?) {
         with(tvActivityRepositoryMessage) {
             text = message ?: "Unexpected error."
             visibility = View.VISIBLE
