@@ -1,9 +1,8 @@
 package com.tistory.mashuparchitecture.model
 
-import android.content.res.Resources
-import android.text.TextUtils
 import com.tistory.blackjin.domain.entity.UserEntity
 import com.tistory.mashuparchitecture.R
+import com.tistory.mashuparchitecture.di.ResourcesProvider
 
 data class UserItem(
     val name: String,
@@ -12,9 +11,9 @@ data class UserItem(
     val following: String
 )
 
-fun UserEntity.mapToPresentation(resources: Resources) = let {
+fun UserEntity.mapToPresentation(resources: ResourcesProvider) = let {
     UserItem(
-        name = if (TextUtils.isEmpty(it.name))
+        name = if (it.name.isNullOrEmpty())
             resources.getString(R.string.unknown)
         else
             it.name!!,
