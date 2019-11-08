@@ -1,0 +1,16 @@
+apply plugin: 'kotlin'
+apply plugin: 'kotlin-kapt'
+
+dependencies {
+
+    //kotlin
+    implementation"org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
+
+    //koin
+    implementation "org.koin:koin-android:$koinVersion"
+    implementation "org.koin:koin-androidx-viewmodel:$koinVersion"
+
+    //rx android
+    implementation "io.reactivex.rxjava2:rxandroid:$rxandoirdVersion"
+    implementation "io.reactivex.rxjava2:rxjava:$rxjavaVersion"
+}
