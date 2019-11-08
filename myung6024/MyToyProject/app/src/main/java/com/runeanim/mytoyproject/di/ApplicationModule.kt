@@ -29,4 +29,5 @@ val ApplicationModule = module {
     single { GetUserInfoUseCase(get()) }
     single { GetRepositoriesUseCase(get()) }
     single { SaveRepositoryUseCase(get()) }
+    single { RemoveAllRepositoriesUseCase(get()) }
 }

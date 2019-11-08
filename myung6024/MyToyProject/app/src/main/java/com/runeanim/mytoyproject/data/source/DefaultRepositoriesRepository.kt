@@ -18,6 +18,12 @@ class DefaultRepositoriesRepository(
     private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO
 ) : RepositoriesRepository {
 
+    override suspend fun removeAllRepositories() {
+        coroutineScope {
+            launch { repositoriesLocalDataSource.removeAllRepositories() }
+        }
+    }
+
     override suspend fun saveRepository(repositoryEntity: RepositoryEntity) {
         coroutineScope {
             launch { repositoriesLocalDataSource.saveRepository(repositoryEntity) }

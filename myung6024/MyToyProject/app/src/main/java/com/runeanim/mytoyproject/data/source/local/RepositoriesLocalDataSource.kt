@@ -23,4 +23,8 @@ class RepositoriesLocalDataSource internal constructor(
     suspend fun saveRepository(repositoryEntity: RepositoryEntity) = withContext(ioDispatcher) {
         repositoriesDao.insertRepository(repositoryEntity)
     }
+
+    suspend fun removeAllRepositories() = withContext(ioDispatcher) {
+        repositoriesDao.deleteRepositories()
+    }
 }

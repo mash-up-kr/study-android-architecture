@@ -11,16 +11,19 @@ import com.runeanim.mytoyproject.databinding.MainFragmentBinding
 import com.runeanim.mytoyproject.data.Result.Success
 import com.runeanim.mytoyproject.data.source.local.entity.RepositoryEntity
 import com.runeanim.mytoyproject.domain.GetRepositoriesUseCase
+import com.runeanim.mytoyproject.domain.RemoveAllRepositoriesUseCase
 import com.runeanim.mytoyproject.ui.RepoListAdapter
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
 
 class MainFragment : BaseFragment<MainFragmentBinding>(R.layout.main_fragment) {
     private val getRepositoriesUseCase: GetRepositoriesUseCase by inject()
+    private val removeAllRepositoriesUseCase: RemoveAllRepositoriesUseCase by inject()
 
     private lateinit var listAdapter: RepoListAdapter
 
-    private val _items = MutableLiveData<List<RepositoryEntity>>().apply { value = emptyList() }
+    private val _items = MutableLiveData<List<RepositoryEntity>>(emptyList())
     val items: LiveData<List<RepositoryEntity>> = _items
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -67,5 +70,14 @@ class MainFragment : BaseFragment<MainFragmentBinding>(R.layout.main_fragment) {
     fun moveScreenToSearchFragment() {
         MainFragmentDirections.actionMainScreenToSearchScreen()
             .also { findNavController().navigate(it) }
+    }
+
+    fun removeAllRepositories() {
+        coroutineScope.launch {
+            launch(Dispatchers.IO) {
+                removeAllRepositoriesUseCase()
+            }.join()
+            _items.value = emptyList()
+        }
     }
 }

@@ -12,6 +12,8 @@ interface RepositoriesRepository {
 
     suspend fun saveRepository(repositoryEntity: RepositoryEntity)
 
+    suspend fun removeAllRepositories()
+
     suspend fun searchRepositories(searchKeyWord: String): Result<RepositoriesResponse>
 
     suspend fun getRepositoryInfo(repoUrl: String): Result<Repository>
