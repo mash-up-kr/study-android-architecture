@@ -1,11 +1,13 @@
 package miinjung.study.test.Model
 
-data class item (
-    val name: String,
-    val full_name: String,
-    val owner: owner,
-    val description: String?,
-    val language: String?,
-    val updated_at: String,
-    val stargazers_count: Int
-)
+import java.io.Serializable
+
+class item :Serializable {
+    var name: String? = null
+    var full_name: String? = null
+    var owner: owner? = null
+    var description: String? = null
+    var language: String? = null
+    var updated_at: String? = null
+    var stargazers_count: Int? = null
+}

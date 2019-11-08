@@ -9,12 +9,7 @@ import retrofit2.http.Query
 
 interface ServerInterface {
 
-    @GET("search/repositories")
+    @GET("/search/repositories")
     fun search(@Query("q") query: String): Call<list>
-
-    @GET("repos/{owner}/{name}")
-    fun getRepo(
-        @Path("owner") ownerLogin: String,
-        @Path("name") repoName: String): Call<item>
 
 }

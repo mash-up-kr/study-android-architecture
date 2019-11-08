@@ -1,6 +1,7 @@
 package miinjung.study.test.Model
 
-data class owner (
-    val login: String,
-    val avatar_url: String
-)
+import java.io.Serializable
+
+class owner :Serializable {
+    var avatar_url: String? = null
+}

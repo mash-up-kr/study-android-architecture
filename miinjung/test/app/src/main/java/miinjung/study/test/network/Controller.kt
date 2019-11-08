@@ -14,13 +14,15 @@ class Controller :Application() {
         }
 
     companion object {
-        var instance: Controller? = null
+        private var instance: Controller? = null
         var baseURL =String.format("https://api.github.com")
+
+        fun getInstance() = instance?: Controller().apply { instance = this }
     }
-    override fun onCreate() {
-        super.onCreate()
-        Controller.instance = this
-    }
+//    override fun onCreate() {
+//        super.onCreate()
+//        Controller.instance = this
+//    }
 
     fun buildServerInterface(): ServerInterface? {
 

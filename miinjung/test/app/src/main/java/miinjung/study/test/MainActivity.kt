@@ -1,16 +1,15 @@
 package miinjung.study.test
 
-import android.app.PendingIntent
-import android.content.Intent
+
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.widget.LinearLayout
 import android.widget.SearchView
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.activity_main.*
 import miinjung.study.test.Model.item
 import miinjung.study.test.Model.list
@@ -23,18 +22,21 @@ import retrofit2.http.Query
 
 class MainActivity : AppCompatActivity(){
 
-    var api: ServerInterface? = Controller.instance?.buildServerInterface()
+    var api: ServerInterface? = Controller.getInstance().buildServerInterface()
     internal var apiCall:Call<list>? = null
     internal var searchAdapter : SearchAdapter? = null
+
+    lateinit var itemList :ArrayList<item>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        searchAdapter = SearchAdapter(this)
+        searchAdapter = SearchAdapter(this.applicationContext)
 
         rv_searchList.adapter = this.searchAdapter
         rv_searchList.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
+
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -45,7 +47,7 @@ class MainActivity : AppCompatActivity(){
         val searchView = menuView.actionView as SearchView
 
         menuView.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS)
-        
+
 
         menuView?.setOnActionExpandListener(object : MenuItem.OnActionExpandListener {
             override fun onMenuItemActionExpand(item: MenuItem?): Boolean {
@@ -67,6 +69,9 @@ class MainActivity : AppCompatActivity(){
             }
 
             override fun onQueryTextSubmit(query: String): Boolean {
+                rv_searchList.visibility = View.VISIBLE
+                tv_text.visibility = View.INVISIBLE
+
                 supportActionBar?.setTitle("search")
                 supportActionBar?.run{ subtitle = query }
                 menuView.collapseActionView()
@@ -88,6 +93,12 @@ class MainActivity : AppCompatActivity(){
         return super.onOptionsItemSelected(item)
     }
 
+//    override fun onItemClick(item: item) {
+//        startActivity<RepositoryActivity>(
+//            RepositoryActivity.KEY_USER_LOGIN to repository.owner.login,
+//            RepositoryActivity.KEY_REPO_NAME to repository.name)
+//    }
+
 
     fun searchRepos(query: String){
         apiCall = api?.search(query)
@@ -100,6 +111,7 @@ class MainActivity : AppCompatActivity(){
                     if(data.total_count > 0){
                         var position = data.total_count
                         data.items.let{
+                            itemList = it
                             searchAdapter!!.setItems(it)
                             searchAdapter!!.notifyItemInserted(position)
                         }
@@ -114,6 +126,10 @@ class MainActivity : AppCompatActivity(){
                 Log.i("errer","error")
             }
         })
+    }
+    override fun onStop() {
+        super.onStop()
+        apiCall?.run { cancel() }
     }
 
 }
