@@ -17,6 +17,7 @@
         tools:context=".ui.search.SearchFragment">
 
         <androidx.appcompat.widget.SearchView
+            android:id="@+id/searchView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:focusable="true"

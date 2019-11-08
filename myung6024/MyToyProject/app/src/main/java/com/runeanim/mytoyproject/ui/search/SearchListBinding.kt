@@ -7,11 +7,7 @@ import androidx.databinding.BindingAdapter
 
 @BindingAdapter("app:setOnQueryTextListener")
 fun setOnQueryTextListener(searchView: SearchView, searchByKeyWord: (String) -> Unit) {
-    (searchView.context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager).toggleSoftInput(
-        InputMethodManager.SHOW_FORCED,
-        InputMethodManager.HIDE_IMPLICIT_ONLY
-    )
-    searchView.requestFocus()
+    searchView.isIconified = false
     searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
         override fun onQueryTextChange(newText: String?): Boolean {
             return false

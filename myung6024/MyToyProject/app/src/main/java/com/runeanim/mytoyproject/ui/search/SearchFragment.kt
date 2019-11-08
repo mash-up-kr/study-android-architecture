@@ -17,6 +17,9 @@ import com.runeanim.mytoyproject.domain.SearchRepositoriesUseCase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
+import android.content.Context.INPUT_METHOD_SERVICE
+import android.view.inputmethod.InputMethodManager
+
 
 class SearchFragment : BaseFragment<SearchFragmentBinding>(R.layout.search_fragment) {
 
@@ -38,6 +41,12 @@ class SearchFragment : BaseFragment<SearchFragmentBinding>(R.layout.search_fragm
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         setupListAdapter()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        val imm = context?.getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(viewDataBinding.searchView.windowToken, 0)
     }
 
     private fun setupListAdapter() {
