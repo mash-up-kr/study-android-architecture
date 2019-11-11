@@ -10,18 +10,17 @@ import androidx.appcompat.widget.SearchView
 import com.tistory.blackjin.domain.interactor.usecases.GetReposUsecase
 import com.tistory.mashuparchitecture.R
 import com.tistory.mashuparchitecture.di.ResourcesProvider
-import com.tistory.mashuparchitecture.model.mapToPresentation
-import io.reactivex.disposables.CompositeDisposable
+import com.tistory.mashuparchitecture.model.RepoItem
 import kotlinx.android.synthetic.main.activity_search.*
 import org.koin.android.ext.android.inject
 
-class SearchActivity : AppCompatActivity() {
-
-    private val compositeDisposable = CompositeDisposable()
+class SearchActivity : AppCompatActivity(), SearchContract.View {
 
     private lateinit var menuSearch: MenuItem
 
     private lateinit var searchView: SearchView
+
+    override lateinit var presenter: SearchContract.Presenter
 
     private val searchAdapter by lazy { SearchAdapter() }
 
@@ -32,6 +31,8 @@ class SearchActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search)
+
+        presenter = SearchPresenter(this, getRepoUsecase, resourceProvider)
 
         initRecyclerView()
     }
@@ -47,10 +48,7 @@ class SearchActivity : AppCompatActivity() {
         searchView = (menuSearch.actionView as SearchView).apply {
             setOnQueryTextListener(object : SearchView.OnQueryTextListener {
                 override fun onQueryTextSubmit(query: String): Boolean {
-                    updateTitle(query)
-                    hideSoftKeyboard()
-                    collapseSearchView()
-                    searchRepository(query)
+                    presenter.searchRepository(query)
                     return true
                 }
 
@@ -73,78 +71,40 @@ class SearchActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
-    override fun onStop() {
-        compositeDisposable.clear()
-        super.onStop()
+    override fun showTopTitle(title: String) {
+        supportActionBar?.run { subtitle = title }
     }
 
-    private fun searchRepository(query: String) {
-
-        getRepoUsecase.get(query)
-            .map { it.mapToPresentation(resourceProvider) }
-            .doOnSubscribe {
-                clearResults()
-                hideError()
-                showProgress()
-            }
-            .doOnSuccess {
-                hideProgress()
-            }
-            .doOnError {
-                hideProgress()
-            }
-            .subscribe(
-                {
-                    searchAdapter.setItems(it)
-
-                    if (it.isEmpty()) {
-                        showError(getString(R.string.no_search_result))
-                    }
-
-                }, ::handleException
-            ).also {
-                compositeDisposable.add(it)
-            }
+    override fun showCollapseSearchView() {
+        menuSearch.collapseActionView()
     }
 
-    private fun handleException(throwable: Throwable) {
-        showError(throwable.message)
+    override fun showRepos(items: List<RepoItem>) {
+        searchAdapter.setItems(items)
     }
 
-    private fun updateTitle(query: String) {
-        supportActionBar?.run { subtitle = query }
-    }
-
-    private fun hideSoftKeyboard() {
+    override fun hideSoftKeyboard() {
         (getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager).run {
             hideSoftInputFromWindow(searchView.windowToken, 0)
         }
     }
 
-    private fun collapseSearchView() {
-        menuSearch.collapseActionView()
-    }
-
-    private fun clearResults() {
-        searchAdapter.clearItems()
-    }
-
-    private fun showProgress() {
+    override fun showProgress() {
         pbActivitySearch.visibility = View.VISIBLE
     }
 
-    private fun hideProgress() {
+    override fun hideProgress() {
         pbActivitySearch.visibility = View.GONE
     }
 
-    private fun showError(message: String?) {
+    override fun showError(message: String?) {
         with(tvActivitySearchMessage) {
             text = message ?: "Unexpected error."
             visibility = View.VISIBLE
         }
     }
 
-    private fun hideError() {
+    override fun hideError() {
         with(tvActivitySearchMessage) {
             text = ""
             visibility = View.GONE
