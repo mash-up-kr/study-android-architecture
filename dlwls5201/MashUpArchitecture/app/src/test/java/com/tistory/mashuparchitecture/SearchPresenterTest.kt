@@ -58,6 +58,8 @@ class SearchPresenterTest {
         presenter.searchRepository(query)
 
         //then
+        inOrder.verify(view).hideSoftKeyboard()
+
         inOrder.verify(view).showProgress()
         inOrder.verify(view).hideProgress()
 
@@ -66,8 +68,6 @@ class SearchPresenterTest {
 
         inOrder.verify(view).showTopTitle(query)
         inOrder.verify(view).showCollapseSearchView()
-        inOrder.verify(view).hideSoftKeyboard()
-
     }
 
     @Test
@@ -87,6 +87,8 @@ class SearchPresenterTest {
         presenter.searchRepository(query)
 
         //then
+        inOrder.verify(view).hideSoftKeyboard()
+
         inOrder.verify(view).showProgress()
         inOrder.verify(view).hideProgress()
 
@@ -95,7 +97,6 @@ class SearchPresenterTest {
 
         inOrder.verify(view).showTopTitle(query)
         inOrder.verify(view).showCollapseSearchView()
-        inOrder.verify(view).hideSoftKeyboard()
 
         inOrder.verify(view).showError("no_search_result")
     }

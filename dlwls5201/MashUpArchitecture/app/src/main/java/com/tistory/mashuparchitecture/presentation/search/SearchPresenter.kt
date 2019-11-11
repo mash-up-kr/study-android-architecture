@@ -17,6 +17,8 @@ class SearchPresenter(
 
     override fun searchRepository(query: String) {
 
+        view.hideSoftKeyboard()
+
         getReposUsecase.get(query)
             .map { it.mapToPresentation(resourcesProvider) }
             .doOnSubscribe {
@@ -34,7 +36,6 @@ class SearchPresenter(
                 view.showRepos(it)
                 view.showTopTitle(query)
                 view.showCollapseSearchView()
-                view.hideSoftKeyboard()
 
                 if (it.isEmpty()) {
                     view.showError(resourcesProvider.getString(R.string.no_search_result))
