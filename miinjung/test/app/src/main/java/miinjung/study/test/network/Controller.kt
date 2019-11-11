@@ -7,11 +7,6 @@ import retrofit2.converter.gson.GsonConverterFactory
 class Controller :Application() {
 
     private var api: ServerInterface? = null
-    val serverInterface: ServerInterface?
-        get() {
-            api = buildServerInterface()
-            return api
-        }
 
     companion object {
         private var instance: Controller? = null
@@ -19,10 +14,6 @@ class Controller :Application() {
 
         fun getInstance() = instance?: Controller().apply { instance = this }
     }
-//    override fun onCreate() {
-//        super.onCreate()
-//        Controller.instance = this
-//    }
 
     fun buildServerInterface(): ServerInterface? {
 

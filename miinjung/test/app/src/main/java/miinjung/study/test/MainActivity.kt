@@ -9,7 +9,6 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.SearchView
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.activity_main.*
 import miinjung.study.test.Model.item
 import miinjung.study.test.Model.list
@@ -18,7 +17,6 @@ import miinjung.study.test.network.ServerInterface
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import retrofit2.http.Query
 
 class MainActivity : AppCompatActivity(){
 
@@ -93,19 +91,11 @@ class MainActivity : AppCompatActivity(){
         return super.onOptionsItemSelected(item)
     }
 
-//    override fun onItemClick(item: item) {
-//        startActivity<RepositoryActivity>(
-//            RepositoryActivity.KEY_USER_LOGIN to repository.owner.login,
-//            RepositoryActivity.KEY_REPO_NAME to repository.name)
-//    }
-
-
     fun searchRepos(query: String){
         apiCall = api?.search(query)
         apiCall?.enqueue(object :Callback<list>{
             override fun onResponse(call: Call<list>, response: Response<list>) {
                 var data = response.body()
-                Log.v("통신",data.toString())
 
                 if(response.isSuccessful && data != null) {
                     if(data.total_count > 0){

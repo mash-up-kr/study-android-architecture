@@ -12,7 +12,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Detail2Activity"></activity>
+        <activity android:name=".DetailActivity"></activity>
+        <activity android:name=".Detail2Activity" />
         <activity android:name=".MainActivity">
             <meta-data
                 android:name="android.support.PRETENT_ACTIVITY"
