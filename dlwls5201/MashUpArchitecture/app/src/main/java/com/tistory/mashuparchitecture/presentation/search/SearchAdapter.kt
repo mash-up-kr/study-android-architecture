@@ -56,11 +56,6 @@ class SearchAdapter : RecyclerView.Adapter<SearchAdapter.RepositoryHolder>() {
         notifyDataSetChanged()
     }
 
-    fun clearItems() {
-        this.items.clear()
-        notifyDataSetChanged()
-    }
-
     class RepositoryHolder(parent: ViewGroup) : RecyclerView.ViewHolder(
         LayoutInflater.from(parent.context)
             .inflate(R.layout.item_repository, parent, false)
