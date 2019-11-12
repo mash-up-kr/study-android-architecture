@@ -7,12 +7,16 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.tistory.blackjin.domain.entity.RepoHistoryEntity
+import com.tistory.blackjin.domain.interactor.usecases.AddRepoHistoryUsecase
 import com.tistory.mashuparchitecture.R
 import com.tistory.mashuparchitecture.model.RepoItem
 import com.tistory.mashuparchitecture.presentation.repo.RepositoryActivity
 import kotlinx.android.synthetic.main.item_repository.view.*
 
-class SearchAdapter : RecyclerView.Adapter<SearchAdapter.RepositoryHolder>() {
+class SearchAdapter(
+    private val listener: ((RepoItem) -> Unit)? = null
+) : RecyclerView.Adapter<SearchAdapter.RepositoryHolder>() {
 
     private var items: MutableList<RepoItem> = mutableListOf()
 
@@ -21,13 +25,8 @@ class SearchAdapter : RecyclerView.Adapter<SearchAdapter.RepositoryHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
         RepositoryHolder(parent).apply {
             itemView.setOnClickListener {
-
                 val item = items[adapterPosition]
-                RepositoryActivity.startRepositoryActivity(
-                    it.context,
-                    item.owner.ownerName,
-                    item.repoName
-                )
+                listener?.invoke(item)
             }
         }
 

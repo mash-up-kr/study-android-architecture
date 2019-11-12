@@ -7,10 +7,14 @@ import android.view.View
 import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
+import com.tistory.blackjin.domain.entity.RepoHistoryEntity
+import com.tistory.blackjin.domain.interactor.usecases.AddRepoHistoryUsecase
 import com.tistory.blackjin.domain.interactor.usecases.GetReposUsecase
 import com.tistory.mashuparchitecture.R
 import com.tistory.mashuparchitecture.di.ResourcesProvider
 import com.tistory.mashuparchitecture.model.RepoItem
+import com.tistory.mashuparchitecture.model.mapToHistoryDomain
+import com.tistory.mashuparchitecture.presentation.repo.RepositoryActivity
 import kotlinx.android.synthetic.main.activity_search.*
 import org.koin.android.ext.android.inject
 
@@ -22,11 +26,25 @@ class SearchActivity : AppCompatActivity(), SearchContract.View {
 
     override lateinit var presenter: SearchContract.Presenter
 
-    private val searchAdapter by lazy { SearchAdapter() }
-
     private val getRepoUsecase: GetReposUsecase by inject()
 
+    private val addRepoUsecase: AddRepoHistoryUsecase by inject()
+
     private val resourceProvider: ResourcesProvider by inject()
+
+    private val searchAdapter by lazy { SearchAdapter(itemListener) }
+
+    private val itemListener: (item: RepoItem) -> Unit =
+        { item ->
+
+            addRepoUsecase.get(item.mapToHistoryDomain())
+
+            RepositoryActivity.startRepositoryActivity(
+                this,
+                item.owner.ownerName,
+                item.repoName
+            )
+        }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

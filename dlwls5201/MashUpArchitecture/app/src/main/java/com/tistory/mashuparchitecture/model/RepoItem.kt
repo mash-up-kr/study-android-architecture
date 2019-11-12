@@ -1,6 +1,7 @@
 package com.tistory.mashuparchitecture.model
 
 import com.tistory.blackjin.domain.entity.RepoEntity
+import com.tistory.blackjin.domain.entity.RepoHistoryEntity
 import com.tistory.mashuparchitecture.R
 import com.tistory.mashuparchitecture.di.ResourcesProvider
 import java.text.SimpleDateFormat
@@ -20,6 +21,14 @@ data class RepoItem(
         val ownerUrl: String
     )
 }
+
+fun RepoItem.mapToHistoryDomain() =
+    RepoHistoryEntity(
+        repoName = repoName,
+        ownerName = owner.ownerName,
+        language = language,
+        profileUrl = owner.ownerUrl
+    )
 
 fun List<RepoEntity>.mapToPresentation(resources: ResourcesProvider): List<RepoItem> =
     map { it.mapToPresentation(resources) }
@@ -60,3 +69,21 @@ fun RepoEntity.OwnerEntity.mapToPresentation() =
         ownerName = ownerName,
         ownerUrl = ownerUrl
     )
+
+fun RepoHistoryEntity.mapToPresentation(resources: ResourcesProvider) = let {
+    RepoItem(
+        title = it.ownerName + "/" + it.repoName,
+        repoName = it.repoName,
+        description = "",
+
+        owner = RepoItem.OwnerItem(it.ownerName, it.profileUrl),
+
+        language = if (it.language.isNullOrEmpty())
+            resources.getString(R.string.no_language_specified)
+        else
+            it.language,
+
+        updatedAt = resources.getString(R.string.unknown),
+        stars = "0"
+    )
+}
