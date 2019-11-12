@@ -1,6 +1,8 @@
 package miinjung.study.test.Model
 
+import com.google.gson.annotations.SerializedName
+
 data class list (
-    var total_count : Int,
-    var items : ArrayList<item>
+    @SerializedName("total_count") val totalCount: Int = 0,
+    val items : ArrayList<item>
 )

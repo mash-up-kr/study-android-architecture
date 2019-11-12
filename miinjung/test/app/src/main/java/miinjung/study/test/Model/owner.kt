@@ -1,8 +1,8 @@
 package miinjung.study.test.Model
 
-import java.io.Serializable
+import com.google.gson.annotations.SerializedName
 
-class owner :Serializable {
-    val login: String? = null
-    var avatar_url: String? = null
-}
+data class owner(
+    val login: String? = null,
+    @SerializedName("avatar_url") val avatarUrl:String? = null
+)

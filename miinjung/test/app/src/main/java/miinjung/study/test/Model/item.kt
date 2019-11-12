@@ -1,13 +1,13 @@
 package miinjung.study.test.Model
 
-import java.io.Serializable
+import com.google.gson.annotations.SerializedName
 
-class item :Serializable {
-    var name: String? = null
-    var full_name: String? = null
-    var owner: owner? = null
-    var description: String? = null
-    var language: String? = null
-    var updated_at: String? = null
-    var stargazers_count: Int? = null
-}
+data class item (
+    val name: String? = null,
+    @SerializedName("full_name") val fullName:String? = null,
+    val owner: owner? = null,
+    val description: String? = null,
+    val language: String? = null,
+    @SerializedName("updated_at") val updatedAt:String? = null,
+    @SerializedName("stargazers_count") val stargazersCount: String? = null
+)

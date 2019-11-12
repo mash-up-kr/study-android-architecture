@@ -10,9 +10,8 @@ import android.view.View
 import android.widget.SearchView
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.activity_main.*
-import miinjung.study.test.Model.item
 import miinjung.study.test.Model.list
-import miinjung.study.test.network.Controller
+import miinjung.study.test.network.TestApplication
 import miinjung.study.test.network.ServerInterface
 import retrofit2.Call
 import retrofit2.Callback
@@ -20,11 +19,9 @@ import retrofit2.Response
 
 class MainActivity : AppCompatActivity(){
 
-    var api: ServerInterface? = Controller.getInstance().buildServerInterface()
+    var api: ServerInterface? = TestApplication.getInstance().buildServerInterface()
     internal var apiCall:Call<list>? = null
     internal var searchAdapter : SearchAdapter? = null
-
-    lateinit var itemList :ArrayList<item>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,8 +29,8 @@ class MainActivity : AppCompatActivity(){
 
         searchAdapter = SearchAdapter(this.applicationContext)
 
-        rv_searchList.adapter = this.searchAdapter
-        rv_searchList.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
+        rvSearchList.adapter = this.searchAdapter
+        rvSearchList.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
 
     }
 
@@ -50,8 +47,8 @@ class MainActivity : AppCompatActivity(){
         menuView?.setOnActionExpandListener(object : MenuItem.OnActionExpandListener {
             override fun onMenuItemActionExpand(item: MenuItem?): Boolean {
 
-                rv_searchList.visibility = View.VISIBLE
-                tv_text.visibility = View.INVISIBLE
+                rvSearchList.visibility = View.VISIBLE
+                tvText.visibility = View.INVISIBLE
                 return true
             }
 
@@ -67,8 +64,8 @@ class MainActivity : AppCompatActivity(){
             }
 
             override fun onQueryTextSubmit(query: String): Boolean {
-                rv_searchList.visibility = View.VISIBLE
-                tv_text.visibility = View.INVISIBLE
+                rvSearchList.visibility = View.VISIBLE
+                tvText.visibility = View.INVISIBLE
 
                 supportActionBar?.setTitle("search")
                 supportActionBar?.run{ subtitle = query }
@@ -92,31 +89,50 @@ class MainActivity : AppCompatActivity(){
     }
 
     fun searchRepos(query: String){
+        showProgress()
+
         apiCall = api?.search(query)
         apiCall?.enqueue(object :Callback<list>{
             override fun onResponse(call: Call<list>, response: Response<list>) {
                 var data = response.body()
 
+                hideProgress()
+
                 if(response.isSuccessful && data != null) {
-                    if(data.total_count > 0){
-                        var position = data.total_count
+                    if(data.totalCount > 0){
                         data.items.let{
-                            itemList = it
                             searchAdapter!!.setItems(it)
-                            searchAdapter!!.notifyItemInserted(position)
+                            searchAdapter!!.notifyDataSetChanged()
                         }
                     }else{
-                        rv_searchList.visibility = View.INVISIBLE
-                        tv_text.visibility = View.VISIBLE
+                        hideRecyclerView()
+                        showTextView()
                     }
                 }
             }
 
             override fun onFailure(call: Call<list>, t: Throwable) {
-                Log.i("errer","error")
+                Log.e("errer","error")
             }
         })
     }
+
+    private fun hideRecyclerView(){
+        rvSearchList.visibility = View.INVISIBLE
+    }
+
+    private fun showTextView(){
+        tvText.visibility = View.VISIBLE
+    }
+
+    private fun showProgress() {
+        pbActivitySearch.visibility = View.VISIBLE
+    }
+
+    private fun hideProgress() {
+        pbActivitySearch.visibility = View.GONE
+    }
+
     override fun onStop() {
         super.onStop()
         apiCall?.run { cancel() }

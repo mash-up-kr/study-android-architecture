@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
-    android:id="@+id/item_box"
+    android:id="@+id/itemBox"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal" android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="10dp">
 
     <ImageView
-        android:id="@+id/user_image"
+        android:id="@+id/userImage"
         android:layout_width="70dp"
         android:layout_height="70dp"
         android:layout_marginRight="10dp" />
@@ -18,19 +18,21 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
         <TextView
-            android:id="@+id/user_name"
+            android:id="@+id/userName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="#000000"
             android:textSize="20dp"
             />
         <TextView
-            android:id="@+id/user_language"
+            android:id="@+id/userLanguage"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="#555555"
             android:textSize="10dp"
             />
     </LinearLayout>
+
+
 
 </LinearLayout>
