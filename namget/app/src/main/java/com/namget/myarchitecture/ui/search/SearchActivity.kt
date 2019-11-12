@@ -10,7 +10,6 @@ import com.namget.myarchitecture.R
 import com.namget.myarchitecture.data.response.RepoListResponse
 import com.namget.myarchitecture.ext.*
 import com.namget.myarchitecture.ui.base.BaseActivity
-import com.namget.myarchitecture.ui.base.BaseView
 import com.namget.myarchitecture.ui.repo.RepoActivity
 import com.namget.myarchitecture.util.URL_REPO_DATA
 import com.namget.myarchitecture.util.URL_USER_DATA
@@ -28,11 +27,13 @@ import kotlinx.android.synthetic.main.activity_search.*
  *  Companion object
  */
 
-class SearchActivity : BaseActivity() , BaseView {
-
-
+class SearchActivity : BaseActivity(), SearchContract.View {
     private lateinit var menuSearch: MenuItem
     private lateinit var searchView: SearchView
+    private lateinit var presenter: SearchContract.Presenter
+    private lateinit var searchPresenter: SearchPresenter
+
+
     private val diffUtilCallback =
         object : DiffUtil.ItemCallback<RepoListResponse.RepoItem>() {
             override fun areItemsTheSame(
@@ -66,6 +67,8 @@ class SearchActivity : BaseActivity() , BaseView {
         }
     }
 
+    private lateinit var present: SearchContract.Presenter
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -75,6 +78,7 @@ class SearchActivity : BaseActivity() , BaseView {
 
     private fun init() {
         initRecyclerView()
+        setPresenter()
     }
 
     private fun initRecyclerView() {
@@ -82,6 +86,11 @@ class SearchActivity : BaseActivity() , BaseView {
             setHasFixedSize(true)
             adapter = searchAdapter
         }
+
+    }
+
+    override fun setPresenter() {
+        this.searchPresenter = SearchPresenter(repoRepository, this, "")
     }
 
     override fun showDialog() {
@@ -92,6 +101,24 @@ class SearchActivity : BaseActivity() , BaseView {
     override fun hideDialog() {
         progressBar.setVisible(false)
         searchRecylcerView.setVisible(true)
+    }
+
+    override fun onPause() {
+        present.subscribe()
+        super.onPause()
+    }
+
+    override fun onResume() {
+        present.unsubscribe()
+        super.onResume()
+    }
+
+    override fun submitList(list: List<RepoListResponse.RepoItem>?) {
+        searchAdapter.submitList(list)
+    }
+
+    override fun makeToast(resId: Int) {
+        makeToast(resId)
     }
 
     private fun insertRepoData(repoItem: RepoListResponse.RepoItem) {
@@ -130,19 +157,6 @@ class SearchActivity : BaseActivity() , BaseView {
 
         menuSearch.expandActionView()
         return true
-    }
-
-
-    private fun requestRepoList(query: String) {
-        disposable += repoRepository.getRepositoryList(query)
-            .subscribe({
-                searchAdapter.submitList(it.items)
-                hideDialog()
-            }, {
-                e(TAG, "requestRepoList", it)
-                makeToast(getString(R.string.error))
-                hideDialog()
-            })
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

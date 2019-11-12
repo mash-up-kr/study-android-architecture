@@ -1,11 +1,11 @@
 package com.namget.myarchitecture.ui.repo
 
 import android.os.Bundle
+import android.view.MenuItem
 import coil.api.load
 import com.namget.myarchitecture.R
 import com.namget.myarchitecture.ext.*
 import com.namget.myarchitecture.ui.base.BaseActivity
-import com.namget.myarchitecture.ui.base.BaseView
 import com.namget.myarchitecture.util.URL_REPO_DATA
 import com.namget.myarchitecture.util.URL_USER_DATA
 import kotlinx.android.synthetic.main.activity_repo.*
@@ -13,7 +13,7 @@ import kotlinx.android.synthetic.main.activity_repo.*
 /**
  * Created by Namget on 2019.10.22.
  */
-class RepoActivity : BaseActivity(), BaseView {
+class RepoActivity : BaseActivity() {
 
 
     private lateinit var repoUrl: String
@@ -37,12 +37,12 @@ class RepoActivity : BaseActivity(), BaseView {
         }
     }
 
-    override fun showDialog() {
+    fun showDialog() {
         progressBar.setVisible(true)
         repoLayout.setVisible(false)
     }
 
-    override fun hideDialog() {
+    fun hideDialog() {
         progressBar.setVisible(false)
         repoLayout.setVisible(true)
     }
@@ -81,6 +81,16 @@ class RepoActivity : BaseActivity(), BaseView {
 
 
         }
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.getItemId()) {
+            android.R.id.home -> {
+                onBackPressed()
+                return true
+            }
+        }
+        return super.onOptionsItemSelected(item)
     }
 
     companion object {
