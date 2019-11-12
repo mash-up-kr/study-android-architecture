@@ -4,10 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
         <variable
-            name="fragment"
-            type="com.runeanim.mytoyproject.ui.main.MainFragment" />
+            name="presenter"
+            type="com.runeanim.mytoyproject.ui.main.MainPresenter" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -20,14 +19,14 @@
             android:id="@+id/rv_repository"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:items="@{fragment.items}"
+            app:items="@{presenter.items}"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="20dp"
-            android:onClick="@{() -> fragment.moveScreenToSearchFragment()}"
+            android:onClick="@{() -> presenter.onClickSearchFloatingButton()}"
             android:src="@drawable/ic_search_white"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
@@ -36,7 +35,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="20dp"
-            android:onClick="@{() -> fragment.removeAllRepositories()}"
+            android:onClick="@{() -> presenter.onClickRemoveAllFloatingButton()}"
             android:src="@drawable/ic_delete_white"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent" />

@@ -5,12 +5,16 @@
 
     <data>
 
+        <import type="android.view.View" />
+
+        <import type="androidx.core.content.ContextCompat" />
+
         <variable
-            name="fragment"
-            type="com.runeanim.mytoyproject.ui.search.SearchFragment" />
+            name="presenter"
+            type="com.runeanim.mytoyproject.ui.search.SearchPresenter" />
     </data>
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
@@ -22,14 +26,27 @@
             android:layout_height="wrap_content"
             android:focusable="true"
             app:iconifiedByDefault="false"
-            app:setOnQueryTextListener="@{fragment.searchRepositoryByKeyWord}" />
+            app:setOnQueryTextListener="@{presenter.searchRepositoryByKeyWord}" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_repository"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:items="@{fragment.items}"
+            android:layout_below="@+id/searchView"
+            app:items="@{presenter.items}"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
-    </LinearLayout>
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:visibility="@{presenter.dataLoading ? View.VISIBLE : View.GONE}" />
+
+        <TextView
+            android:id="@+id/tvFragmentSearchMessage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            app:pbText="@{presenter.messageResId}" />
+    </RelativeLayout>
 </layout>

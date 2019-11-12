@@ -4,6 +4,7 @@ import android.app.Application
 import com.runeanim.mytoyproject.di.ApiModule
 import com.runeanim.mytoyproject.di.NetworkModule
 import com.runeanim.mytoyproject.di.ApplicationModule
+import com.runeanim.mytoyproject.di.UseCaseModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
 
@@ -18,7 +19,8 @@ class ToyApp : Application() {
                 listOf(
                     NetworkModule,
                     ApiModule,
-                    ApplicationModule
+                    ApplicationModule,
+                    UseCaseModule
                 )
             )
         }
