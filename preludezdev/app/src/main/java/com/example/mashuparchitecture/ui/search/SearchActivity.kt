@@ -11,6 +11,8 @@ import com.example.mashuparchitecture.base.BaseActivity
 import com.example.mashuparchitecture.data.source.Repository
 import com.example.mashuparchitecture.databinding.ActivitySearchBinding
 import com.example.mashuparchitecture.ui.detail.DetailActivity
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 import org.koin.android.ext.android.inject
 
 class SearchActivity : BaseActivity<ActivitySearchBinding>(R.layout.activity_search) {
@@ -64,17 +66,22 @@ class SearchActivity : BaseActivity<ActivitySearchBinding>(R.layout.activity_sea
 
         showProgressBar()
 
-        repository
-            .getGithubRepositories(query, { response ->
-                if (response != null) {
-                    adapter.setData(response.items)
-                }
+        compositeDisposable.add(
+            repository
+                .getGithubRepositories(query)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({ response ->
+                    if (response != null) {
+                        adapter.setData(response.items)
+                    }
 
-                hideProgressBar()
-            }, {
-                showToastMessage(it)
-                hideProgressBar()
-            })
+                    hideProgressBar()
+                }, {
+                    showToastMessage("네트워크 통신에 실패했습니다.")
+                    hideProgressBar()
+                })
+        )
     }
 
     private fun hideKeyBoard() {

@@ -7,6 +7,8 @@ import com.example.mashuparchitecture.base.BaseActivity
 import com.example.mashuparchitecture.data.source.Repository
 import com.example.mashuparchitecture.databinding.ActivityDetailBinding
 import com.example.mashuparchitecture.network.vo.GithubRepositoriesResponse
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 import org.koin.android.ext.android.inject
 
 class DetailActivity : BaseActivity<ActivityDetailBinding>(R.layout.activity_detail) {
@@ -23,15 +25,20 @@ class DetailActivity : BaseActivity<ActivityDetailBinding>(R.layout.activity_det
         showProgressBar()
         val repo = (intent.getParcelableExtra("item") as GithubRepositoriesResponse.Item)
 
+        val query = repo.owner.login ?: "nothing"
+
         repository
-            .getUserData(repo.owner.login, { userData ->
+            .getUserData(query)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe({ userData ->
                 if (userData != null) {
                     binding.repo = repo.convertItemIntoDetailRepoVo(userData)
                 }
 
                 hideProgressBar()
             }, {
-                showToastMessage(it)
+                showToastMessage("네트워크 통신에 실패했습니다.")
                 hideProgressBar()
             })
     }

@@ -7,11 +7,13 @@ import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
+import io.reactivex.disposables.CompositeDisposable
 
 abstract class BaseActivity<B : ViewDataBinding>(@LayoutRes private val layoutId: Int) :
     AppCompatActivity() {
 
     protected lateinit var binding: B
+    protected var compositeDisposable = CompositeDisposable()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,6 +35,11 @@ abstract class BaseActivity<B : ViewDataBinding>(@LayoutRes private val layoutId
         if (!msg.isNullOrEmpty()) {
             Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        compositeDisposable.dispose()
     }
 
 }
