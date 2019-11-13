@@ -66,7 +66,6 @@ class SearchActivity : BaseActivity(), SearchContract.View {
         }
     }
 
-    private lateinit var present: SearchContract.Presenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -102,7 +101,7 @@ class SearchActivity : BaseActivity(), SearchContract.View {
     }
 
     override fun onDestroy() {
-        present.unsubscribe()
+        searchPresenter.unsubscribe()
         super.onDestroy()
     }
 
