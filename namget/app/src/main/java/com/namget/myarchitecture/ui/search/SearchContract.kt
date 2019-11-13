@@ -14,6 +14,7 @@ interface SearchContract {
     }
 
     interface Presenter : BasePresenter {
-
+        fun requestRepoList(query: String)
+        fun insertRepoData(repoItem: RepoListResponse.RepoItem)
     }
 }

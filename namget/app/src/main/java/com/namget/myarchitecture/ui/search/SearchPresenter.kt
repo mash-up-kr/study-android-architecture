@@ -2,6 +2,8 @@ package com.namget.myarchitecture.ui.search
 
 import com.namget.myarchitecture.R
 import com.namget.myarchitecture.data.repository.RepoRepository
+import com.namget.myarchitecture.data.response.RepoListResponse
+import com.namget.myarchitecture.ext.e
 import com.namget.myarchitecture.ext.plusAssign
 import com.namget.myarchitecture.ui.base.BasePresent
 
@@ -10,26 +12,31 @@ import com.namget.myarchitecture.ui.base.BasePresent
  */
 class SearchPresenter(
     private val repoRepository: RepoRepository,
-    private val repoSearchView: SearchContract.View,
-    private val query: String
+    private val searchView: SearchContract.View
 ) : BasePresent(), SearchContract.Presenter {
 
-    private fun requestRepoList(query: String) {
+    override fun requestRepoList(query: String) {
         disposable += repoRepository.getRepositoryList(query)
             .subscribe({
-                repoSearchView.submitList(it.items)
-                repoSearchView.hideDialog()
+                searchView.submitList(it.items)
+                searchView.hideDialog()
             }, {
-                repoSearchView.makeToast(R.string.error)
-                repoSearchView.hideDialog()
+                searchView.makeToast(R.string.error)
+                searchView.hideDialog()
             })
     }
-
-    override fun subscribe() {
-        requestRepoList(query)
+    override fun insertRepoData(repoItem: RepoListResponse.RepoItem) {
+        disposable += repoRepository.insertRepoData(repoItem.toRepoEntity())
+            .subscribe {
+                e(TAG, "inserted")
+            }
     }
 
     override fun unsubscribe() {
         disposable.clear()
+    }
+
+    companion object {
+        private const val TAG = "SearchPresenter"
     }
 }

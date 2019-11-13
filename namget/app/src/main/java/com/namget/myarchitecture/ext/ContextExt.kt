@@ -30,7 +30,7 @@ fun Context.hideKeyboard() {
 
 
 //Toast
-fun Context.makeToast(text: String, length : Int = Toast.LENGTH_SHORT) = Toast.makeText(this, text, length).show()
+fun Context.showToast(text: String, length : Int = Toast.LENGTH_SHORT) = Toast.makeText(this, text, length).show()
 
 //Toast
-fun Context.makeToast(res: Int, length : Int = Toast.LENGTH_SHORT) = Toast.makeText(this, res, length).show()
+fun Context.showToast(res: Int, length : Int = Toast.LENGTH_SHORT) = Toast.makeText(this, res, length).show()

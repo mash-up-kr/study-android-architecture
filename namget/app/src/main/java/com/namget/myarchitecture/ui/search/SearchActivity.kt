@@ -8,7 +8,9 @@ import androidx.appcompat.widget.SearchView
 import androidx.recyclerview.widget.DiffUtil
 import com.namget.myarchitecture.R
 import com.namget.myarchitecture.data.response.RepoListResponse
-import com.namget.myarchitecture.ext.*
+import com.namget.myarchitecture.ext.hideKeyboard
+import com.namget.myarchitecture.ext.setVisible
+import com.namget.myarchitecture.ext.showToast
 import com.namget.myarchitecture.ui.base.BaseActivity
 import com.namget.myarchitecture.ui.repo.RepoActivity
 import com.namget.myarchitecture.util.URL_REPO_DATA
@@ -30,7 +32,6 @@ import kotlinx.android.synthetic.main.activity_search.*
 class SearchActivity : BaseActivity(), SearchContract.View {
     private lateinit var menuSearch: MenuItem
     private lateinit var searchView: SearchView
-    private lateinit var presenter: SearchContract.Presenter
     private lateinit var searchPresenter: SearchPresenter
 
 
@@ -55,10 +56,8 @@ class SearchActivity : BaseActivity(), SearchContract.View {
 
     private val searchAdapter: SearchAdapter by lazy {
         SearchAdapter(diffUtilCallback) {
-            d(TAG, "selectedItem ${searchAdapter.getAdapterItem(it)}")
-            //db 저장도 해야함
-            insertRepoData(searchAdapter.getAdapterItem(it))
-
+            //db
+            searchPresenter.insertRepoData(searchAdapter.getAdapterItem(it))
             //detail
             startRepoActivity(
                 searchAdapter.getAdapterItem(it).fullName,
@@ -68,7 +67,6 @@ class SearchActivity : BaseActivity(), SearchContract.View {
     }
 
     private lateinit var present: SearchContract.Presenter
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -90,7 +88,7 @@ class SearchActivity : BaseActivity(), SearchContract.View {
     }
 
     override fun setPresenter() {
-        this.searchPresenter = SearchPresenter(repoRepository, this, "")
+        this.searchPresenter = SearchPresenter(repoRepository, this)
     }
 
     override fun showDialog() {
@@ -103,30 +101,13 @@ class SearchActivity : BaseActivity(), SearchContract.View {
         searchRecylcerView.setVisible(true)
     }
 
-    override fun onPause() {
-        present.subscribe()
-        super.onPause()
-    }
-
-    override fun onResume() {
+    override fun onDestroy() {
         present.unsubscribe()
-        super.onResume()
+        super.onDestroy()
     }
 
-    override fun submitList(list: List<RepoListResponse.RepoItem>?) {
-        searchAdapter.submitList(list)
-    }
-
-    override fun makeToast(resId: Int) {
-        makeToast(resId)
-    }
-
-    private fun insertRepoData(repoItem: RepoListResponse.RepoItem) {
-        disposable += repoRepository.insertRepoData(repoItem.toRepoEntity())
-            .subscribe {
-                e(TAG, "inserted")
-            }
-    }
+    override fun submitList(list: List<RepoListResponse.RepoItem>?) = searchAdapter.submitList(list)
+    override fun makeToast(resId: Int) = showToast(resId)
 
     private fun startRepoActivity(fullName: String, userId: String) {
         startActivity(Intent(this, RepoActivity::class.java).apply {
@@ -134,7 +115,6 @@ class SearchActivity : BaseActivity(), SearchContract.View {
             putExtra(URL_USER_DATA, userId)
         })
     }
-
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.menu_search, menu)
@@ -145,7 +125,7 @@ class SearchActivity : BaseActivity(), SearchContract.View {
                 if (!query.isNullOrEmpty()) {
                     hideKeyboard()
                     showDialog()
-                    requestRepoList(query)
+                    searchPresenter.requestRepoList(query)
                 }
                 return true
             }
@@ -165,9 +145,5 @@ class SearchActivity : BaseActivity(), SearchContract.View {
             return true
         }
         return super.onOptionsItemSelected(item)
-    }
-
-    companion object {
-        private const val TAG = "SearchActivity"
     }
 }
