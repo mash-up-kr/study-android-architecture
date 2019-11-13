@@ -39,20 +39,25 @@ dependencies {
     //Floating Action Button
     implementation 'com.google.android.material:material:1.0.0'
 
+    // Room
+    implementation "androidx.room:room-runtime:$room_version"
+    implementation "androidx.room:room-rxjava2:$room_version"
+    kapt "androidx.room:room-compiler:$room_version"  // necessary for use kotlin
+
     // Retrofit
-    implementation 'com.squareup.retrofit2:retrofit:2.6.0'
-    implementation 'com.google.code.gson:gson:2.6.0'
-    implementation 'com.squareup.retrofit2:converter-gson:2.6.0'
-    implementation 'com.squareup.retrofit2:adapter-rxjava2:2.6.0'
+    implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
+    implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
+    implementation "com.google.code.gson:gson:$retrofit_version"
+    implementation "com.squareup.retrofit2:adapter-rxjava2:$retrofit_version"
 
     // Glide
-    implementation 'com.github.bumptech.glide:glide:4.10.0'
-
-    // Koin for Kotlin
-    implementation 'org.koin:koin-androidx-viewmodel:2.0.1'
+    implementation "com.github.bumptech.glide:glide:$glide_version"
 
     // RxJava
-    implementation 'io.reactivex.rxjava2:rxjava:2.2.9'
-    implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'
+    implementation "io.reactivex.rxjava2:rxjava:$rx_java_version"
+    implementation "io.reactivex.rxjava2:rxandroid:$rx_android_version"
+
+    // Koin for Kotlin
+    implementation "org.koin:koin-androidx-viewmodel:$koin_version"
 
 }
