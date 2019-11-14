@@ -42,4 +42,11 @@ ext{
     koinVersion = '2.0.0-rc-2'
     glideVersion = "4.8.0"
     roomVersion = '2.1.0'
+    coroutinesVersion = '1.2.1'
+    espressoVersion = '3.2.0-beta01'
+    junitVersion = '4.12'
+    mockitoVersion = '2.8.9'
+    robolectricVersion = '4.3-beta-1'
+    archTestingVersion = '2.0.0'
+    truthVersion = '0.44'
 }

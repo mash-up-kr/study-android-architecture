@@ -9,6 +9,7 @@ import com.runeanim.mytoyproject.data.source.local.entity.RepositoryEntity
 import com.runeanim.mytoyproject.data.source.remote.response.mapToPresentation
 import com.runeanim.mytoyproject.domain.SaveRepositoryUseCase
 import com.runeanim.mytoyproject.domain.SearchRepositoriesUseCase
+import com.runeanim.mytoyproject.util.wrapEspressoIdlingResource
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -43,22 +44,24 @@ class SearchPresenter(
         get() = fun(searchKeyWord: String) {
             hideResultMessage()
             showProgressBar()
-            coroutineScope.launch {
-                val result = searchRepositoriesUseCase(searchKeyWord)
-                if (result is Result.Success) {
-                    with(result.data.mapToPresentation()) {
-                        _items.value = this
-                        if (size == 0) {
-                            showResultMessage()
-                        } else {
-                            hideResultMessage()
+            wrapEspressoIdlingResource {
+                coroutineScope.launch {
+                    val result = searchRepositoriesUseCase(searchKeyWord)
+                    if (result is Result.Success) {
+                        with(result.data.mapToPresentation()) {
+                            _items.value = this
+                            if (size == 0) {
+                                showResultMessage()
+                            } else {
+                                hideResultMessage()
+                            }
                         }
+                    } else {
+                        _items.value = emptyList()
+                        showResultMessage()
                     }
-                } else {
-                    _items.value = emptyList()
-                    showResultMessage()
+                    hideProgressBar()
                 }
-                hideProgressBar()
             }
         }
 
@@ -68,8 +71,12 @@ class SearchPresenter(
     }
 
     private fun saveRepository(repositoryEntity: RepositoryEntity) {
-        coroutineScope.launch(Dispatchers.IO) {
-            saveRepositoriesUseCase(repositoryEntity.apply { order = System.currentTimeMillis() })
+        wrapEspressoIdlingResource {
+            coroutineScope.launch(Dispatchers.IO) {
+                saveRepositoriesUseCase(repositoryEntity.apply {
+                    order = System.currentTimeMillis()
+                })
+            }
         }
     }
 

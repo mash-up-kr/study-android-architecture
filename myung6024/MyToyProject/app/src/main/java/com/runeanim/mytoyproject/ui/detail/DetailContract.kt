@@ -11,8 +11,6 @@ interface DetailContract {
     interface View : BaseView {
 
         fun showError()
-
-        fun setDataBindingItems(repoResult: Result<Repository>, userResult: Result<Owner>)
     }
 
     interface Presenter : BasePresenter {

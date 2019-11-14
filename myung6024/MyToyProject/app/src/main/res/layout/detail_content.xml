@@ -8,12 +8,8 @@
         <import type="android.view.View" />
 
         <variable
-            name="owner"
-            type="com.runeanim.mytoyproject.data.model.Owner" />
-
-        <variable
-            name="repo"
-            type="com.runeanim.mytoyproject.data.model.Repository" />
+            name="presenter"
+            type="com.runeanim.mytoyproject.ui.detail.DetailPresenter" />
     </data>
 
     <LinearLayout
@@ -34,7 +30,7 @@
                 android:layout_width="100dp"
                 android:layout_height="100dp"
                 android:layout_centerVertical="true"
-                app:userImage="@{owner.avatarUrl}"
+                app:userImage="@{presenter.ownerInfo.avatarUrl}"
                 tools:src="@drawable/ic_launcher_background" />
 
             <LinearLayout
@@ -53,7 +49,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:maxLines="2"
-                    android:text="@{repo.fullName}"
+                    android:text="@{presenter.repoInfo.fullName}"
                     android:textAppearance="?android:textAppearanceLarge"
                     android:textColor="@color/githubBlue"
                     tools:text="username/myrepository" />
@@ -61,7 +57,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@{owner.name}" />
+                    android:text="@{presenter.ownerInfo.name}" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -71,14 +67,14 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@{String.format(@string/user_followers_format, owner.followers)}" />
+                        android:text="@{String.format(@string/user_followers_format, presenter.ownerInfo.followers)}" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="12dp"
                         android:layout_marginLeft="12dp"
-                        android:text="@{String.format(@string/user_following_format, owner.following)}" />
+                        android:text="@{String.format(@string/user_following_format, presenter.ownerInfo.following)}" />
                 </LinearLayout>
 
                 <TextView
@@ -87,7 +83,7 @@
                     android:layout_height="wrap_content"
                     android:drawableStart="@drawable/ic_star_black"
                     android:drawableLeft="@drawable/ic_star_black"
-                    android:text="@{String.valueOf(repo.stargazersCount)}"
+                    android:text="@{String.valueOf(presenter.repoInfo.stargazersCount)}"
                     android:textAppearance="?android:textAppearanceSmall"
                     android:textColor="@color/githubBlack"
                     tools:text="100 Stars" />
@@ -117,7 +113,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="60dp"
                 android:layout_marginLeft="60dp"
-                android:text="@{repo.description == null ? @string/no_description_provided : repo.description}"
+                android:text="@{presenter.repoInfo.description == null ? @string/no_description_provided : presenter.repoInfo.description}"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                 tools:text="My Description" />
 
@@ -153,7 +149,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="60dp"
                 android:layout_marginLeft="60dp"
-                android:text="@{repo.language == null ? @string/no_language_specified : repo.language}"
+                android:text="@{presenter.repoInfo.language == null ? @string/no_language_specified : presenter.repoInfo.language}"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                 tools:text="Kotlin" />
 
@@ -190,7 +186,7 @@
                 android:layout_marginStart="60dp"
                 android:layout_marginLeft="60dp"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                app:updatedAtText="@{repo.updatedAt}"
+                app:updatedAtText="@{presenter.repoInfo.updatedAt}"
                 tools:text="yyyy/MM/dd" />
 
             <TextView

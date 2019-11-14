@@ -10,14 +10,6 @@
         <variable
             name="presenter"
             type="com.runeanim.mytoyproject.ui.detail.DetailPresenter" />
-
-        <variable
-            name="owner"
-            type="com.runeanim.mytoyproject.data.model.Owner" />
-
-        <variable
-            name="repo"
-            type="com.runeanim.mytoyproject.data.model.Repository" />
     </data>
 
     <RelativeLayout
@@ -35,8 +27,7 @@
             android:inflatedId="@+id/controller"
             android:layout="@layout/detail_content"
             android:visibility="@{presenter.dataLoading ? View.GONE : View.VISIBLE}"
-            app:owner="@{owner}"
-            app:repo="@{repo}"/>
+            app:presenter="@{presenter}" />
 
         <ProgressBar
             android:id="@+id/pbActivityRepository"

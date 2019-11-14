@@ -5,10 +5,6 @@ import android.view.View
 import androidx.navigation.fragment.navArgs
 import com.runeanim.mytoyproject.R
 import com.runeanim.mytoyproject.base.BaseFragment
-import com.runeanim.mytoyproject.data.Result
-import com.runeanim.mytoyproject.data.Result.Success
-import com.runeanim.mytoyproject.data.model.Owner
-import com.runeanim.mytoyproject.data.model.Repository
 import com.runeanim.mytoyproject.databinding.DetailFragmentBinding
 import kotlinx.android.synthetic.main.detail_fragment.*
 import org.koin.android.ext.android.inject
@@ -29,15 +25,6 @@ class DetailFragment : BaseFragment<DetailFragmentBinding, DetailPresenter>(R.la
         super.onCreate(savedInstanceState)
         viewDataBinding.apply {
             presenter = this@DetailFragment.presenter
-        }
-    }
-
-    override fun setDataBindingItems(repoResult: Result<Repository>, userResult: Result<Owner>) {
-        if (repoResult is Success && userResult is Success) {
-            viewDataBinding.repo = repoResult.data
-            viewDataBinding.owner = userResult.data
-        } else {
-            showError()
         }
     }
 

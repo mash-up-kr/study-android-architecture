@@ -6,8 +6,10 @@ import com.runeanim.mytoyproject.data.Result
 import com.runeanim.mytoyproject.data.source.local.entity.RepositoryEntity
 import com.runeanim.mytoyproject.domain.GetRepositoriesUseCase
 import com.runeanim.mytoyproject.domain.RemoveAllRepositoriesUseCase
+import com.runeanim.mytoyproject.util.wrapEspressoIdlingResource
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
 
 class MainPresenter(
@@ -30,20 +32,24 @@ class MainPresenter(
     }
 
     override fun getClickedRepositories() {
-        coroutineScope.launch {
-            val result = getRepositoriesUseCase()
-            if (result is Result.Success) {
-                _items.value = result.data
+        wrapEspressoIdlingResource {
+            coroutineScope.launch {
+                val result = getRepositoriesUseCase()
+                if (result is Result.Success) {
+                    _items.value = result.data
+                }
             }
         }
     }
 
     override fun onClickRemoveAllFloatingButton() {
-        coroutineScope.launch {
-            launch(Dispatchers.IO) {
-                removeAllRepositoriesUseCase()
-            }.join()
-            _items.value = emptyList()
+        wrapEspressoIdlingResource {
+            coroutineScope.launch {
+                launch(Dispatchers.IO) {
+                    removeAllRepositoriesUseCase()
+                }.join()
+                _items.value = emptyList()
+            }
         }
     }
 
