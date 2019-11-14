@@ -6,7 +6,7 @@ import com.runeanim.mytoyproject.data.source.local.entity.RepositoryEntity
 
 interface SearchContract {
 
-    interface View : BaseView<Presenter> {
+    interface View : BaseView {
 
         fun setupListAdapter()
 

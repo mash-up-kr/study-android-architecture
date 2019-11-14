@@ -4,7 +4,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.runeanim.mytoyproject.domain.GetRepositoryInfoUseCase
 import com.runeanim.mytoyproject.domain.GetUserInfoUseCase
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
@@ -12,7 +11,6 @@ import kotlinx.coroutines.launch
 class DetailPresenter(
     private val repoUrl: String,
     private val userId: String,
-    private val coroutineScope: CoroutineScope,
     private val getRepositoryInfoUseCase: GetRepositoryInfoUseCase,
     private val getUserInfoUseCase: GetUserInfoUseCase,
     private val detailView: DetailContract.View

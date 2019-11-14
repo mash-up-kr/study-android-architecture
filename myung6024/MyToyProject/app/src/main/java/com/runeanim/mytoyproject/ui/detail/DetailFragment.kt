@@ -14,14 +14,13 @@ import kotlinx.android.synthetic.main.detail_fragment.*
 import org.koin.android.ext.android.inject
 import org.koin.core.parameter.parametersOf
 
-class DetailFragment : BaseFragment<DetailFragmentBinding>(R.layout.detail_fragment), DetailContract.View {
+class DetailFragment : BaseFragment<DetailFragmentBinding, DetailPresenter>(R.layout.detail_fragment), DetailContract.View {
     private val args: DetailFragmentArgs by navArgs()
 
     override val presenter: DetailPresenter by inject {
         parametersOf(
             args.repoUrl,
             args.userName,
-            coroutineScope,
             this as DetailContract.View
         )
     }
@@ -31,11 +30,6 @@ class DetailFragment : BaseFragment<DetailFragmentBinding>(R.layout.detail_fragm
         viewDataBinding.apply {
             presenter = this@DetailFragment.presenter
         }
-    }
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        presenter.start()
     }
 
     override fun setDataBindingItems(repoResult: Result<Repository>, userResult: Result<Owner>) {

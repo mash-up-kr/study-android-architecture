@@ -12,11 +12,11 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 
-abstract class BaseFragment<T : ViewDataBinding>(@LayoutRes private val layoutResId: Int) :
+abstract class BaseFragment<T : ViewDataBinding, P : BasePresenter>(@LayoutRes private val layoutResId: Int) :
     Fragment() {
     lateinit var viewDataBinding: T
-    private val job = SupervisorJob()
-    val coroutineScope = CoroutineScope(Dispatchers.Main + job)
+
+    abstract val presenter: P
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,8 +32,13 @@ abstract class BaseFragment<T : ViewDataBinding>(@LayoutRes private val layoutRe
         return viewDataBinding.root
     }
 
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        presenter.start()
+    }
+
     override fun onDestroy() {
-        job.cancel()
+        presenter.finish()
         super.onDestroy()
     }
 }

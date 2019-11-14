@@ -8,7 +8,7 @@ import com.runeanim.mytoyproject.data.model.Repository
 
 interface DetailContract {
 
-    interface View : BaseView<Presenter> {
+    interface View : BaseView {
 
         fun showError()
 

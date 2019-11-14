@@ -14,7 +14,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class SearchPresenter(
-    private val coroutineScope: CoroutineScope,
     private val searchRepositoriesUseCase: SearchRepositoriesUseCase,
     private val saveRepositoriesUseCase: SaveRepositoryUseCase,
     private val searchView: SearchContract.View

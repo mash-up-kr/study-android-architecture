@@ -31,27 +31,24 @@ val ApplicationModule = module {
     single { RepositoriesLocalDataSource(get(), get()) }
     single { DefaultRepositoriesRepository(get(), get()) as RepositoriesRepository }
 
-    factory { (repoUrl: String, userId: String, coroutineScope: CoroutineScope, view: DetailContract.View) ->
+    factory { (repoUrl: String, userId: String, view: DetailContract.View) ->
         DetailPresenter(
             repoUrl,
             userId,
-            coroutineScope,
             get(),
             get(),
             view
         )
     }
-    factory { (coroutineScope: CoroutineScope, view: MainContract.View) ->
+    factory { (view: MainContract.View) ->
         MainPresenter(
-            coroutineScope,
             get(),
             get(),
             view
         )
     }
-    factory { (coroutineScope: CoroutineScope, view: SearchContract.View) ->
+    factory { (view: SearchContract.View) ->
         SearchPresenter(
-            coroutineScope,
             get(),
             get(),
             view

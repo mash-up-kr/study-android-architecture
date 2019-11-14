@@ -11,7 +11,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class MainPresenter(
-    private val coroutineScope: CoroutineScope,
     private val getRepositoriesUseCase: GetRepositoriesUseCase,
     private val removeAllRepositoriesUseCase: RemoveAllRepositoriesUseCase,
     private val mainView: MainContract.View

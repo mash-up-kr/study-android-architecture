@@ -14,14 +14,13 @@ import android.view.inputmethod.InputMethodManager
 import org.koin.core.parameter.parametersOf
 
 
-class SearchFragment : BaseFragment<SearchFragmentBinding>(R.layout.search_fragment),
+class SearchFragment : BaseFragment<SearchFragmentBinding, SearchPresenter>(R.layout.search_fragment),
     SearchContract.View {
 
     private lateinit var listAdapter: RepoListAdapter
 
     override val presenter: SearchPresenter by inject {
         parametersOf(
-            coroutineScope,
             this as SearchContract.View
         )
     }
@@ -31,11 +30,6 @@ class SearchFragment : BaseFragment<SearchFragmentBinding>(R.layout.search_fragm
         viewDataBinding.apply {
             presenter = this@SearchFragment.presenter
         }
-    }
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        presenter.start()
     }
 
     override fun onPause() {

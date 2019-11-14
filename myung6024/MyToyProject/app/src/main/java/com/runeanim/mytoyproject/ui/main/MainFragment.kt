@@ -11,11 +11,10 @@ import com.runeanim.mytoyproject.ui.RepoListAdapter
 import org.koin.android.ext.android.inject
 import org.koin.core.parameter.parametersOf
 
-class MainFragment : BaseFragment<MainFragmentBinding>(R.layout.main_fragment), MainContract.View {
+class MainFragment : BaseFragment<MainFragmentBinding, MainPresenter>(R.layout.main_fragment), MainContract.View {
 
     override val presenter: MainPresenter by inject {
         parametersOf(
-            coroutineScope,
             this as MainContract.View
         )
     }
@@ -27,11 +26,6 @@ class MainFragment : BaseFragment<MainFragmentBinding>(R.layout.main_fragment), 
         viewDataBinding.apply {
             presenter = this@MainFragment.presenter
         }
-    }
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        presenter.start()
     }
 
     override fun setupListAdapter() {
