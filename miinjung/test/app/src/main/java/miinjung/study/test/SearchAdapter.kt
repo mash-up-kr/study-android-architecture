@@ -10,7 +10,7 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import miinjung.study.test.Model.item
+import miinjung.study.test.Model.Item
 
 class SearchAdapter(val _context: Context) :RecyclerView.Adapter<SearchAdapter.SearchViewHolder>(){
 
@@ -21,7 +21,7 @@ class SearchAdapter(val _context: Context) :RecyclerView.Adapter<SearchAdapter.S
         const val KEY_REPO_NAME = "name"
     }
 
-    private var dataList : ArrayList<item> = arrayListOf()
+    private var dataList : ArrayList<Item> = arrayListOf()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SearchViewHolder {
         val convertView = LayoutInflater.from(parent.context).inflate(R.layout.fragment_serch, parent, false)
@@ -54,7 +54,7 @@ class SearchAdapter(val _context: Context) :RecyclerView.Adapter<SearchAdapter.S
 
     override fun getItemCount(): Int = dataList.size
 
-    fun setItems(dataList : ArrayList<item>) {
+    fun setItems(dataList : ArrayList<Item>) {
         this.dataList = dataList
     }
 

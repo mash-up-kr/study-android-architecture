@@ -7,7 +7,7 @@ import android.view.View
 import android.widget.Toast
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.activity_detail.*
-import miinjung.study.test.Model.item
+import miinjung.study.test.Model.Item
 import miinjung.study.test.network.TestApplication
 import retrofit2.Call
 import retrofit2.Callback
@@ -25,7 +25,7 @@ class DetailActivity : AppCompatActivity() {
     }
 
     private val api by lazy { TestApplication.getInstance().buildServerInterface() }
-    private var apiCall:Call<item>? = null
+    private var apiCall:Call<Item>? = null
     lateinit var name : String
     lateinit var ownerLogin : String
 
@@ -50,8 +50,8 @@ class DetailActivity : AppCompatActivity() {
         showProgress()
 
         apiCall = api?.getRepository(ownerLogin,name)
-        apiCall?.enqueue(object : Callback<item> {
-            override fun onResponse(call: Call<item>, response: Response<item>) {
+        apiCall?.enqueue(object : Callback<Item> {
+            override fun onResponse(call: Call<Item>, response: Response<Item>) {
                 var data = response.body()
                 hideProgress()
 
@@ -80,7 +80,7 @@ class DetailActivity : AppCompatActivity() {
                 }
             }
 
-            override fun onFailure(call: Call<item>, t: Throwable) {
+            override fun onFailure(call: Call<Item>, t: Throwable) {
                 Log.i("errer","error")
             }
         })

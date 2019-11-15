@@ -10,7 +10,7 @@ import android.view.View
 import android.widget.SearchView
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.activity_main.*
-import miinjung.study.test.Model.list
+import miinjung.study.test.Model.List
 import miinjung.study.test.network.TestApplication
 import miinjung.study.test.network.ServerInterface
 import retrofit2.Call
@@ -20,7 +20,7 @@ import retrofit2.Response
 class MainActivity : AppCompatActivity(){
 
     var api: ServerInterface? = TestApplication.getInstance().buildServerInterface()
-    internal var apiCall:Call<list>? = null
+    internal var apiCall:Call<List>? = null
     internal var searchAdapter : SearchAdapter? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -92,8 +92,8 @@ class MainActivity : AppCompatActivity(){
         showProgress()
 
         apiCall = api?.search(query)
-        apiCall?.enqueue(object :Callback<list>{
-            override fun onResponse(call: Call<list>, response: Response<list>) {
+        apiCall?.enqueue(object :Callback<List>{
+            override fun onResponse(call: Call<List>, response: Response<List>) {
                 var data = response.body()
 
                 hideProgress()
@@ -111,7 +111,7 @@ class MainActivity : AppCompatActivity(){
                 }
             }
 
-            override fun onFailure(call: Call<list>, t: Throwable) {
+            override fun onFailure(call: Call<List>, t: Throwable) {
                 Log.e("errer","error")
             }
         })
