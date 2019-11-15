@@ -1,4 +1,4 @@
-package miinjung.study.test.Model
+package miinjung.study.test.model
 
 import com.google.gson.annotations.SerializedName
 

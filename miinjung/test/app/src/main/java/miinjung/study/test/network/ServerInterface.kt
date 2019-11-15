@@ -1,7 +1,7 @@
 package miinjung.study.test.network
 
-import miinjung.study.test.Model.Item
-import miinjung.study.test.Model.List
+import miinjung.study.test.model.Item
+import miinjung.study.test.model.List
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Path

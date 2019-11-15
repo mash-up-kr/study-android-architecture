@@ -10,7 +10,7 @@ import android.view.View
 import android.widget.SearchView
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.activity_main.*
-import miinjung.study.test.Model.List
+import miinjung.study.test.model.List
 import miinjung.study.test.network.TestApplication
 import miinjung.study.test.network.ServerInterface
 import retrofit2.Call
