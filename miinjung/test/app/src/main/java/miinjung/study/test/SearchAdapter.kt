@@ -14,13 +14,6 @@ import miinjung.study.test.model.Item
 
 class SearchAdapter(val _context: Context) :RecyclerView.Adapter<SearchAdapter.SearchViewHolder>(){
 
-    companion object {
-
-        const val KEY_USER_LOGIN = "ownerLogin"
-
-        const val KEY_REPO_NAME = "name"
-    }
-
     private var dataList : ArrayList<Item> = arrayListOf()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SearchViewHolder {
@@ -44,8 +37,8 @@ class SearchAdapter(val _context: Context) :RecyclerView.Adapter<SearchAdapter.S
 
                 val intent = Intent(_context,DetailActivity::class.java)
 
-                intent.putExtra(KEY_REPO_NAME,data.name)
-                intent.putExtra(KEY_USER_LOGIN,data.owner?.login)
+                intent.putExtra(DetailActivity.KEY_REPO_NAME,data.name)
+                intent.putExtra(DetailActivity.KEY_USER_LOGIN,data.owner?.login)
 
                 _context.startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
             }
