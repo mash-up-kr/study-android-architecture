@@ -112,5 +112,4 @@ class SearchActivity : BaseActivity<ActivitySearchBinding>(R.layout.activity_sea
             pbSearch.visibility = View.INVISIBLE
         }
     }
-
 }

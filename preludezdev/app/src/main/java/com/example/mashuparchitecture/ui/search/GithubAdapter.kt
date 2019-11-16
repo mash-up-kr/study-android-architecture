@@ -43,5 +43,4 @@ class GithubAdapter(
             binding.repo = item
         }
     }
-
 }
