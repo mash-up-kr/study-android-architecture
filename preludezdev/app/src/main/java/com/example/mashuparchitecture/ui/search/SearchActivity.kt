@@ -19,13 +19,18 @@ class SearchActivity : BaseActivity<ActivitySearchBinding>(R.layout.activity_sea
 
     private val adapter by lazy { GithubAdapter { clickCallback(it) } }
     private val repository: Repository by inject()
-    private val searchPresenter by lazy { SearchPresenter(repository, this) }
+    private lateinit var searchPresenter: SearchContract.Presenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        setPresenter()
         initRecyclerView()
         initEvent()
+    }
+
+    override fun setPresenter() {
+        searchPresenter = SearchPresenter(repository, this)
     }
 
     private fun clickCallback(position: Int) {

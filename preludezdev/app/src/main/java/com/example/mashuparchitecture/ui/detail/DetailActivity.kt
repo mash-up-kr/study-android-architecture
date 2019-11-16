@@ -10,15 +10,24 @@ import com.example.mashuparchitecture.data.source.vo.GithubRepoEntity
 import com.example.mashuparchitecture.databinding.ActivityDetailBinding
 import org.koin.android.ext.android.inject
 
-class DetailActivity : BaseActivity<ActivityDetailBinding>(R.layout.activity_detail), DetailContract.View {
+class DetailActivity : BaseActivity<ActivityDetailBinding>(R.layout.activity_detail),
+    DetailContract.View {
 
     private val repository: Repository by inject()
-
-    private val detailPresenter : DetailContract.Presenter by lazy{ DetailPresenter(repository, this)}
+    private lateinit var detailPresenter: DetailContract.Presenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        setPresenter()
+        loadData()
+    }
+
+    override fun setPresenter() {
+        detailPresenter = DetailPresenter(repository, this)
+    }
+
+    private fun loadData() {
         detailPresenter.loadData(intent.getParcelableExtra("item") as GithubRepoEntity)
     }
 
