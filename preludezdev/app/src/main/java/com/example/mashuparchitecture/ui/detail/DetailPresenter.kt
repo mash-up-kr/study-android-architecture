@@ -43,12 +43,8 @@ class DetailPresenter(
         )
     }
 
-    override fun subscribe() {
-        loadData(currRepo)
-    }
-
-    override fun unSubscribe() {
-        compositeDisposable.clear()
+    override fun dispose() {
+        compositeDisposable.dispose()
     }
 
 }

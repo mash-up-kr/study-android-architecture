@@ -44,14 +44,8 @@ class DetailActivity : BaseActivity<ActivityDetailBinding>(R.layout.activity_det
         showToastMessage(msg)
     }
 
-    override fun onPause() {
-        super.onPause()
-        detailPresenter.unSubscribe()
+    override fun onDestroy() {
+        super.onDestroy()
+        detailPresenter.dispose()
     }
-
-    override fun onResume() {
-        super.onResume()
-        detailPresenter.subscribe()
-    }
-
 }

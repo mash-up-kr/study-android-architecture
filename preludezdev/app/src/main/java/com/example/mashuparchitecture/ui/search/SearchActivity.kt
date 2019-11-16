@@ -88,4 +88,9 @@ class SearchActivity : BaseActivity<ActivitySearchBinding>(R.layout.activity_sea
         val imm = getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
         imm.hideSoftInputFromWindow(binding.etSearch.windowToken, 0)
     }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        searchPresenter.dispose()
+    }
 }

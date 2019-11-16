@@ -55,12 +55,8 @@ class SearchPresenter(
         )
     }
 
-    override fun subscribe() {
-        searchQuery(currQuery)
-    }
-
-    override fun unSubscribe() {
-        compositeDisposable.clear()
+    override fun dispose() {
+        compositeDisposable.dispose()
     }
 
 }
