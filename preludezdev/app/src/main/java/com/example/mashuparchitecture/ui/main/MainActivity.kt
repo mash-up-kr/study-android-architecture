@@ -13,9 +13,7 @@ import org.koin.android.ext.android.inject
 class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
 
     private val repository: Repository by inject()
-
     private val rvAdapter by lazy { MainRvAdapter() }
-
     private val myGithubRepoList = repository.loadMyGithubRepoList()
 
     override fun onCreate(savedInstanceState: Bundle?) {
