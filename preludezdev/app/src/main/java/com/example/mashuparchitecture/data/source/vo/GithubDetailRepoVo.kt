@@ -3,7 +3,7 @@ package com.example.mashuparchitecture.data.source.vo
 import com.example.mashuparchitecture.network.vo.GithubRepositoriesResponse
 import com.google.gson.annotations.SerializedName
 
-data class DetailRepoVo(
+data class GithubDetailRepoVo(
     @SerializedName("id")
     val id: Int,
     @SerializedName("name")

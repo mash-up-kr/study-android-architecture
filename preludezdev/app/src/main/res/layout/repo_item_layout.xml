@@ -7,7 +7,7 @@
 
         <variable
             name="repo"
-            type="com.example.mashuparchitecture.network.vo.GithubRepositoriesResponse.Item" />
+            type="com.example.mashuparchitecture.data.source.vo.GithubRepoEntity" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

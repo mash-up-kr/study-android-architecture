@@ -7,7 +7,7 @@
 
         <variable
             name="repo"
-            type="com.example.mashuparchitecture.data.source.vo.DetailRepoVo" />
+            type="com.example.mashuparchitecture.data.source.vo.GithubDetailRepoVo" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

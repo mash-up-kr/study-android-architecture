@@ -4,17 +4,17 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mashuparchitecture.R
 import com.example.mashuparchitecture.base.BaseViewHolder
+import com.example.mashuparchitecture.data.source.vo.GithubRepoEntity
 import com.example.mashuparchitecture.databinding.RepoItemLayoutBinding
-import com.example.mashuparchitecture.network.vo.GithubRepositoriesResponse
 
 class GithubAdapter(
     private val clickCallback: (position: Int) -> Unit
 ) : RecyclerView.Adapter<GithubAdapter.GithubViewHolder>() {
-    private val data = mutableListOf<GithubRepositoriesResponse.Item>()
+    private val data = mutableListOf<GithubRepoEntity>()
 
     fun getItem(position: Int) = data[position]
 
-    fun setData(items: List<GithubRepositoriesResponse.Item>?) {
+    fun setData(items: List<GithubRepoEntity>?) {
         if (items != null) {
             data.clear()
             data.addAll(items)
@@ -39,7 +39,7 @@ class GithubAdapter(
             }
         }
 
-        fun bind(item: GithubRepositoriesResponse.Item) {
+        fun bind(item: GithubRepoEntity) {
             binding.repo = item
         }
     }

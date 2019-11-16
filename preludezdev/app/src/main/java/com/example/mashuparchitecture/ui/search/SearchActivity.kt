@@ -28,9 +28,19 @@ class SearchActivity : BaseActivity<ActivitySearchBinding>(R.layout.activity_sea
     }
 
     private fun clickCallback(position: Int) {
+        val clickedRepo = adapter.getItem(position)
+
+        compositeDisposable.add(
+            repository
+                .insertRepo(clickedRepo)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({}, { showToastMessage("로컬 데이터 삽입에 실패했습니다.") })
+        )
+
         startActivity(
             Intent(this, DetailActivity::class.java).apply {
-                putExtra("item", adapter.getItem(position))
+                putExtra("item", clickedRepo)
             })
     }
 
@@ -73,7 +83,7 @@ class SearchActivity : BaseActivity<ActivitySearchBinding>(R.layout.activity_sea
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({ response ->
                     if (response != null) {
-                        adapter.setData(response.items)
+                        adapter.setData(response.items.map { it.convertItemIntoRepoEntity() })
                     }
 
                     hideProgressBar()
