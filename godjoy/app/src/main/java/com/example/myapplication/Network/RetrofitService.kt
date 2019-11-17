@@ -1,13 +1,13 @@
 package com.example.myapplication.Network
 
-import com.example.myapplication.Data.SearchRepo
-import com.example.myapplication.Network.Get.SearchRepoResponse
+import com.example.myapplication.Network.model.SearchRepo
+import com.example.myapplication.Network.model.SearchRepoResponse
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
 
-interface NetworkService {
+interface RetrofitService {
     
     @GET("search/repositories")
     fun getSearchRepoResponse(
