@@ -15,6 +15,10 @@ import org.jetbrains.anko.startActivity
 
 class SearchRecyclerviewAdapter (var ctx : Context, var datalist : ArrayList<SearchRepo>): RecyclerView.Adapter<SearchRecyclerviewAdapter.Holder>(){
 
+    companion object{
+        lateinit  var queryUserName : String
+        lateinit var queryRepoName : String
+    }
     override fun onCreateViewHolder( viewGroup: ViewGroup, viewType: Int): Holder {
         val view : View = LayoutInflater.from(ctx).inflate(R.layout.rv_item_search, viewGroup, false)
         return Holder(view)
@@ -24,32 +28,40 @@ class SearchRecyclerviewAdapter (var ctx : Context, var datalist : ArrayList<Sea
 
     override fun onBindViewHolder(holder: Holder, position: Int) {
 
-        datalist[position].let {
-            Glide.with(ctx)
-                .load(it.owner.avatar_url)
-                .centerCrop()
-                .into(holder.img)
+        datalist[position].let {repo->
+            with(holder){
+                Glide.with(ctx)
+                    .load(repo.owner.userImg)
+                    .centerCrop()
+                    .into(img)
 
-            holder.name.text = it.owner.login + "/"
-            
-            holder.language.text =
-                if(it.language.isNullOrEmpty())
-                    "No language specified"
-                else  datalist[position].language
+                name.text = repo.owner.userName + "/"
+                repoName.text = repo.name
 
-            holder.repoName.text = it.name     
-        }
-       
-        holder.container.setOnClickListener {
-            ctx.startActivity<RepoActivity>("login" to datalist[position].owner.login, "repoName" to datalist[position].name)
+               language.text =
+                    if(repo.language.isNullOrEmpty())
+                        "No language specified"
+                    else  datalist[position].language
+
+               container.setOnClickListener {
+                    setQuery(repo.owner.userName, repo.name)
+                    ctx.startActivity<RepoActivity>()
+                }
+            }
+
         }
     }
 
+    fun setQuery(user : String, repo : String){
+        queryUserName = user
+        queryRepoName = repo
+    }
     inner class Holder(itemView: View) : RecyclerView.ViewHolder(itemView){
-        var container = itemView.findViewById(R.id.ll_rv_item_search) as LinearLayout
-        var img = itemView.findViewById<ImageView>(R.id.imgv_rv_item_search)
-        var name = itemView.findViewById<TextView>(R.id.tv_name_rv_item_search)
-        var repoName = itemView.findViewById<TextView>(R.id.tv_repo_name_rv_item_search)
-        var language = itemView.findViewById<TextView>(R.id.tv_lang_rv_item_search)
+        val container = itemView.findViewById(R.id.llRvItemSearch) as LinearLayout
+        val img = itemView.findViewById<ImageView>(R.id.ivUserImgRvItemSearch)
+        val name = itemView.findViewById<TextView>(R.id.tvUserNameRvItemSearch)
+        val repoName = itemView.findViewById<TextView>(R.id.tvRepoNameRvItemSearch)
+        val language = itemView.findViewById<TextView>(R.id.tvLanguageRvItemSearch)
     }
+
 }
