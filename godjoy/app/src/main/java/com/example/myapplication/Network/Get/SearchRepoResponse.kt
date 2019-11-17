@@ -1,8 +1,9 @@
 package com.example.myapplication.Network.Get
 
 import com.example.myapplication.Data.SearchRepo
+import com.google.gson.annotations.SerializedName
 
 class SearchRepoResponse (
-    val total_count : Int,
+    @SerializedName("total_count") val totalCount : Int,
     val items : ArrayList<SearchRepo>?
 )
