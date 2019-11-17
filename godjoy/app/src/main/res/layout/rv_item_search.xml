@@ -4,33 +4,33 @@
               android:layout_height="wrap_content"
               android:layout_marginLeft="15dp"
               android:layout_marginBottom="5dp"
-              android:id="@+id/ll_rv_item_search"
+              android:id="@+id/llRvItemSearch"
 >
 
     <RelativeLayout
             android:layout_width="match_parent" android:layout_height="match_parent">
         <ImageView
-                android:id="@+id/imgv_rv_item_search"
+                android:id="@+id/ivUserImgRvItemSearch"
                 android:layout_width="80dp" android:layout_height="80dp"
                 android:layout_marginEnd="10dp"
         />
         <TextView
-                android:id="@+id/tv_name_rv_item_search"
-                android:layout_toEndOf="@id/imgv_rv_item_search"
+                android:id="@+id/tvUserNameRvItemSearch"
+                android:layout_toEndOf="@id/ivUserImgRvItemSearch"
                 android:layout_width="wrap_content" android:layout_height="wrap_content"
                 android:text="user" android:textStyle="bold" android:textSize="18sp"
         />
 
         <TextView
-                android:id="@+id/tv_repo_name_rv_item_search"
-                android:layout_toEndOf="@id/tv_name_rv_item_search"
+                android:id="@+id/tvRepoNameRvItemSearch"
+                android:layout_toEndOf="@id/tvUserNameRvItemSearch"
                 android:layout_width="wrap_content" android:layout_height="wrap_content"
                 android:text="/repoName" android:textStyle="bold" android:textSize="18sp"
         />
 
         <TextView
-                android:id="@+id/tv_lang_rv_item_search"
-                android:layout_below="@id/tv_name_rv_item_search" android:layout_toEndOf="@id/imgv_rv_item_search"
+                android:id="@+id/tvLanguageRvItemSearch"
+                android:layout_below="@id/tvUserNameRvItemSearch" android:layout_toEndOf="@id/ivUserImgRvItemSearch"
                 android:layout_marginTop="10dp"
                 android:layout_width="wrap_content" android:layout_height="wrap_content"
                 android:text="language" android:textSize="15sp"

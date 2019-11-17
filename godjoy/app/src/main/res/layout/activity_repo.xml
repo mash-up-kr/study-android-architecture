@@ -11,7 +11,7 @@
 
     <RelativeLayout android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="15dp">
         <ImageView
-                android:id="@+id/img_repo_activity"
+                android:id="@+id/ivRepoActivity"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
                 android:layout_marginStart="10dp"
@@ -21,35 +21,35 @@
         <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_toEndOf="@id/img_repo_activity"
+                android:layout_toEndOf="@id/ivRepoActivity"
                 android:layout_centerInParent="true"
         >
             <TextView
-                    android:id="@+id/tv_name_repo_activity"
+                    android:id="@+id/tvNameRepoActivity"
                     android:layout_width="wrap_content" android:layout_height="wrap_content"
                     android:text="user" android:textStyle="bold" android:textSize="18sp"
             />
 
             <TextView
-                    android:id="@+id/tv_repo_name_repo_activity"
-                    android:layout_toEndOf="@id/tv_name_repo_activity"
+                    android:id="@+id/tvRepoNameRepoActivity"
+                    android:layout_toEndOf="@id/tvNameRepoActivity"
                     android:layout_width="wrap_content" android:layout_height="wrap_content"
                     android:text="/repoName" android:textStyle="bold" android:textSize="18sp"
             />
 
             <ImageView
-                    android:id="@+id/icn_star"
+                    android:id="@+id/icStar"
                     android:layout_width="20dp"
                     android:layout_height="20dp"
-                    android:layout_below="@+id/tv_name_repo_activity"
+                    android:layout_below="@+id/tvNameRepoActivity"
                     android:src="@drawable/ic_star_black"
             />
             <TextView
-                    android:id="@+id/tv_stars_repo_activity"
+                    android:id="@+id/tvStarNumRepoActivity"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/tv_name_repo_activity"
-                    android:layout_toEndOf="@id/icn_star"
+                    android:layout_below="@+id/tvNameRepoActivity"
+                    android:layout_toEndOf="@id/icStar"
                     android:text="stars"
             />
         </RelativeLayout>
@@ -67,7 +67,7 @@
             android:padding="25dp"
     >
         <ImageView
-                android:id="@+id/icn_description"
+                android:id="@+id/icDescription"
                 android:layout_width="35dp"
                 android:layout_height="35dp"
                 android:layout_centerVertical="true"
@@ -75,11 +75,11 @@
                 android:src="@drawable/ic_description_black"
         />
         <TextView
-                android:id="@+id/tv_description_repo_activity"
+                android:id="@+id/tvDescriptionRepoActivity"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textStyle="bold"
-                android:layout_toEndOf="@id/icn_description"
+                android:layout_toEndOf="@id/icDescription"
         />
 
         <TextView
@@ -87,8 +87,8 @@
                 android:layout_height="wrap_content"
                 android:text="Description"
                 android:layout_marginTop="5dp"
-                android:layout_below="@id/tv_description_repo_activity"
-                android:layout_toEndOf="@id/icn_description"
+                android:layout_below="@id/tvDescriptionRepoActivity"
+                android:layout_toEndOf="@id/icDescription"
         />
     </RelativeLayout>
 
@@ -102,7 +102,7 @@
             android:padding="25dp"
     >
     <ImageView
-            android:id="@+id/icn_language"
+            android:id="@+id/icLanguage"
             android:layout_width="35dp"
             android:layout_height="35dp"
             android:layout_centerVertical="true"
@@ -110,11 +110,11 @@
             android:src="@drawable/ic_language_black"
     />
     <TextView
-            android:id="@+id/tv_language_repo_activity"
+            android:id="@+id/tvLanguageRepoActivity"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textStyle="bold"
-            android:layout_toEndOf="@id/icn_language"
+            android:layout_toEndOf="@id/icLanguage"
     />
 
         <TextView
@@ -122,8 +122,8 @@
                 android:layout_height="wrap_content"
                 android:text="Language"
                 android:layout_marginTop="5dp"
-                android:layout_below="@id/tv_language_repo_activity"
-                android:layout_toEndOf="@id/icn_language"
+                android:layout_below="@id/tvLanguageRepoActivity"
+                android:layout_toEndOf="@id/icLanguage"
         />
     </RelativeLayout>
     <View
@@ -136,25 +136,25 @@
             android:padding="25dp"
     >
     <ImageView
-            android:id="@+id/icn_updateTime"
+            android:id="@+id/icUpdateTime"
             android:layout_width="35dp"
             android:layout_height="35dp"
             android:layout_marginRight="10dp"
             android:src="@drawable/ic_update_black"
     />
     <TextView
-            android:id="@+id/tv_updateDate_repo_activity"
+            android:id="@+id/tvUpdateDateRepoActivity"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="5dp"
-            android:layout_toEndOf="@id/icn_updateTime"
+            android:layout_toEndOf="@id/icUpdateTime"
             android:textStyle="bold"
     />
         <TextView
-                android:id="@+id/tv_updateTime_repo_activity"
+                android:id="@+id/tvUpdateTimeRepoActivity"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_toEndOf="@id/tv_updateDate_repo_activity"
+                android:layout_toEndOf="@id/tvUpdateDateRepoActivity"
                 android:textStyle="bold"
         />
         <TextView
@@ -162,8 +162,8 @@
                 android:layout_height="wrap_content"
                 android:text="Last Update"
                 android:layout_marginTop="5dp"
-                android:layout_below="@id/tv_updateTime_repo_activity"
-                android:layout_toEndOf="@id/icn_updateTime"
+                android:layout_below="@id/tvUpdateTimeRepoActivity"
+                android:layout_toEndOf="@id/icUpdateTime"
         />
     </RelativeLayout>
 </LinearLayout>
