@@ -8,21 +8,13 @@ interface MainContract {
 
     interface View : BaseView {
 
-        fun setupListAdapter()
-
-        fun moveScreenToSearchFragment()
-
-        fun moveScreenToDetailFragment(repositoryEntity: RepositoryEntity)
+        fun showRepositoryHistory(result: List<RepositoryEntity>)
     }
 
     interface Presenter : BasePresenter {
 
-        fun getClickedRepositories()
+        fun getRepositoryHistory()
 
-        fun onClickListItem(repositoryEntity: RepositoryEntity)
-
-        fun onClickRemoveAllFloatingButton()
-
-        fun onClickSearchFloatingButton()
+        fun removeAllRepositoryHistory()
     }
 }

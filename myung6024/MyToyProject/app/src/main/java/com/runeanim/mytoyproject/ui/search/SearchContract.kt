@@ -8,18 +8,20 @@ interface SearchContract {
 
     interface View : BaseView {
 
-        fun setupListAdapter()
+        fun hideResultMessage()
 
-        fun hideSoftKeyBoard()
+        fun showResultMessage()
 
-        fun moveScreenToDetailFragment(repositoryEntity: RepositoryEntity)
+        fun hideProgressBar()
+
+        fun showProgressBar()
+
+        fun showSearchResult(result: List<RepositoryEntity>)
     }
 
     interface Presenter : BasePresenter {
 
-        fun onPause()
-
-        fun onClickRepositoryItem(repositoryEntity: RepositoryEntity)
+        fun saveRepositoryClickHistory(repositoryEntity: RepositoryEntity)
 
         val searchRepositoryByKeyWord: (String) -> Unit
     }

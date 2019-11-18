@@ -67,7 +67,7 @@ class MainPresenterUnitTest {
 
     @Test
     fun `저장된 목록 불러오기`() {
-        presenter.getClickedRepositories()
+        presenter.getRepositoryHistory()
         Truth.assertThat(LiveDataTestUtil.getValue(presenter.items)).hasSize(3)
     }
 
@@ -76,13 +76,13 @@ class MainPresenterUnitTest {
         presenter.onClickRemoveAllFloatingButton()
         Truth.assertThat(LiveDataTestUtil.getValue(presenter.items)).hasSize(0)
 
-        presenter.getClickedRepositories()
+        presenter.getRepositoryHistory()
         Truth.assertThat(LiveDataTestUtil.getValue(presenter.items)).hasSize(0)
     }
 
     @Test
     fun `저장된 목록 불러오기 + 전체 삭제하기`() {
-        presenter.getClickedRepositories()
+        presenter.getRepositoryHistory()
         Truth.assertThat(LiveDataTestUtil.getValue(presenter.items)).hasSize(3)
 
         presenter.onClickRemoveAllFloatingButton()

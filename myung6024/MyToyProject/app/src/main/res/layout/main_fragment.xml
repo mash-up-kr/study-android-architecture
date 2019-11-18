@@ -5,8 +5,8 @@
 
     <data>
         <variable
-            name="presenter"
-            type="com.runeanim.mytoyproject.ui.main.MainPresenter" />
+            name="view"
+            type="com.runeanim.mytoyproject.ui.main.MainFragment" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -19,14 +19,14 @@
             android:id="@+id/rv_repository"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:items="@{presenter.items}"
+            app:items="@{view.items}"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="20dp"
-            android:onClick="@{() -> presenter.onClickSearchFloatingButton()}"
+            android:onClick="@{() -> view.onClickSearchFloatingButton()}"
             android:src="@drawable/ic_search_white"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
@@ -35,7 +35,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="20dp"
-            android:onClick="@{() -> presenter.onClickRemoveAllFloatingButton()}"
+            android:onClick="@{() -> view.onClickRemoveAllFloatingButton()}"
             android:src="@drawable/ic_delete_white"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent" />

@@ -8,8 +8,8 @@
         <import type="android.view.View" />
 
         <variable
-            name="presenter"
-            type="com.runeanim.mytoyproject.ui.detail.DetailPresenter" />
+            name="view"
+            type="com.runeanim.mytoyproject.ui.detail.DetailFragment" />
     </data>
 
     <LinearLayout
@@ -30,7 +30,7 @@
                 android:layout_width="100dp"
                 android:layout_height="100dp"
                 android:layout_centerVertical="true"
-                app:userImage="@{presenter.ownerInfo.avatarUrl}"
+                app:userImage="@{view.ownerInfo.avatarUrl}"
                 tools:src="@drawable/ic_launcher_background" />
 
             <LinearLayout
@@ -49,7 +49,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:maxLines="2"
-                    android:text="@{presenter.repoInfo.fullName}"
+                    android:text="@{view.repoInfo.fullName}"
                     android:textAppearance="?android:textAppearanceLarge"
                     android:textColor="@color/githubBlue"
                     tools:text="username/myrepository" />
@@ -57,7 +57,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@{presenter.ownerInfo.name}" />
+                    android:text="@{view.ownerInfo.name}" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -67,14 +67,14 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@{String.format(@string/user_followers_format, presenter.ownerInfo.followers)}" />
+                        android:text="@{String.format(@string/user_followers_format, view.ownerInfo.followers)}" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="12dp"
                         android:layout_marginLeft="12dp"
-                        android:text="@{String.format(@string/user_following_format, presenter.ownerInfo.following)}" />
+                        android:text="@{String.format(@string/user_following_format, view.ownerInfo.following)}" />
                 </LinearLayout>
 
                 <TextView
@@ -83,7 +83,7 @@
                     android:layout_height="wrap_content"
                     android:drawableStart="@drawable/ic_star_black"
                     android:drawableLeft="@drawable/ic_star_black"
-                    android:text="@{String.valueOf(presenter.repoInfo.stargazersCount)}"
+                    android:text="@{String.valueOf(view.repoInfo.stargazersCount)}"
                     android:textAppearance="?android:textAppearanceSmall"
                     android:textColor="@color/githubBlack"
                     tools:text="100 Stars" />
@@ -113,7 +113,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="60dp"
                 android:layout_marginLeft="60dp"
-                android:text="@{presenter.repoInfo.description == null ? @string/no_description_provided : presenter.repoInfo.description}"
+                android:text="@{view.repoInfo.description == null ? @string/no_description_provided : view.repoInfo.description}"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                 tools:text="My Description" />
 
@@ -149,7 +149,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="60dp"
                 android:layout_marginLeft="60dp"
-                android:text="@{presenter.repoInfo.language == null ? @string/no_language_specified : presenter.repoInfo.language}"
+                android:text="@{view.repoInfo.language == null ? @string/no_language_specified : view.repoInfo.language}"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                 tools:text="Kotlin" />
 
@@ -186,7 +186,7 @@
                 android:layout_marginStart="60dp"
                 android:layout_marginLeft="60dp"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                app:updatedAtText="@{presenter.repoInfo.updatedAt}"
+                app:updatedAtText="@{view.repoInfo.updatedAt}"
                 tools:text="yyyy/MM/dd" />
 
             <TextView
