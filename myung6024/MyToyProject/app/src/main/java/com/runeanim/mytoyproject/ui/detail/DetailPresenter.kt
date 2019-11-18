@@ -8,6 +8,7 @@ import com.runeanim.mytoyproject.data.model.Owner
 import com.runeanim.mytoyproject.data.model.Repository
 import com.runeanim.mytoyproject.domain.GetRepositoryInfoUseCase
 import com.runeanim.mytoyproject.domain.GetUserInfoUseCase
+import com.runeanim.mytoyproject.util.SingleLiveEvent
 import com.runeanim.mytoyproject.util.wrapEspressoIdlingResource
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
@@ -25,11 +26,11 @@ class DetailPresenter(
     val dataLoading: LiveData<Boolean>
         get() = _dataLoading
 
-    private val _repoInfo = MutableLiveData<Repository>()
+    private val _repoInfo = SingleLiveEvent<Repository>()
     val repoInfo: LiveData<Repository>
         get() = _repoInfo
 
-    private val _ownerInfo = MutableLiveData<Owner>()
+    private val _ownerInfo = SingleLiveEvent<Owner>()
     val ownerInfo: LiveData<Owner>
         get() = _ownerInfo
 
@@ -47,7 +48,6 @@ class DetailPresenter(
                 val getRepoJob = async(Dispatchers.IO) { getRepositoryInfoUseCase(repoUrl) }
                 val getUserJob = async(Dispatchers.IO) { getUserInfoUseCase(userId) }
 
-                //detailView.setDataBindingItems()
                 setInfoItems(getRepoJob.await(), getUserJob.await())
                 hideProgressBar()
             }
