@@ -33,7 +33,7 @@ class SearchPresenter(
     }
 
     override fun unsubscribe() {
-        disposable.clear()
+        disposable.dispose()
     }
 
     companion object {

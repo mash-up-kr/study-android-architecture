@@ -29,12 +29,12 @@ import kotlinx.android.synthetic.main.activity_search.*
  *  Companion object
  */
 
-class SearchActivity : BaseActivity(), SearchContract.View {
+class SearchActivity : BaseActivity<SearchPresenter>(), SearchContract.View {
     private lateinit var menuSearch: MenuItem
     private lateinit var searchView: SearchView
-    private lateinit var searchPresenter: SearchPresenter
-
-
+    override val presenter: SearchPresenter by lazy {
+        SearchPresenter(repoRepository, this)
+    }
     private val diffUtilCallback =
         object : DiffUtil.ItemCallback<RepoListResponse.RepoItem>() {
             override fun areItemsTheSame(
@@ -57,11 +57,12 @@ class SearchActivity : BaseActivity(), SearchContract.View {
     private val searchAdapter: SearchAdapter by lazy {
         SearchAdapter(diffUtilCallback) {
             //db
-            searchPresenter.insertRepoData(searchAdapter.getAdapterItem(it))
+            val item = searchAdapter.getAdapterItem(it)
+            presenter.insertRepoData(item)
             //detail
             startRepoActivity(
-                searchAdapter.getAdapterItem(it).fullName,
-                searchAdapter.getAdapterItem(it).owner.login
+                item.fullName,
+                item.owner.login
             )
         }
     }
@@ -75,7 +76,6 @@ class SearchActivity : BaseActivity(), SearchContract.View {
 
     private fun init() {
         initRecyclerView()
-        setPresenter()
     }
 
     private fun initRecyclerView() {
@@ -83,11 +83,6 @@ class SearchActivity : BaseActivity(), SearchContract.View {
             setHasFixedSize(true)
             adapter = searchAdapter
         }
-
-    }
-
-    override fun setPresenter() {
-        this.searchPresenter = SearchPresenter(repoRepository, this)
     }
 
     override fun showDialog() {
@@ -100,10 +95,6 @@ class SearchActivity : BaseActivity(), SearchContract.View {
         searchRecylcerView.setVisible(true)
     }
 
-    override fun onDestroy() {
-        searchPresenter.unsubscribe()
-        super.onDestroy()
-    }
 
     override fun submitList(list: List<RepoListResponse.RepoItem>?) = searchAdapter.submitList(list)
     override fun makeToast(resId: Int) = showToast(resId)
@@ -124,7 +115,7 @@ class SearchActivity : BaseActivity(), SearchContract.View {
                 if (!query.isNullOrEmpty()) {
                     hideKeyboard()
                     showDialog()
-                    searchPresenter.requestRepoList(query)
+                    presenter.requestRepoList(query)
                 }
                 return true
             }

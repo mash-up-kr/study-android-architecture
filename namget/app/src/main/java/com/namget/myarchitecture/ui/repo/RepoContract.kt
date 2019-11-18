@@ -10,8 +10,8 @@ import com.namget.myarchitecture.ui.base.BaseView
  */
 interface RepoContract{
     interface View : BaseView<Presenter> {
-        fun setUserInfoData(userInfoResponse: UserInfoResponse)
-        fun setRepoInfoData(repoInfoResponse: RepoInfoResponse)
+        fun showUserInfoData(userInfoResponse: UserInfoResponse)
+        fun showRepoInfoData(repoInfoResponse: RepoInfoResponse)
         fun requestUserData()
     }
 

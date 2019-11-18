@@ -21,8 +21,8 @@ class RepoPresenter(
         repoView.showDialog()
         disposable += repoRepository.getProfileInfo(userUrl, repoUrl)
             .subscribe({
-                repoView.setUserInfoData(it.first)
-                repoView.setRepoInfoData(it.second)
+                repoView.showUserInfoData(it.first)
+                repoView.showRepoInfoData(it.second)
                 repoView.hideDialog()
             }, {
                 repoView.makeToast(R.string.error)

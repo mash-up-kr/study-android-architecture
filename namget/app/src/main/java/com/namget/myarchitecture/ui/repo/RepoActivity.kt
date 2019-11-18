@@ -17,10 +17,12 @@ import kotlinx.android.synthetic.main.activity_repo.*
 /**
  * Created by Namget on 2019.10.22.
  */
-class RepoActivity : BaseActivity(), RepoContract.View {
+class RepoActivity : BaseActivity<RepoPresenter>(), RepoContract.View {
     private lateinit var repoUrl: String
     private lateinit var userUrl: String
-    private lateinit var repoPresenter: RepoPresenter
+    override val presenter: RepoPresenter by lazy {
+        RepoPresenter(repoRepository, this)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,17 +32,16 @@ class RepoActivity : BaseActivity(), RepoContract.View {
 
     private fun init() {
         getIntentExtra()
-        setPresenter()
         requestUserData()
     }
 
     override fun requestUserData() {
         if (::userUrl.isInitialized && ::repoUrl.isInitialized) {
-            repoPresenter.requestUserData(userUrl,repoUrl)
+            presenter.requestUserData(userUrl,repoUrl)
         }
     }
 
-    override fun setUserInfoData(userInfoResponse: UserInfoResponse) {
+    override fun showUserInfoData(userInfoResponse: UserInfoResponse) {
         with(userInfoResponse) {
             repoProfileImage.load(avatarUrl)
             repoFollowerTitle.text =
@@ -49,7 +50,7 @@ class RepoActivity : BaseActivity(), RepoContract.View {
         }
     }
 
-    override fun setRepoInfoData(repoInfoResponse: RepoInfoResponse) {
+    override fun showRepoInfoData(repoInfoResponse: RepoInfoResponse) {
         with(repoInfoResponse) {
             repoProfileTitle.text = fullName
             repoProfileStars.text =
@@ -66,10 +67,6 @@ class RepoActivity : BaseActivity(), RepoContract.View {
             repoUrl = intent.getStringExtra(URL_REPO_DATA)!!
             userUrl = intent.getStringExtra(URL_USER_DATA)!!
         }
-    }
-
-    override fun setPresenter() {
-        repoPresenter = RepoPresenter(repoRepository, this)
     }
 
     override fun makeToast(resId: Int) = showToast(resId)
@@ -94,7 +91,4 @@ class RepoActivity : BaseActivity(), RepoContract.View {
         return super.onOptionsItemSelected(item)
     }
 
-    companion object {
-        private const val TAG = "RepoActivity"
-    }
 }
