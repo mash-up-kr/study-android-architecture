@@ -7,11 +7,14 @@ import android.view.MenuItem
 import androidx.appcompat.widget.SearchView
 import androidx.recyclerview.widget.DiffUtil
 import com.namget.myarchitecture.R
+import com.namget.myarchitecture.data.repository.RepoRepository
+import com.namget.myarchitecture.data.repository.RepoRepositoryImpl
 import com.namget.myarchitecture.data.response.RepoListResponse
 import com.namget.myarchitecture.ext.hideKeyboard
 import com.namget.myarchitecture.ext.setVisible
 import com.namget.myarchitecture.ext.showToast
 import com.namget.myarchitecture.ui.base.BaseActivity
+import com.namget.myarchitecture.ui.base.RepoRepositoryInf
 import com.namget.myarchitecture.ui.repo.RepoActivity
 import com.namget.myarchitecture.util.URL_REPO_DATA
 import com.namget.myarchitecture.util.URL_USER_DATA
@@ -29,12 +32,16 @@ import kotlinx.android.synthetic.main.activity_search.*
  *  Companion object
  */
 
-class SearchActivity : BaseActivity<SearchPresenter>(), SearchContract.View {
+class SearchActivity : BaseActivity<SearchPresenter>(), SearchContract.View , RepoRepositoryInf{
     private lateinit var menuSearch: MenuItem
     private lateinit var searchView: SearchView
     override val presenter: SearchPresenter by lazy {
         SearchPresenter(repoRepository, this)
     }
+    override val repoRepository: RepoRepository by lazy {
+        RepoRepositoryImpl
+    }
+
     private val diffUtilCallback =
         object : DiffUtil.ItemCallback<RepoListResponse.RepoItem>() {
             override fun areItemsTheSame(

@@ -6,19 +6,25 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.namget.myarchitecture.R
+import com.namget.myarchitecture.data.repository.RepoRepository
+import com.namget.myarchitecture.data.repository.RepoRepositoryImpl
 import com.namget.myarchitecture.data.source.local.entity.RepoItemEntity
 import com.namget.myarchitecture.ext.setVisible
 import com.namget.myarchitecture.ext.showToast
 import com.namget.myarchitecture.ui.base.BaseActivity
+import com.namget.myarchitecture.ui.base.RepoRepositoryInf
 import com.namget.myarchitecture.ui.search.SearchActivity
 import kotlinx.android.synthetic.main.activity_main.*
 
-class MainActivity : BaseActivity<MainPresenter>(), MainContract.View {
+class MainActivity : BaseActivity<MainPresenter>(), MainContract.View , RepoRepositoryInf {
     private lateinit var recyclerView: RecyclerView
     private lateinit var mainAdapter: MainAdapter
     private val repoList: MutableList<RepoItemEntity> = arrayListOf()
     override val presenter: MainPresenter by lazy {
         MainPresenter(repoRepository, this)
+    }
+    override val repoRepository: RepoRepository by lazy {
+        RepoRepositoryImpl
     }
 
 

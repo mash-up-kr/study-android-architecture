@@ -4,12 +4,15 @@ import android.os.Bundle
 import android.view.MenuItem
 import coil.api.load
 import com.namget.myarchitecture.R
+import com.namget.myarchitecture.data.repository.RepoRepository
+import com.namget.myarchitecture.data.repository.RepoRepositoryImpl
 import com.namget.myarchitecture.data.response.RepoInfoResponse
 import com.namget.myarchitecture.data.response.UserInfoResponse
 import com.namget.myarchitecture.ext.dateToNumberFormat
 import com.namget.myarchitecture.ext.setVisible
 import com.namget.myarchitecture.ext.showToast
 import com.namget.myarchitecture.ui.base.BaseActivity
+import com.namget.myarchitecture.ui.base.RepoRepositoryInf
 import com.namget.myarchitecture.util.URL_REPO_DATA
 import com.namget.myarchitecture.util.URL_USER_DATA
 import kotlinx.android.synthetic.main.activity_repo.*
@@ -17,11 +20,15 @@ import kotlinx.android.synthetic.main.activity_repo.*
 /**
  * Created by Namget on 2019.10.22.
  */
-class RepoActivity : BaseActivity<RepoPresenter>(), RepoContract.View {
+class RepoActivity : BaseActivity<RepoPresenter>(), RepoContract.View, RepoRepositoryInf {
     private lateinit var repoUrl: String
     private lateinit var userUrl: String
     override val presenter: RepoPresenter by lazy {
         RepoPresenter(repoRepository, this)
+    }
+
+    override val repoRepository: RepoRepository by lazy {
+        RepoRepositoryImpl
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -37,7 +44,7 @@ class RepoActivity : BaseActivity<RepoPresenter>(), RepoContract.View {
 
     override fun requestUserData() {
         if (::userUrl.isInitialized && ::repoUrl.isInitialized) {
-            presenter.requestUserData(userUrl,repoUrl)
+            presenter.requestUserData(userUrl, repoUrl)
         }
     }
 
