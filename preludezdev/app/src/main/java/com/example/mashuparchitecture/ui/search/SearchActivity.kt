@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.KeyEvent
 import android.view.View
 import android.view.inputmethod.InputMethodManager
+import androidx.annotation.StringRes
 import com.example.mashuparchitecture.R
 import com.example.mashuparchitecture.base.BaseActivity
 import com.example.mashuparchitecture.data.source.Repository
@@ -85,8 +86,8 @@ class SearchActivity : BaseActivity<ActivitySearchBinding>(R.layout.activity_sea
         }
     }
 
-    override fun showToastMessageFromView(msg: String) {
-        showToastMessage(msg)
+    override fun showToastMessageFromView(@StringRes resId: Int) {
+        showToastMessage(resId)
     }
 
     private fun hideKeyBoard() {

@@ -1,5 +1,6 @@
 package com.example.mashuparchitecture.ui.search
 
+import com.example.mashuparchitecture.R
 import com.example.mashuparchitecture.data.source.Repository
 import com.example.mashuparchitecture.data.source.vo.GithubRepoEntity
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -17,7 +18,7 @@ class SearchPresenter(
 
     override fun searchQuery(query: String?) {
         if (query.isNullOrEmpty()) {
-            searchView.showToastMessageFromView("검색어를 입력해주세요.")
+            searchView.showToastMessageFromView(R.string.query_is_null_or_empty)
             return
         }
 
@@ -38,7 +39,7 @@ class SearchPresenter(
 
                     searchView.hideProgressBar()
                 }, {
-                    searchView.showToastMessageFromView("네트워크 통신에 실패했습니다.")
+                    searchView.showToastMessageFromView(R.string.network_error)
                     searchView.hideProgressBar()
                 })
         )
@@ -50,7 +51,7 @@ class SearchPresenter(
                 .insertRepo(repo)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({}, { searchView.showToastMessageFromView("로컬 데이터 삽입에 실패했습니다.") }
+                .subscribe({}, { searchView.showToastMessageFromView(R.string.db_error) }
                 )
         )
     }

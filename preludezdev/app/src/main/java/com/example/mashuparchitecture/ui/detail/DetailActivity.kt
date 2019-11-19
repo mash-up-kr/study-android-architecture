@@ -2,6 +2,7 @@ package com.example.mashuparchitecture.ui.detail
 
 import android.os.Bundle
 import android.view.View
+import androidx.annotation.StringRes
 import com.example.mashuparchitecture.R
 import com.example.mashuparchitecture.base.BaseActivity
 import com.example.mashuparchitecture.data.source.Repository
@@ -50,8 +51,8 @@ class DetailActivity : BaseActivity<ActivityDetailBinding>(R.layout.activity_det
         }
     }
 
-    override fun showToastMessageFromView(msg: String) {
-        showToastMessage(msg)
+    override fun showToastMessageFromView(@StringRes resId: Int) {
+        showToastMessage(resId)
     }
 
     override fun onDestroy() {

@@ -1,5 +1,6 @@
 package com.example.mashuparchitecture.ui.detail
 
+import com.example.mashuparchitecture.R
 import com.example.mashuparchitecture.data.source.Repository
 import com.example.mashuparchitecture.data.source.vo.GithubRepoEntity
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -18,7 +19,7 @@ class DetailPresenter(
 
         val query = repo.owner.login
         if (query.isNullOrEmpty()) {
-            detailView.showToastMessageFromView("유저 정보가 없습니다.")
+            detailView.showToastMessageFromView(R.string.query_is_null_or_empty)
             return
         }
 
@@ -31,7 +32,7 @@ class DetailPresenter(
                     detailView.showDetailRepo(detailRepo)
                     detailView.hideProgressBar()
                 }, {
-                    detailView.showToastMessageFromView("네트워크 통신에 실패했습니다.")
+                    detailView.showToastMessageFromView(R.string.network_error)
                     detailView.hideProgressBar()
                 })
         )
