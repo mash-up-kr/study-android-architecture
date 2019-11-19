@@ -1,4 +1,4 @@
-package com.tistory.mashuparchitecture.di
+package com.tistory.blackjin.data.di
 
 import androidx.room.Database
 import androidx.room.Room
