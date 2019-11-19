@@ -7,28 +7,49 @@ import android.view.View
 import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
+import com.tistory.blackjin.domain.interactor.usecases.AddRepoHistoryUsecase
 import com.tistory.blackjin.domain.interactor.usecases.GetReposUsecase
 import com.tistory.mashuparchitecture.R
-import com.tistory.mashuparchitecture.model.mapToPresentation
-import io.reactivex.disposables.CompositeDisposable
+import com.tistory.mashuparchitecture.util.ResourcesProvider
+import com.tistory.mashuparchitecture.model.RepoItem
+import com.tistory.mashuparchitecture.model.mapToHistoryDomain
+import com.tistory.mashuparchitecture.presentation.repo.RepositoryActivity
 import kotlinx.android.synthetic.main.activity_search.*
 import org.koin.android.ext.android.inject
 
-class SearchActivity : AppCompatActivity() {
-
-    private val compositeDisposable = CompositeDisposable()
+class SearchActivity : AppCompatActivity(), SearchContract.View {
 
     private lateinit var menuSearch: MenuItem
 
     private lateinit var searchView: SearchView
 
-    private val searchAdapter by lazy { SearchAdapter() }
+    override lateinit var presenter: SearchContract.Presenter
 
     private val getRepoUsecase: GetReposUsecase by inject()
+
+    private val addRepoUsecase: AddRepoHistoryUsecase by inject()
+
+    private val resourceProvider: ResourcesProvider by inject()
+
+    private val searchAdapter by lazy { SearchAdapter(itemListener) }
+
+    private val itemListener: (item: RepoItem) -> Unit =
+        { item ->
+
+            addRepoUsecase.get(item.mapToHistoryDomain())
+
+            RepositoryActivity.startRepositoryActivity(
+                this,
+                item.owner.ownerName,
+                item.repoName
+            )
+        }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search)
+
+        presenter = SearchPresenter(this, getRepoUsecase, resourceProvider)
 
         initRecyclerView()
     }
@@ -44,10 +65,7 @@ class SearchActivity : AppCompatActivity() {
         searchView = (menuSearch.actionView as SearchView).apply {
             setOnQueryTextListener(object : SearchView.OnQueryTextListener {
                 override fun onQueryTextSubmit(query: String): Boolean {
-                    updateTitle(query)
-                    hideSoftKeyboard()
-                    collapseSearchView()
-                    searchRepository(query)
+                    presenter.searchRepository(query)
                     return true
                 }
 
@@ -70,74 +88,40 @@ class SearchActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
-    override fun onStop() {
-        compositeDisposable.clear()
-        super.onStop()
+    override fun showTopTitle(title: String) {
+        supportActionBar?.run { subtitle = title }
     }
 
-    private fun searchRepository(query: String) {
-
-        getRepoUsecase.get(query)
-            .map { it.mapToPresentation(resources) }
-            .doOnSubscribe {
-                clearResults()
-                hideError()
-                showProgress()
-            }
-            .doOnSuccess {
-                hideProgress()
-            }
-            .doOnError {
-                hideProgress()
-            }
-            .subscribe({
-                searchAdapter.setItems(it)
-
-                if (it.isEmpty()) {
-                    showError(getString(R.string.no_search_result))
-                }
-
-            }) {
-                showError(it.message)
-            }.also {
-                compositeDisposable.add(it)
-            }
+    override fun showCollapseSearchView() {
+        menuSearch.collapseActionView()
     }
 
-    private fun updateTitle(query: String) {
-        supportActionBar?.run { subtitle = query }
+    override fun showRepos(items: List<RepoItem>) {
+        searchAdapter.setItems(items)
     }
 
-    private fun hideSoftKeyboard() {
+    override fun hideSoftKeyboard() {
         (getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager).run {
             hideSoftInputFromWindow(searchView.windowToken, 0)
         }
     }
 
-    private fun collapseSearchView() {
-        menuSearch.collapseActionView()
-    }
-
-    private fun clearResults() {
-        searchAdapter.clearItems()
-    }
-
-    private fun showProgress() {
+    override fun showProgress() {
         pbActivitySearch.visibility = View.VISIBLE
     }
 
-    private fun hideProgress() {
+    override fun hideProgress() {
         pbActivitySearch.visibility = View.GONE
     }
 
-    private fun showError(message: String?) {
+    override fun showError(message: String?) {
         with(tvActivitySearchMessage) {
             text = message ?: "Unexpected error."
             visibility = View.VISIBLE
         }
     }
 
-    private fun hideError() {
+    override fun hideError() {
         with(tvActivitySearchMessage) {
             text = ""
             visibility = View.GONE

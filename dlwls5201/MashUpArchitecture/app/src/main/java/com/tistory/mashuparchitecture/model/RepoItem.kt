@@ -1,9 +1,9 @@
 package com.tistory.mashuparchitecture.model
 
-import android.content.res.Resources
-import android.text.TextUtils
 import com.tistory.blackjin.domain.entity.RepoEntity
+import com.tistory.blackjin.domain.entity.RepoHistoryEntity
 import com.tistory.mashuparchitecture.R
+import com.tistory.mashuparchitecture.util.ResourcesProvider
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -22,10 +22,18 @@ data class RepoItem(
     )
 }
 
-fun List<RepoEntity>.mapToPresentation(resources: Resources): List<RepoItem> =
+fun RepoItem.mapToHistoryDomain() =
+    RepoHistoryEntity(
+        repoName = repoName,
+        ownerName = owner.ownerName,
+        language = language,
+        profileUrl = owner.ownerUrl
+    )
+
+fun List<RepoEntity>.mapToPresentation(resources: ResourcesProvider): List<RepoItem> =
     map { it.mapToPresentation(resources) }
 
-fun RepoEntity.mapToPresentation(resources: Resources) = let {
+fun RepoEntity.mapToPresentation(resources: ResourcesProvider) = let {
 
     val dateFormatToShow = SimpleDateFormat(
         "yyyy-MM-dd HH:mm:ss", Locale.getDefault()
@@ -36,12 +44,12 @@ fun RepoEntity.mapToPresentation(resources: Resources) = let {
         repoName = it.repoName,
         owner = it.owner.mapToPresentation(),
 
-        description = if (TextUtils.isEmpty(it.description))
+        description = if (it.description.isNullOrEmpty())
             resources.getString(R.string.no_description_provided)
         else
             it.description,
 
-        language = if (TextUtils.isEmpty(it.language))
+        language = if (it.language.isNullOrEmpty())
             resources.getString(R.string.no_language_specified)
         else
             it.language,
@@ -52,7 +60,7 @@ fun RepoEntity.mapToPresentation(resources: Resources) = let {
             resources.getString(R.string.unknown)
         },
 
-        stars = resources.getQuantityString(R.plurals.star, it.stars, it.stars)
+        stars = resources.getQuantityString(R.plurals.star, it.stars, it.stars) ?: "0"
     )
 }
 
@@ -61,3 +69,21 @@ fun RepoEntity.OwnerEntity.mapToPresentation() =
         ownerName = ownerName,
         ownerUrl = ownerUrl
     )
+
+fun RepoHistoryEntity.mapToPresentation(resources: ResourcesProvider) = let {
+    RepoItem(
+        title = it.ownerName + "/" + it.repoName,
+        repoName = it.repoName,
+        description = "",
+
+        owner = RepoItem.OwnerItem(it.ownerName, it.profileUrl),
+
+        language = if (it.language.isNullOrEmpty())
+            resources.getString(R.string.no_language_specified)
+        else
+            it.language,
+
+        updatedAt = resources.getString(R.string.unknown),
+        stars = "0"
+    )
+}
