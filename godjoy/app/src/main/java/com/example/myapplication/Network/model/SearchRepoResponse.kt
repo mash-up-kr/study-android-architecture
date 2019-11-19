@@ -1,6 +1,5 @@
-package com.example.myapplication.Network.Get
+package com.example.myapplication.network.model
 
-import com.example.myapplication.Data.SearchRepo
 import com.google.gson.annotations.SerializedName
 
 class SearchRepoResponse (

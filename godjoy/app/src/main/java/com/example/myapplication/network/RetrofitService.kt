@@ -1,7 +1,7 @@
-package com.example.myapplication.Network
+package com.example.myapplication.network
 
-import com.example.myapplication.Network.model.SearchRepo
-import com.example.myapplication.Network.model.SearchRepoResponse
+import com.example.myapplication.network.model.SearchRepo
+import com.example.myapplication.network.model.SearchRepoResponse
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Path

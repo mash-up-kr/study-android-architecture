@@ -1,7 +1,6 @@
-package com.example.myapplication.Data
+package com.example.myapplication.network.model
 
 import com.google.gson.annotations.SerializedName
-import java.util.*
 
 data class SearchRepo(
     val name : String,
