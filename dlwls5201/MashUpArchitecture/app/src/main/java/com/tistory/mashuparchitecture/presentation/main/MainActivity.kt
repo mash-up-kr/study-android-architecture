@@ -92,8 +92,7 @@ class MainActivity : AppCompatActivity(), MainContract.View {
     }
 
     override fun showClearRepoHistory() {
-        val empty = Collections.emptyList<RepoItem>()
-        searchAdapter.setItems(empty)
+        searchAdapter.setItems(emptyList())
     }
 
     override fun showEmptyMessage() {
