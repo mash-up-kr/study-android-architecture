@@ -16,6 +16,8 @@ class SearchPresenter(
 ) : BasePresent(), SearchContract.Presenter {
 
     override fun requestRepoList(query: String) {
+        searchView.hideKeyboard()
+        searchView.showDialog()
         disposable += repoRepository.getRepositoryList(query)
             .subscribe({
                 searchView.submitList(it.items)
@@ -25,6 +27,7 @@ class SearchPresenter(
                 searchView.hideDialog()
             })
     }
+
     override fun insertRepoData(repoItem: RepoListResponse.RepoItem) {
         disposable += repoRepository.insertRepoData(repoItem.toRepoEntity())
             .subscribe {

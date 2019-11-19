@@ -10,7 +10,7 @@ import com.namget.myarchitecture.ui.base.BaseView
 interface SearchContract {
     interface View : BaseView<Presenter> {
         fun submitList(list: List<RepoListResponse.RepoItem>?)
-
+        fun hideKeyboard()
     }
 
     interface Presenter : BasePresenter {

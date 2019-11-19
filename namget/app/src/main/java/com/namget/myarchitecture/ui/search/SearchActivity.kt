@@ -10,7 +10,6 @@ import com.namget.myarchitecture.R
 import com.namget.myarchitecture.data.repository.RepoRepository
 import com.namget.myarchitecture.data.repository.RepoRepositoryImpl
 import com.namget.myarchitecture.data.response.RepoListResponse
-import com.namget.myarchitecture.ext.hideKeyboard
 import com.namget.myarchitecture.ext.setVisible
 import com.namget.myarchitecture.ext.showToast
 import com.namget.myarchitecture.ui.base.BaseActivity
@@ -102,6 +101,9 @@ class SearchActivity : BaseActivity<SearchPresenter>(), SearchContract.View , Re
         searchRecylcerView.setVisible(true)
     }
 
+    override fun hideKeyboard() {
+        hideKeyboard()
+    }
 
     override fun submitList(list: List<RepoListResponse.RepoItem>?) = searchAdapter.submitList(list)
     override fun makeToast(resId: Int) = showToast(resId)
@@ -120,8 +122,6 @@ class SearchActivity : BaseActivity<SearchPresenter>(), SearchContract.View , Re
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 if (!query.isNullOrEmpty()) {
-                    hideKeyboard()
-                    showDialog()
                     presenter.requestRepoList(query)
                 }
                 return true
