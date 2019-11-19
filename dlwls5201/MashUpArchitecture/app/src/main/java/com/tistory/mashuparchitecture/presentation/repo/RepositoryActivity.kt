@@ -6,10 +6,9 @@ import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
-import com.tistory.blackjin.domain.error.ErrorEntity
 import com.tistory.blackjin.domain.interactor.usecases.GetRepoUsecase
 import com.tistory.mashuparchitecture.R
-import com.tistory.mashuparchitecture.di.ResourcesProvider
+import com.tistory.mashuparchitecture.util.ResourcesProvider
 import com.tistory.mashuparchitecture.model.RepoItem
 import com.tistory.mashuparchitecture.model.UserItem
 import kotlinx.android.synthetic.main.activity_repository.*

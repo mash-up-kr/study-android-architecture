@@ -1,10 +1,8 @@
 package com.tistory.mashuparchitecture
 
 import com.tistory.blackjin.domain.entity.RepoEntity
-import com.tistory.blackjin.domain.entity.UserEntity
-import com.tistory.blackjin.domain.error.ErrorEntity
 import com.tistory.blackjin.domain.interactor.usecases.GetReposUsecase
-import com.tistory.mashuparchitecture.di.ResourcesProvider
+import com.tistory.mashuparchitecture.util.ResourcesProvider
 import com.tistory.mashuparchitecture.model.RepoItem
 import com.tistory.mashuparchitecture.model.mapToPresentation
 import com.tistory.mashuparchitecture.presentation.search.SearchContract

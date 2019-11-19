@@ -3,7 +3,7 @@ package com.tistory.mashuparchitecture.model
 import com.tistory.blackjin.domain.entity.RepoEntity
 import com.tistory.blackjin.domain.entity.RepoHistoryEntity
 import com.tistory.mashuparchitecture.R
-import com.tistory.mashuparchitecture.di.ResourcesProvider
+import com.tistory.mashuparchitecture.util.ResourcesProvider
 import java.text.SimpleDateFormat
 import java.util.*
 

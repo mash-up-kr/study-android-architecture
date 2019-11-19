@@ -1,4 +1,4 @@
-package com.tistory.mashuparchitecture.di
+package com.tistory.mashuparchitecture.util
 
 import androidx.annotation.PluralsRes
 import androidx.annotation.StringRes

@@ -3,7 +3,7 @@ package com.tistory.mashuparchitecture.presentation.main
 import com.tistory.blackjin.domain.interactor.usecases.ClearRepoHistoryUsecase
 import com.tistory.blackjin.domain.interactor.usecases.GetRepoHistoryUsecase
 import com.tistory.mashuparchitecture.R
-import com.tistory.mashuparchitecture.di.ResourcesProvider
+import com.tistory.mashuparchitecture.util.ResourcesProvider
 import com.tistory.mashuparchitecture.model.mapToPresentation
 import io.reactivex.disposables.CompositeDisposable
 

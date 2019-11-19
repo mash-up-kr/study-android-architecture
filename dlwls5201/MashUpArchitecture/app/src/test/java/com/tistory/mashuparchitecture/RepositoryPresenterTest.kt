@@ -4,7 +4,7 @@ import com.tistory.blackjin.domain.entity.RepoEntity
 import com.tistory.blackjin.domain.entity.UserEntity
 import com.tistory.blackjin.domain.error.ErrorEntity
 import com.tistory.blackjin.domain.interactor.usecases.GetRepoUsecase
-import com.tistory.mashuparchitecture.di.ResourcesProvider
+import com.tistory.mashuparchitecture.util.ResourcesProvider
 import com.tistory.mashuparchitecture.model.mapToPresentation
 import com.tistory.mashuparchitecture.presentation.repo.RepositoryContract
 import com.tistory.mashuparchitecture.presentation.repo.RepositoryPresenter

@@ -7,11 +7,10 @@ import android.view.View
 import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
-import com.tistory.blackjin.domain.entity.RepoHistoryEntity
 import com.tistory.blackjin.domain.interactor.usecases.AddRepoHistoryUsecase
 import com.tistory.blackjin.domain.interactor.usecases.GetReposUsecase
 import com.tistory.mashuparchitecture.R
-import com.tistory.mashuparchitecture.di.ResourcesProvider
+import com.tistory.mashuparchitecture.util.ResourcesProvider
 import com.tistory.mashuparchitecture.model.RepoItem
 import com.tistory.mashuparchitecture.model.mapToHistoryDomain
 import com.tistory.mashuparchitecture.presentation.repo.RepositoryActivity

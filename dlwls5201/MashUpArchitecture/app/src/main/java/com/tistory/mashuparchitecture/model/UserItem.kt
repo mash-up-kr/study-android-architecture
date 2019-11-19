@@ -2,7 +2,7 @@ package com.tistory.mashuparchitecture.model
 
 import com.tistory.blackjin.domain.entity.UserEntity
 import com.tistory.mashuparchitecture.R
-import com.tistory.mashuparchitecture.di.ResourcesProvider
+import com.tistory.mashuparchitecture.util.ResourcesProvider
 
 data class UserItem(
     val name: String,

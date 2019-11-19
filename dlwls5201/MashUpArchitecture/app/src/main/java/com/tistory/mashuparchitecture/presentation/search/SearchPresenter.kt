@@ -3,7 +3,7 @@ package com.tistory.mashuparchitecture.presentation.search
 import com.tistory.blackjin.domain.error.ErrorEntity
 import com.tistory.blackjin.domain.interactor.usecases.GetReposUsecase
 import com.tistory.mashuparchitecture.R
-import com.tistory.mashuparchitecture.di.ResourcesProvider
+import com.tistory.mashuparchitecture.util.ResourcesProvider
 import com.tistory.mashuparchitecture.model.mapToPresentation
 import io.reactivex.disposables.CompositeDisposable
 

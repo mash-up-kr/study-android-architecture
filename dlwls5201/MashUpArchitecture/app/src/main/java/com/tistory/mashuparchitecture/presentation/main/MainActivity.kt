@@ -6,7 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.tistory.blackjin.domain.interactor.usecases.ClearRepoHistoryUsecase
 import com.tistory.blackjin.domain.interactor.usecases.GetRepoHistoryUsecase
 import com.tistory.mashuparchitecture.R
-import com.tistory.mashuparchitecture.di.ResourcesProvider
+import com.tistory.mashuparchitecture.util.ResourcesProvider
 import com.tistory.mashuparchitecture.model.RepoItem
 import com.tistory.mashuparchitecture.presentation.repo.RepositoryActivity
 import com.tistory.mashuparchitecture.presentation.search.SearchActivity
@@ -16,7 +16,6 @@ import org.jetbrains.anko.alert
 import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.toast
 import org.koin.android.ext.android.inject
-import java.util.*
 
 class MainActivity : AppCompatActivity(), MainContract.View {
 
