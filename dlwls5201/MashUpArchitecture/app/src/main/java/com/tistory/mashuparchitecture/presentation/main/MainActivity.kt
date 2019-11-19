@@ -71,12 +71,12 @@ class MainActivity : AppCompatActivity(), MainContract.View {
         }
 
         btnActivityMainClear.setOnClickListener {
-            alert(message = "데이터를 모두 지웁니다.") {
-                positiveButton("확인") {
+            alert(message = getString(R.string.delete_all_data)) {
+                positiveButton(R.string.ok) {
                     presenter.clearAll()
                 }
 
-                negativeButton("취소") {
+                negativeButton(R.string.cancel) {
 
                 }
             }.show()

@@ -16,6 +16,10 @@
     <string name="follower">follower</string>
     <string name="following">following</string>
 
+    <string name="delete_all_data">데이터를 모두 지웁니다.</string>
+    <string name="ok">확인</string>
+    <string name="cancel">취소</string>
+
     <string name="rate_limit_error">1시간 동안 60번의 검색을 실행했습니다.\n1시간 후에 다시 시도해 주세요..</string>
     <string name="network_error">네트워크 연결을 확인해 주세요.</string>
     <string name="unexpected_error">예상하지 못한 에러 입니다.</string>
