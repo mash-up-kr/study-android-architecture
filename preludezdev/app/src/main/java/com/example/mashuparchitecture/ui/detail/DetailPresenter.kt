@@ -12,14 +12,11 @@ class DetailPresenter(
 ) : DetailContract.Presenter {
 
     private val compositeDisposable = CompositeDisposable()
-    lateinit var currRepo : GithubRepoEntity
 
-    override fun loadData(repo : GithubRepoEntity) {
-        currRepo = repo
+    override fun loadData(repo: GithubRepoEntity) {
         detailView.showProgressBar()
 
-        val query = currRepo.owner.login
-
+        val query = repo.owner.login
         if (query.isNullOrEmpty()) {
             detailView.showToastMessageFromView("유저 정보가 없습니다.")
             return
@@ -27,14 +24,11 @@ class DetailPresenter(
 
         compositeDisposable.add(
             repository
-                .getUserData(query)
+                .getDetailRepo(repo)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({ userData ->
-                    if (userData != null) {
-                        detailView.showDetailRepo(currRepo.convertItemIntoDetailRepoVo(userData))
-                    }
-
+                .subscribe({ detailRepo ->
+                    detailView.showDetailRepo(detailRepo)
                     detailView.hideProgressBar()
                 }, {
                     detailView.showToastMessageFromView("네트워크 통신에 실패했습니다.")
