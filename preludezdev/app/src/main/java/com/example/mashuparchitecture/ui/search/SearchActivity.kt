@@ -39,7 +39,7 @@ class SearchActivity : BaseActivity<ActivitySearchBinding>(R.layout.activity_sea
 
         startActivity(
             Intent(this, DetailActivity::class.java).apply {
-                putExtra("item", clickedRepo)
+                putExtra(ITEM_KEY, clickedRepo)
             })
     }
 
@@ -98,4 +98,9 @@ class SearchActivity : BaseActivity<ActivitySearchBinding>(R.layout.activity_sea
         super.onDestroy()
         searchPresenter.dispose()
     }
+
+    companion object {
+        const val ITEM_KEY = "repo"
+    }
+
 }

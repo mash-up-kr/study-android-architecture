@@ -8,6 +8,7 @@ import com.example.mashuparchitecture.data.source.Repository
 import com.example.mashuparchitecture.data.source.vo.GithubDetailRepoVo
 import com.example.mashuparchitecture.data.source.vo.GithubRepoEntity
 import com.example.mashuparchitecture.databinding.ActivityDetailBinding
+import com.example.mashuparchitecture.ui.search.SearchActivity.Companion.ITEM_KEY
 import org.koin.android.ext.android.inject
 
 class DetailActivity : BaseActivity<ActivityDetailBinding>(R.layout.activity_detail),
@@ -28,7 +29,7 @@ class DetailActivity : BaseActivity<ActivityDetailBinding>(R.layout.activity_det
     }
 
     private fun loadData() {
-        detailPresenter.loadData(intent.getParcelableExtra("item") as GithubRepoEntity)
+        detailPresenter.loadData(intent.getParcelableExtra(ITEM_KEY) as GithubRepoEntity)
     }
 
     override fun showDetailRepo(repo: GithubDetailRepoVo) {
