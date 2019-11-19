@@ -11,23 +11,23 @@ data class UserItem(
     val following: String
 )
 
-fun UserEntity.mapToPresentation(resources: ResourcesProvider) = let {
+fun UserEntity.mapToPresentation(resources: ResourcesProvider) = run {
     UserItem(
-        name = if (it.name.isNullOrEmpty())
+        name = if (name.isNullOrEmpty())
             resources.getString(R.string.unknown)
         else
-            it.name!!,
+            name!!,
 
-        profileUrl = it.profileUrl,
+        profileUrl = profileUrl,
 
-        followers = if (it.followers > 999)
+        followers = if (followers > 999)
             "999+"
         else
-            it.followers.toString()
+            followers.toString()
         ,
-        following = if (it.following > 999)
+        following = if (following > 999)
             "999+"
         else
-            it.following.toString()
+            following.toString()
     )
 }
