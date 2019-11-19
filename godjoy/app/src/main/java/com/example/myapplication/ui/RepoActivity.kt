@@ -5,8 +5,8 @@ import android.os.Bundle
 import android.view.View
 import android.widget.TextView
 import com.bumptech.glide.Glide
-import com.example.myapplication.Network.model.SearchRepo
-import com.example.myapplication.Network.SearchRetrofit
+import com.example.myapplication.network.model.SearchRepo
+import com.example.myapplication.network.SearchRetrofit
 import com.example.myapplication.R
 import kotlinx.android.synthetic.main.activity_repo.*
 import retrofit2.Call
@@ -36,10 +36,10 @@ class RepoActivity : AppCompatActivity(), NetworkException {
                 if(response.isSuccessful){
                     hideProgress(pbActivityRepo)
 
-                    response.body().let {
+                    response.body()?.let {
                         Glide
                             .with(this@RepoActivity)
-                            .load(it!!.owner.userImg).centerCrop()
+                            .load(it.owner.userImg).centerCrop()
                             .into(ivRepoActivity)
 
                         tvNameRepoActivity.text = it.owner.userName + "/"

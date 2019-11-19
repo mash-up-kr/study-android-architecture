@@ -1,31 +1,25 @@
-package com.example.myapplication.UI
+package com.example.myapplication.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
 import android.widget.SearchView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.myapplication.Data.SearchRepo
-import com.example.myapplication.Network.ApiController
-import com.example.myapplication.Network.Get.SearchRepoResponse
-import com.example.myapplication.Network.NetworkService
+import com.example.myapplication.network.model.SearchRepo
+import com.example.myapplication.network.model.SearchRepoResponse
+import com.example.myapplication.network.SearchRetrofit
 import com.example.myapplication.R
 import kotlinx.android.synthetic.main.activity_search.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class SearchActivity : AppCompatActivity() {
+class SearchActivity : AppCompatActivity(), NetworkException {
     lateinit var searchItem : MenuItem
     lateinit var searchView : SearchView
 
-    val networkService : NetworkService by lazy {
-        ApiController.instance.networkService
-    }
     lateinit var searchRecyclerviewAdapter : SearchRecyclerviewAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -42,9 +36,9 @@ class SearchActivity : AppCompatActivity() {
         searchView.queryHint = "Search.."
 
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
-            override fun onQueryTextSubmit(query: String?): Boolean {
+            override fun onQueryTextSubmit(query: String): Boolean {
                 configRecyclerView()
-                getSearchRepoResponse(query!!)
+                getSearchRepoResponse(query)
                 return false
             }
 
@@ -56,27 +50,31 @@ class SearchActivity : AppCompatActivity() {
     }
 
     fun getSearchRepoResponse(query : String){
-        hideError()
-        showProgress()
+        hideError(tvNoResultActivitySearch)
+        showProgress(pbActivitySearch)
 
-        val getSearchRepoResponse = networkService.getSearchRepoResponse(query)
+        val getSearchRepoResponse = SearchRetrofit.getService().getSearchRepoResponse(query)
 
         getSearchRepoResponse.enqueue(object : Callback<SearchRepoResponse>{
             override fun onFailure(call: Call<SearchRepoResponse>, t: Throwable) {
-                showError()
+                showError(tvNoResultActivitySearch)
             }
 
             override fun onResponse(call: Call<SearchRepoResponse>, response: Response<SearchRepoResponse>) {
-                hideProgress()
+                hideProgress(pbActivitySearch)
                 if(response.isSuccessful){
-                    response.body()!!.items.let {
-                        hideError()
-                        searchRecyclerviewAdapter.datalist = it!!
-                        searchRecyclerviewAdapter.notifyDataSetChanged()
+                    hideError(tvNoResultActivitySearch)
+                    response.body()!!.items?.let {repo->
+                        with(searchRecyclerviewAdapter){
+                            datalist = repo
+                            notifyDataSetChanged()
+                        }
                     }
                     if(response.body()!!.items!!.size == 0){
-                        showError()
+                        showError(tvNoResultActivitySearch)
                     }
+                }else{
+                    showError(tvNoResultActivitySearch)
                 }
             }
         })
@@ -86,24 +84,7 @@ class SearchActivity : AppCompatActivity() {
         val dataList : ArrayList<SearchRepo> = ArrayList()
 
         searchRecyclerviewAdapter = SearchRecyclerviewAdapter(this,dataList)
-        rv_search_list_activity_search.adapter = searchRecyclerviewAdapter
-        rv_search_list_activity_search.layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
-    }
-
-    private fun showProgress() {
-       pb_activity_search.visibility = View.VISIBLE
-    }
-
-    private fun hideProgress() {
-       pb_activity_search.visibility = View.GONE
-    }
-
-    private fun showError(){
-        rv_search_list_activity_search.visibility = View.GONE
-        tv_no_result_activity_search.visibility = View.VISIBLE
-    }
-
-    private fun hideError(){
-        tv_no_result_activity_search.visibility = View.GONE
+        rvSearchListActivitySearch.adapter = searchRecyclerviewAdapter
+        rvSearchListActivitySearch.layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
     }
 }
