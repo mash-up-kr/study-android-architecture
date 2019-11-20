@@ -109,6 +109,7 @@ class MainActivity : AppCompatActivity(){
 
             override fun onFailure(call: Call<List>, t: Throwable) {
                 Log.e("errer","error")
+                hideProgress()
             }
         })
     }

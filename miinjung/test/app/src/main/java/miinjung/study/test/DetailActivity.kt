@@ -40,7 +40,7 @@ class DetailActivity : AppCompatActivity() {
         setContentView(R.layout.activity_detail)
 
         val intent = intent
-        
+
         intent.getStringExtra(KEY_REPO_NAME).let{
             name = it
         }
@@ -86,6 +86,7 @@ class DetailActivity : AppCompatActivity() {
             }
 
             override fun onFailure(call: Call<Item>, t: Throwable) {
+                hideProgress()
                 Log.i("errer","error")
             }
         })
