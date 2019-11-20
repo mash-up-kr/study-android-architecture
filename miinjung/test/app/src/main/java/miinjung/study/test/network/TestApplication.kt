@@ -8,7 +8,6 @@ object TestApplication{
     var api : ServerInterface? = null
     val baseURL =String.format("https://api.github.com")
 
-
     init{
         synchronized(TestApplication::class.java) {
 

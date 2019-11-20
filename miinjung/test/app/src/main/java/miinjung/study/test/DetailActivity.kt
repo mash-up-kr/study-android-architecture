@@ -26,8 +26,8 @@ class DetailActivity : AppCompatActivity() {
 
     private val api by lazy { TestApplication.api }
     private var apiCall:Call<Item>? = null
-    lateinit var name : String
-    lateinit var ownerLogin : String
+    private lateinit var name : String
+    private lateinit var ownerLogin : String
 
     internal val dateFormatInResponse = SimpleDateFormat(
         "yyyy-MM-dd'T'HH:mm:ssX", Locale.getDefault())
