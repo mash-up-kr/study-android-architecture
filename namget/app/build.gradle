@@ -45,13 +45,16 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation"org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
+    //coreKtx
     def coreKtxVersion = "1.0.0"
-    implementation "androidx.core:core-ktx:1.0.0"
+    implementation "androidx.core:core-ktx:$coreKtxVersion"
 
+    //andoridX
     def androidXVersion = "1.1.0"
     implementation "androidx.appcompat:appcompat:$androidXVersion"
     implementation "androidx.core:core-ktx:$androidXVersion"
 
+    //material
     def materialVersion = "1.0.0"
     implementation "com.google.android.material:material:$materialVersion"
 
@@ -77,6 +80,7 @@ dependencies {
     implementation "com.squareup.okhttp3:okhttp:$httpVersion"
     implementation "com.squareup.okhttp3:logging-interceptor:$httpVersion"
 
+    //Room
     def roomVersion = "2.2.1"
     implementation "androidx.room:room-runtime:$roomVersion"
     kapt "androidx.room:room-compiler:$roomVersion"  // necessary for use kotlin
@@ -84,9 +88,12 @@ dependencies {
     // optional - RxJava support for Room
     implementation "androidx.room:room-rxjava2:$roomVersion"
 
+    //coil
     def coilVersion = "0.8.0"
     implementation "io.coil-kt:coil:$coilVersion"
 
+    //core
+    implementation project(':core')
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.0'

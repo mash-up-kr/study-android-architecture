@@ -7,10 +7,13 @@ import android.view.MenuItem
 import androidx.appcompat.widget.SearchView
 import androidx.recyclerview.widget.DiffUtil
 import com.namget.myarchitecture.R
+import com.namget.myarchitecture.data.repository.RepoRepository
+import com.namget.myarchitecture.data.repository.RepoRepositoryImpl
 import com.namget.myarchitecture.data.response.RepoListResponse
-import com.namget.myarchitecture.ext.*
+import com.namget.myarchitecture.ext.setVisible
+import com.namget.myarchitecture.ext.showToast
 import com.namget.myarchitecture.ui.base.BaseActivity
-import com.namget.myarchitecture.ui.base.BaseView
+import com.namget.myarchitecture.ui.base.RepoRepositoryInf
 import com.namget.myarchitecture.ui.repo.RepoActivity
 import com.namget.myarchitecture.util.URL_REPO_DATA
 import com.namget.myarchitecture.util.URL_USER_DATA
@@ -28,11 +31,16 @@ import kotlinx.android.synthetic.main.activity_search.*
  *  Companion object
  */
 
-class SearchActivity : BaseActivity() , BaseView {
-
-
+class SearchActivity : BaseActivity<SearchPresenter>(), SearchContract.View , RepoRepositoryInf{
     private lateinit var menuSearch: MenuItem
     private lateinit var searchView: SearchView
+    override val presenter: SearchPresenter by lazy {
+        SearchPresenter(repoRepository, this)
+    }
+    override val repoRepository: RepoRepository by lazy {
+        RepoRepositoryImpl
+    }
+
     private val diffUtilCallback =
         object : DiffUtil.ItemCallback<RepoListResponse.RepoItem>() {
             override fun areItemsTheSame(
@@ -54,14 +62,13 @@ class SearchActivity : BaseActivity() , BaseView {
 
     private val searchAdapter: SearchAdapter by lazy {
         SearchAdapter(diffUtilCallback) {
-            d(TAG, "selectedItem ${searchAdapter.getAdapterItem(it)}")
-            //db 저장도 해야함
-            insertRepoData(searchAdapter.getAdapterItem(it))
-
+            //db
+            val item = searchAdapter.getAdapterItem(it)
+            presenter.insertRepoData(item)
             //detail
             startRepoActivity(
-                searchAdapter.getAdapterItem(it).fullName,
-                searchAdapter.getAdapterItem(it).owner.login
+                item.fullName,
+                item.owner.login
             )
         }
     }
@@ -94,12 +101,12 @@ class SearchActivity : BaseActivity() , BaseView {
         searchRecylcerView.setVisible(true)
     }
 
-    private fun insertRepoData(repoItem: RepoListResponse.RepoItem) {
-        disposable += repoRepository.insertRepoData(repoItem.toRepoEntity())
-            .subscribe {
-                e(TAG, "inserted")
-            }
+    override fun hideKeyboard() {
+        hideKeyboard()
     }
+
+    override fun submitList(list: List<RepoListResponse.RepoItem>?) = searchAdapter.submitList(list)
+    override fun makeToast(resId: Int) = showToast(resId)
 
     private fun startRepoActivity(fullName: String, userId: String) {
         startActivity(Intent(this, RepoActivity::class.java).apply {
@@ -108,7 +115,6 @@ class SearchActivity : BaseActivity() , BaseView {
         })
     }
 
-
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.menu_search, menu)
         menuSearch = menu.findItem(R.id.menu_search)
@@ -116,9 +122,7 @@ class SearchActivity : BaseActivity() , BaseView {
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 if (!query.isNullOrEmpty()) {
-                    hideKeyboard()
-                    showDialog()
-                    requestRepoList(query)
+                    presenter.requestRepoList(query)
                 }
                 return true
             }
@@ -132,28 +136,11 @@ class SearchActivity : BaseActivity() , BaseView {
         return true
     }
 
-
-    private fun requestRepoList(query: String) {
-        disposable += repoRepository.getRepositoryList(query)
-            .subscribe({
-                searchAdapter.submitList(it.items)
-                hideDialog()
-            }, {
-                e(TAG, "requestRepoList", it)
-                makeToast(getString(R.string.error))
-                hideDialog()
-            })
-    }
-
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == R.id.menu_search) {
             menuSearch.expandActionView()
             return true
         }
         return super.onOptionsItemSelected(item)
-    }
-
-    companion object {
-        private const val TAG = "SearchActivity"
     }
 }

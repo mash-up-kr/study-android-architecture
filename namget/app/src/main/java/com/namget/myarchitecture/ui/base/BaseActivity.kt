@@ -1,22 +1,17 @@
 package com.namget.myarchitecture.ui.base
 
 import androidx.appcompat.app.AppCompatActivity
-import com.namget.myarchitecture.data.repository.RepoRepository
-import com.namget.myarchitecture.data.repository.RepoRepositoryImpl
-import io.reactivex.disposables.CompositeDisposable
 
 /**
  * Created by Namget on 2019.10.23.
  */
-abstract class BaseActivity : AppCompatActivity() {
+abstract class BaseActivity<P : BasePresenter> : AppCompatActivity() {
 
-    open val disposable = CompositeDisposable()
-    protected val repoRepository: RepoRepository by lazy { RepoRepositoryImpl }
+    abstract val presenter : P
 
     override fun onDestroy() {
-        disposable.dispose()
+        presenter.unsubscribe()
         super.onDestroy()
     }
-
 
 }
