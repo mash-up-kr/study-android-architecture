@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import miinjung.study.test.model.Item
 
-class SearchAdapter(val _context: Context) :RecyclerView.Adapter<SearchAdapter.SearchViewHolder>(){
+class SearchAdapter(val _context: Context) :RecyclerView.Adapter<SearchViewHolder>(){
 
     private var dataList : ArrayList<Item> = arrayListOf()
 
@@ -51,11 +51,11 @@ class SearchAdapter(val _context: Context) :RecyclerView.Adapter<SearchAdapter.S
         this.dataList = dataList
     }
 
-    inner class SearchViewHolder(view: View):RecyclerView.ViewHolder(view){
-        var itemBox : LinearLayout = view.findViewById(R.id.itemBox)as LinearLayout
-        var imageSearch : ImageView = view.findViewById(R.id.userImage)as ImageView
-        var textUserName : TextView = view.findViewById(R.id.userName)as TextView
-        var textUserLanguage : TextView = view.findViewById(R.id.userLanguage)as TextView
-    }
+}
 
+class SearchViewHolder(view: View):RecyclerView.ViewHolder(view){
+    var itemBox : LinearLayout = view.findViewById(R.id.itemBox)as LinearLayout
+    var imageSearch : ImageView = view.findViewById(R.id.userImage)as ImageView
+    var textUserName : TextView = view.findViewById(R.id.userName)as TextView
+    var textUserLanguage : TextView = view.findViewById(R.id.userLanguage)as TextView
 }

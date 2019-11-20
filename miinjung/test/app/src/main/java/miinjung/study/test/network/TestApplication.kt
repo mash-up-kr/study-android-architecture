@@ -1,6 +1,5 @@
 package miinjung.study.test.network
 
-import android.app.Application
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
