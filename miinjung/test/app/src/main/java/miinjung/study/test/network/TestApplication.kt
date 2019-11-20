@@ -4,18 +4,13 @@ import android.app.Application
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-class TestApplication :Application() {
 
-    companion object {
-        private var api: ServerInterface? = null
-        private var instance: TestApplication? = null
-        var baseURL =String.format("https://api.github.com")
+object TestApplication{
+    var api : ServerInterface? = null
+    val baseURL =String.format("https://api.github.com")
 
-        fun getInstance() = instance?: TestApplication().apply { instance = this }
-    }
 
-    fun buildServerInterface(): ServerInterface? {
-
+    init{
         synchronized(TestApplication::class.java) {
 
             if (api == null) {
@@ -28,6 +23,5 @@ class TestApplication :Application() {
                 api = retrofit.create(ServerInterface::class.java)
             }
         }
-        return api
     }
 }

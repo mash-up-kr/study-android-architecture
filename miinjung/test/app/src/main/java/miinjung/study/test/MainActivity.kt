@@ -19,7 +19,7 @@ import retrofit2.Response
 
 class MainActivity : AppCompatActivity(){
 
-    var api: ServerInterface? = TestApplication.getInstance().buildServerInterface()
+    var api: ServerInterface? = TestApplication.api
     internal var apiCall:Call<List>? = null
     internal var searchAdapter : SearchAdapter? = null
 

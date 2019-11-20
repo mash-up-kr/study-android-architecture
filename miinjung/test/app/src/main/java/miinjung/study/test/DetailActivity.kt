@@ -24,7 +24,7 @@ class DetailActivity : AppCompatActivity() {
         const val KEY_REPO_NAME = "name"
     }
 
-    private val api by lazy { TestApplication.getInstance().buildServerInterface() }
+    private val api by lazy { TestApplication.api }
     private var apiCall:Call<Item>? = null
     lateinit var name : String
     lateinit var ownerLogin : String
