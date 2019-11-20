@@ -27,11 +27,7 @@ class MainActivity : AppCompatActivity(){
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        searchAdapter = SearchAdapter(this.applicationContext)
-
-        rvSearchList.adapter = this.searchAdapter
-        rvSearchList.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
-
+        initRecycleview()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -136,6 +132,12 @@ class MainActivity : AppCompatActivity(){
     override fun onStop() {
         super.onStop()
         apiCall?.run { cancel() }
+    }
+    private fun initRecycleview(){
+        searchAdapter = SearchAdapter(this.applicationContext)
+
+        rvSearchList.adapter = this.searchAdapter
+        rvSearchList.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
     }
 
 }
