@@ -40,8 +40,13 @@ class DetailActivity : AppCompatActivity() {
         setContentView(R.layout.activity_detail)
 
         val intent = intent
-        name = intent.getStringExtra(KEY_REPO_NAME)
-        ownerLogin = intent.getStringExtra(KEY_USER_LOGIN)
+        
+        intent.getStringExtra(KEY_REPO_NAME).let{
+            name = it
+        }
+        intent.getStringExtra(KEY_USER_LOGIN).let {
+            ownerLogin = it
+        }
 
         searchRepos(name,ownerLogin)
     }
