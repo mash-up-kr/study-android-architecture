@@ -16,14 +16,6 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 class DetailActivity : AppCompatActivity() {
-
-    companion object {
-
-        const val KEY_USER_LOGIN = "ownerLogin"
-
-        const val KEY_REPO_NAME = "name"
-    }
-
     private val api by lazy { TestApplication.api }
     private var apiCall:Call<Item>? = null
     private lateinit var name : String
@@ -105,4 +97,10 @@ class DetailActivity : AppCompatActivity() {
         apiCall?.run { cancel() }
     }
 
+    companion object {
+
+        const val KEY_USER_LOGIN = "ownerLogin"
+
+        const val KEY_REPO_NAME = "name"
+    }g
 }
