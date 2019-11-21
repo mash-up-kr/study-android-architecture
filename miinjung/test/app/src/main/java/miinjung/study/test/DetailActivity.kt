@@ -102,5 +102,5 @@ class DetailActivity : AppCompatActivity() {
         const val KEY_USER_LOGIN = "ownerLogin"
 
         const val KEY_REPO_NAME = "name"
-    }g
+    }
 }
