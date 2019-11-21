@@ -12,14 +12,13 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.activity_main.*
 import miinjung.study.test.model.List
 import miinjung.study.test.network.TestApplication
-import miinjung.study.test.network.ServerInterface
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
 class MainActivity : AppCompatActivity(){
 
-    var api: ServerInterface? = TestApplication.api
+    private val api by lazy { TestApplication.api }
     internal var apiCall:Call<List>? = null
     internal var searchAdapter : SearchAdapter? = null
 
