@@ -33,10 +33,10 @@ class DetailActivity : AppCompatActivity() {
 
         val intent = intent
 
-        intent.getStringExtra(KEY_REPO_NAME).let{
+        intent.getStringExtra(KEY_REPO_NAME)?.let{
             name = it
         }
-        intent.getStringExtra(KEY_USER_LOGIN).let {
+        intent.getStringExtra(KEY_USER_LOGIN)?.let {
             ownerLogin = it
         }
 
