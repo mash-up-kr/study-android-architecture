@@ -53,10 +53,10 @@ class SearchAdapter(val _context: Context) :RecyclerView.Adapter<SearchAdapter.S
 
 
     class SearchViewHolder(view: View):RecyclerView.ViewHolder(view){
-        var itemBox : LinearLayout = view.findViewById(R.id.itemBox)as LinearLayout
-        var imageSearch : ImageView = view.findViewById(R.id.userImage)as ImageView
-        var textUserName : TextView = view.findViewById(R.id.userName)as TextView
-        var textUserLanguage : TextView = view.findViewById(R.id.userLanguage)as TextView
+        val itemBox : LinearLayout = view.findViewById(R.id.itemBox)as LinearLayout
+        val imageSearch : ImageView = view.findViewById(R.id.userImage)as ImageView
+        val textUserName : TextView = view.findViewById(R.id.userName)as TextView
+        val textUserLanguage : TextView = view.findViewById(R.id.userLanguage)as TextView
     }
 }
 
