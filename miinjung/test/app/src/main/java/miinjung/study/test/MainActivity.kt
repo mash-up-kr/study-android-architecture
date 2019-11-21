@@ -97,6 +97,7 @@ class MainActivity : AppCompatActivity(){
                     if(data.totalCount > 0){
                         data.items.let{
                             searchAdapter!!.setItems(it)
+                            searchAdapter!!.setItems(it)
                             searchAdapter!!.notifyDataSetChanged()
                         }
                     }else{
