@@ -8,4 +8,11 @@
     <string name="detail_description">Description</string>
     <string name="detail_language">Language</string>
     <string name="detail_last_update">Last update</string>
+
+    <!-- Toast Message -->
+    <string name="query_is_null_or_empty">검색어를 입력해주세요.</string>
+    <string name="network_error">네트워크 통신을 실패했습니다.</string>
+    <string name="db_error">데이터 베이스 작업을 실패했습니다.</string>
+
+
 </resources>

@@ -6,29 +6,41 @@ import android.os.Bundle
 import android.view.KeyEvent
 import android.view.View
 import android.view.inputmethod.InputMethodManager
+import androidx.annotation.StringRes
 import com.example.mashuparchitecture.R
 import com.example.mashuparchitecture.base.BaseActivity
 import com.example.mashuparchitecture.data.source.Repository
+import com.example.mashuparchitecture.data.source.vo.GithubRepoEntity
 import com.example.mashuparchitecture.databinding.ActivitySearchBinding
 import com.example.mashuparchitecture.ui.detail.DetailActivity
 import org.koin.android.ext.android.inject
 
-class SearchActivity : BaseActivity<ActivitySearchBinding>(R.layout.activity_search) {
+class SearchActivity : BaseActivity<ActivitySearchBinding>(R.layout.activity_search),
+    SearchContract.View {
 
     private val adapter by lazy { GithubAdapter { clickCallback(it) } }
     private val repository: Repository by inject()
+    private lateinit var searchPresenter: SearchContract.Presenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        setPresenter()
         initRecyclerView()
         initEvent()
     }
 
+    override fun setPresenter() {
+        searchPresenter = SearchPresenter(repository, this)
+    }
+
     private fun clickCallback(position: Int) {
+        val clickedRepo = adapter.getItem(position)
+        searchPresenter.insertRepo(clickedRepo)
+
         startActivity(
             Intent(this, DetailActivity::class.java).apply {
-                putExtra("item", adapter.getItem(position))
+                putExtra(ITEM_KEY, clickedRepo)
             })
     }
 
@@ -40,7 +52,7 @@ class SearchActivity : BaseActivity<ActivitySearchBinding>(R.layout.activity_sea
         binding.etSearch.setOnKeyListener { _, keyCode, keyEvent ->
             if ((keyCode == KeyEvent.KEYCODE_ENTER) && (keyEvent.action == KeyEvent.ACTION_DOWN)) {
                 hideKeyBoard()
-                searchQuery(binding.etSearch.text.toString())
+                searchPresenter.searchQuery(binding.etSearch.text.toString())
             }
 
             false
@@ -48,7 +60,7 @@ class SearchActivity : BaseActivity<ActivitySearchBinding>(R.layout.activity_sea
 
         binding.ivSearch.setOnClickListener {
             hideKeyBoard()
-            searchQuery(binding.etSearch.text.toString())
+            searchPresenter.searchQuery(binding.etSearch.text.toString())
         }
 
         binding.ivBack.setOnClickListener {
@@ -56,25 +68,26 @@ class SearchActivity : BaseActivity<ActivitySearchBinding>(R.layout.activity_sea
         }
     }
 
-    private fun searchQuery(query: String?) {
-        if (query.isNullOrEmpty()) {
-            showToastMessage("검색어를 입력해주세요.")
-            return
+    override fun showSearchedData(data: List<GithubRepoEntity>) {
+        adapter.setData(data)
+    }
+
+    override fun showProgressBar() {
+        with(binding) {
+            rvSearch.visibility = View.INVISIBLE
+            pbSearch.visibility = View.VISIBLE
         }
+    }
 
-        showProgressBar()
+    override fun hideProgressBar() {
+        with(binding) {
+            rvSearch.visibility = View.VISIBLE
+            pbSearch.visibility = View.INVISIBLE
+        }
+    }
 
-        repository
-            .getGithubRepositories(query, { response ->
-                if (response != null) {
-                    adapter.setData(response.items)
-                }
-
-                hideProgressBar()
-            }, {
-                showToastMessage(it)
-                hideProgressBar()
-            })
+    override fun showToastMessageFromView(@StringRes resId: Int) {
+        showToastMessage(resId)
     }
 
     private fun hideKeyBoard() {
@@ -82,18 +95,13 @@ class SearchActivity : BaseActivity<ActivitySearchBinding>(R.layout.activity_sea
         imm.hideSoftInputFromWindow(binding.etSearch.windowToken, 0)
     }
 
-    private fun showProgressBar() {
-        with(binding) {
-            rvSearch.visibility = View.INVISIBLE
-            pbSearch.visibility = View.VISIBLE
-        }
+    override fun onDestroy() {
+        super.onDestroy()
+        searchPresenter.dispose()
     }
 
-    private fun hideProgressBar() {
-        with(binding) {
-            rvSearch.visibility = View.VISIBLE
-            pbSearch.visibility = View.INVISIBLE
-        }
+    companion object {
+        const val ITEM_KEY = "repo"
     }
 
 }

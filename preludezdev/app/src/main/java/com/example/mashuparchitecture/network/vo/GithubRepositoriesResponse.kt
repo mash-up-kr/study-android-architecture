@@ -3,9 +3,8 @@ package com.example.mashuparchitecture.network.vo
 
 import android.os.Parcel
 import android.os.Parcelable
-import com.example.mashuparchitecture.data.source.vo.DetailRepoVo
+import com.example.mashuparchitecture.data.source.vo.GithubRepoEntity
 import com.google.gson.annotations.SerializedName
-import java.text.SimpleDateFormat
 import java.util.*
 
 data class GithubRepositoriesResponse(
@@ -35,24 +34,24 @@ data class GithubRepositoriesResponse(
         val watchersCount: Int,
         @SerializedName("language")
         val language: String?
-    ) : Parcelable {
+    ) {
         data class Owner(
-            @SerializedName("login")
-            val login: String?,
             @SerializedName("id")
             val id: Int,
+            @SerializedName("login")
+            val login: String?,
             @SerializedName("avatar_url")
             val avatarUrl: String?
         ) : Parcelable {
             constructor(parcel: Parcel) : this(
-                parcel.readString(),
                 parcel.readInt(),
+                parcel.readString(),
                 parcel.readString()
             )
 
             override fun writeToParcel(parcel: Parcel, flags: Int) {
-                parcel.writeString(login)
                 parcel.writeInt(id)
+                parcel.writeString(login)
                 parcel.writeString(avatarUrl)
             }
 
@@ -69,59 +68,16 @@ data class GithubRepositoriesResponse(
             }
         }
 
-        constructor(parcel: Parcel) : this(
-            parcel.readInt(),
-            parcel.readString(),
-            parcel.readString(),
-            parcel.readParcelable(Owner::class.java.classLoader)!!,
-            parcel.readString(),
-            Date(parcel.readLong()),
-            parcel.readInt(),
-            parcel.readInt(),
-            parcel.readString()
-        )
-
-        override fun writeToParcel(parcel: Parcel, flags: Int) {
-            parcel.writeInt(id)
-            parcel.writeString(name)
-            parcel.writeString(fullName)
-            parcel.writeParcelable(owner, flags)
-            parcel.writeString(description)
-            parcel.writeLong(updatedAt.time)
-            parcel.writeInt(stargazersCount)
-            parcel.writeInt(watchersCount)
-            parcel.writeString(language)
-        }
-
-        override fun describeContents(): Int {
-            return 0
-        }
-
-        companion object CREATOR : Parcelable.Creator<Item> {
-            override fun createFromParcel(parcel: Parcel): Item {
-                return Item(parcel)
-            }
-
-            override fun newArray(size: Int): Array<Item?> {
-                return arrayOfNulls(size)
-            }
-        }
-
-        fun convertItemIntoDetailRepoVo(
-            githubUserResponse: GithubUserResponse
-        ) = DetailRepoVo(
+        fun convertItemIntoRepoEntity() = GithubRepoEntity(
             id,
             name,
             fullName,
             owner,
             description,
-            SimpleDateFormat("yyyy-MM-dd E요일 HH:mm", Locale.KOREA).format(updatedAt),
-            "★ $stargazersCount stars",
+            updatedAt,
+            stargazersCount,
             watchersCount,
-            language ?: "No language specified",
-            githubUserResponse.name ?: "No name specified",
-            "Followers : ${githubUserResponse.followers}",
-            "Following : ${githubUserResponse.following}"
+            language
         )
 
     }

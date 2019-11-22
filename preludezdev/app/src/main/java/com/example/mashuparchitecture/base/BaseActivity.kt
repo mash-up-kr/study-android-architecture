@@ -4,6 +4,7 @@ import android.content.pm.ActivityInfo
 import android.os.Bundle
 import android.widget.Toast
 import androidx.annotation.LayoutRes
+import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
@@ -29,10 +30,8 @@ abstract class BaseActivity<B : ViewDataBinding>(@LayoutRes private val layoutId
         }
     }
 
-    protected fun showToastMessage(msg: String?) {
-        if (!msg.isNullOrEmpty()) {
-            Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
-        }
+    protected fun showToastMessage(@StringRes resId: Int) {
+        Toast.makeText(this, resId, Toast.LENGTH_SHORT).show()
     }
 
 }

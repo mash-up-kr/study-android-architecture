@@ -4,6 +4,7 @@ import com.example.mashuparchitecture.network.GithubApiService
 import org.koin.dsl.module
 import retrofit2.Converter
 import retrofit2.Retrofit
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 
 private const val API_URL = "https://api.github.com/"
@@ -13,6 +14,7 @@ val networkModule = module {
         Retrofit
             .Builder()
             .addConverterFactory(get())
+            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
             .baseUrl(API_URL)
             .build()
     }
