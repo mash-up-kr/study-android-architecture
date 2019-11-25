@@ -3,7 +3,6 @@ package miinjung.study.test.ui.search
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -11,21 +10,19 @@ import android.widget.SearchView
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.activity_main.*
 import miinjung.study.test.R
-import miinjung.study.test.model.List
-import miinjung.study.test.network.TestApplication
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import miinjung.study.test.model.Item
 
 class MainActivity : AppCompatActivity(),SearchContract.View{
 
-    private val api by lazy { TestApplication.api }
-    internal var apiCall:Call<List>? = null
-    internal var searchAdapter : SearchAdapter? = null
+    private lateinit var presenter: SearchPresenter
+    private lateinit var searchAdapter:SearchAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        presenter = SearchPresenter(this)
+
 
         initRecycleview()
     }
@@ -43,8 +40,7 @@ class MainActivity : AppCompatActivity(),SearchContract.View{
         menuView?.setOnActionExpandListener(object : MenuItem.OnActionExpandListener {
             override fun onMenuItemActionExpand(item: MenuItem?): Boolean {
 
-                rvSearchList.visibility = View.VISIBLE
-                tvText.visibility = View.INVISIBLE
+                showRecyclerView()
                 return true
             }
 
@@ -60,13 +56,9 @@ class MainActivity : AppCompatActivity(),SearchContract.View{
             }
 
             override fun onQueryTextSubmit(query: String): Boolean {
-                rvSearchList.visibility = View.VISIBLE
-                tvText.visibility = View.INVISIBLE
-
-                supportActionBar?.setTitle("search")
-                supportActionBar?.run{ subtitle = query }
+                showRecyclerView()
                 menuView.collapseActionView()
-                searchRepos(query)
+                queryTextSubmit(query)
                 return false
             }
         })
@@ -84,43 +76,19 @@ class MainActivity : AppCompatActivity(),SearchContract.View{
         return super.onOptionsItemSelected(item)
     }
 
-    fun searchRepos(query: String){
-        showProgress()
-
-        apiCall = api?.search(query)
-        apiCall?.enqueue(object :Callback<List>{
-            override fun onResponse(call: Call<List>, response: Response<List>) {
-                var data = response.body()
-
-                hideProgress()
-
-                if(response.isSuccessful && data != null) {
-                    if(data.totalCount > 0){
-                        data.items.let{
-                            searchAdapter!!.setItems(it)
-                            searchAdapter!!.setItems(it)
-                            searchAdapter!!.notifyDataSetChanged()
-                        }
-                    }else{
-                        hideRecyclerView()
-                        showTextView()
-                    }
-                }
-            }
-
-            override fun onFailure(call: Call<List>, t: Throwable) {
-                Log.e("errer","error")
-                hideProgress()
-            }
-        })
+    override fun onStop() {
+        super.onStop()
+        presenter.apiStop()
     }
 
-    override fun hideRecyclerView(){
-        rvSearchList.visibility = View.INVISIBLE
+    override fun showRecyclerView(){
+        tvText.visibility = View.INVISIBLE
+        rvSearchList.visibility = View.VISIBLE
     }
 
     override fun showTextView(){
         tvText.visibility = View.VISIBLE
+        rvSearchList.visibility = View.INVISIBLE
     }
 
     override fun showProgress() {
@@ -131,15 +99,24 @@ class MainActivity : AppCompatActivity(),SearchContract.View{
         pbActivitySearch.visibility = View.GONE
     }
 
-    override fun onStop() {
-        super.onStop()
-        apiCall?.run { cancel() }
-    }
-    private fun initRecycleview(){
+
+    override fun initRecycleview(){
         searchAdapter = SearchAdapter(this.applicationContext)
 
         rvSearchList.adapter = this.searchAdapter
         rvSearchList.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
+    }
+
+    override fun rvDataBinding(item : ArrayList<Item>) {
+        searchAdapter!!.setItems(item)
+        searchAdapter!!.setItems(item)
+        searchAdapter!!.notifyDataSetChanged()
+    }
+
+    override fun queryTextSubmit(query: String) {
+        supportActionBar?.setTitle("search")
+        supportActionBar?.run{ subtitle = query }
+        presenter.searchRepos(query)
     }
 
 }

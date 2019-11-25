@@ -6,7 +6,6 @@ interface BaseContract {
 
         fun hideProgress()
     }
-    interface  Presenter{
-        fun searchRepos()
+    interface  Presenter{gi
     }
 }
