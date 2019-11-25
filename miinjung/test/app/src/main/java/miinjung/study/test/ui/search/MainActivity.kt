@@ -1,4 +1,4 @@
-package miinjung.study.test
+package miinjung.study.test.ui.search
 
 
 import androidx.appcompat.app.AppCompatActivity
@@ -10,13 +10,14 @@ import android.view.View
 import android.widget.SearchView
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.activity_main.*
+import miinjung.study.test.R
 import miinjung.study.test.model.List
 import miinjung.study.test.network.TestApplication
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class MainActivity : AppCompatActivity(){
+class MainActivity : AppCompatActivity(),SearchContract.View{
 
     private val api by lazy { TestApplication.api }
     internal var apiCall:Call<List>? = null
@@ -114,19 +115,19 @@ class MainActivity : AppCompatActivity(){
         })
     }
 
-    private fun hideRecyclerView(){
+    override fun hideRecyclerView(){
         rvSearchList.visibility = View.INVISIBLE
     }
 
-    private fun showTextView(){
+    override fun showTextView(){
         tvText.visibility = View.VISIBLE
     }
 
-    private fun showProgress() {
+    override fun showProgress() {
         pbActivitySearch.visibility = View.VISIBLE
     }
 
-    private fun hideProgress() {
+    override fun hideProgress() {
         pbActivitySearch.visibility = View.GONE
     }
 

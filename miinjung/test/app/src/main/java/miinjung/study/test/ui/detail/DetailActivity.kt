@@ -1,4 +1,4 @@
-package miinjung.study.test
+package miinjung.study.test.ui.detail
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -7,15 +7,17 @@ import android.view.View
 import android.widget.Toast
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.activity_detail.*
+import miinjung.study.test.R
 import miinjung.study.test.model.Item
 import miinjung.study.test.network.TestApplication
+import miinjung.study.test.util.KeyName
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.text.SimpleDateFormat
 import java.util.*
 
-class DetailActivity : AppCompatActivity() {
+class DetailActivity : AppCompatActivity(),DetailContract.View {
     private val api by lazy { TestApplication.api }
     private var apiCall:Call<Item>? = null
     private lateinit var name : String
@@ -33,10 +35,10 @@ class DetailActivity : AppCompatActivity() {
 
         val intent = intent
 
-        intent.getStringExtra(KEY_REPO_NAME)?.let{
+        intent.getStringExtra(KeyName.KEY_REPO_NAME)?.let{
             name = it
         }
-        intent.getStringExtra(KEY_USER_LOGIN)?.let {
+        intent.getStringExtra(KeyName.KEY_USER_LOGIN)?.let {
             ownerLogin = it
         }
 
@@ -84,11 +86,11 @@ class DetailActivity : AppCompatActivity() {
         })
     }
 
-    private fun showProgress() {
+    override fun showProgress() {
         pbActivityRepository.visibility = View.VISIBLE
     }
 
-    private fun hideProgress() {
+    override fun hideProgress() {
         pbActivityRepository.visibility = View.GONE
     }
 
@@ -97,10 +99,5 @@ class DetailActivity : AppCompatActivity() {
         apiCall?.run { cancel() }
     }
 
-    companion object {
 
-        const val KEY_USER_LOGIN = "ownerLogin"
-
-        const val KEY_REPO_NAME = "name"
-    }
 }

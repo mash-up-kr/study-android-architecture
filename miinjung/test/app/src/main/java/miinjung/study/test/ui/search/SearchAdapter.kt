@@ -1,4 +1,4 @@
-package miinjung.study.test
+package miinjung.study.test.ui.search
 
 import android.content.Context
 import android.content.Intent
@@ -10,7 +10,10 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import miinjung.study.test.R
 import miinjung.study.test.model.Item
+import miinjung.study.test.ui.detail.DetailActivity
+import miinjung.study.test.util.KeyName
 
 class SearchAdapter(val _context: Context) :RecyclerView.Adapter<SearchAdapter.SearchViewHolder>(){
 
@@ -35,10 +38,10 @@ class SearchAdapter(val _context: Context) :RecyclerView.Adapter<SearchAdapter.S
             holder.itemBox.setOnClickListener {
 
 
-                val intent = Intent(_context,DetailActivity::class.java)
+                val intent = Intent(_context, DetailActivity::class.java)
 
-                intent.putExtra(DetailActivity.KEY_REPO_NAME,data.name)
-                intent.putExtra(DetailActivity.KEY_USER_LOGIN,data.owner?.login)
+                intent.putExtra(KeyName.KEY_REPO_NAME,data.name)
+                intent.putExtra(KeyName.KEY_USER_LOGIN,data.owner?.login)
 
                 _context.startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
             }
