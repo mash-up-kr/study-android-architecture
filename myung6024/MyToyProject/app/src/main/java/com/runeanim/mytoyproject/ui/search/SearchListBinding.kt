@@ -1,7 +1,5 @@
 package com.runeanim.mytoyproject.ui.search
 
-import android.content.Context
-import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.widget.SearchView
 import androidx.databinding.BindingAdapter
 

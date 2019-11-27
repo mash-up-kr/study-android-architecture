@@ -8,16 +8,8 @@
         <import type="android.view.View" />
 
         <variable
-            name="fragment"
+            name="view"
             type="com.runeanim.mytoyproject.ui.detail.DetailFragment" />
-
-        <variable
-            name="owner"
-            type="com.runeanim.mytoyproject.data.model.Owner" />
-
-        <variable
-            name="repo"
-            type="com.runeanim.mytoyproject.data.model.Repository" />
     </data>
 
     <RelativeLayout
@@ -34,16 +26,15 @@
             android:layout_height="match_parent"
             android:inflatedId="@+id/controller"
             android:layout="@layout/detail_content"
-            android:visibility="@{fragment.dataLoading ? View.GONE : View.VISIBLE}"
-            app:owner="@{owner}"
-            app:repo="@{repo}"/>
+            android:visibility="@{view.dataLoading ? View.GONE : View.VISIBLE}"
+            app:view="@{view}" />
 
         <ProgressBar
             android:id="@+id/pbActivityRepository"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:visibility="@{fragment.dataLoading ? View.VISIBLE : View.GONE}" />
+            android:visibility="@{view.dataLoading ? View.VISIBLE : View.GONE}" />
 
         <TextView
             android:id="@+id/tvActivityRepositoryMessage"

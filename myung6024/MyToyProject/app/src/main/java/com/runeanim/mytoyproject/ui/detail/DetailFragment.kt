@@ -7,70 +7,62 @@ import androidx.lifecycle.MutableLiveData
 import androidx.navigation.fragment.navArgs
 import com.runeanim.mytoyproject.R
 import com.runeanim.mytoyproject.base.BaseFragment
-import com.runeanim.mytoyproject.data.Result
-import com.runeanim.mytoyproject.data.Result.Success
 import com.runeanim.mytoyproject.data.model.Owner
 import com.runeanim.mytoyproject.data.model.Repository
 import com.runeanim.mytoyproject.databinding.DetailFragmentBinding
-import com.runeanim.mytoyproject.domain.GetRepositoryInfoUseCase
-import com.runeanim.mytoyproject.domain.GetUserInfoUseCase
+import com.runeanim.mytoyproject.util.SingleLiveEvent
 import kotlinx.android.synthetic.main.detail_fragment.*
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
-import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
+import org.koin.core.parameter.parametersOf
 
-class DetailFragment : BaseFragment<DetailFragmentBinding>(R.layout.detail_fragment) {
-    private val getRepositoryInfoUseCase: GetRepositoryInfoUseCase by inject()
-    private val getUserInfoUseCase: GetUserInfoUseCase by inject()
+class DetailFragment : BaseFragment<DetailFragmentBinding, DetailPresenter>(R.layout.detail_fragment), DetailContract.View {
+
+    private val _dataLoading = MutableLiveData<Boolean>(true)
+    val dataLoading: LiveData<Boolean>
+        get() = _dataLoading
+
+    private val _repoInfo = SingleLiveEvent<Repository>()
+    val repoInfo: LiveData<Repository>
+        get() = _repoInfo
+
+    private val _ownerInfo = SingleLiveEvent<Owner>()
+    val ownerInfo: LiveData<Owner>
+        get() = _ownerInfo
 
     private val args: DetailFragmentArgs by navArgs()
 
-    private val _dataLoading = MutableLiveData<Boolean>(true)
-    val dataLoading: LiveData<Boolean> = _dataLoading
+    override val presenter: DetailPresenter by inject {
+        parametersOf(
+            args.repoUrl,
+            args.userName,
+            this as DetailContract.View
+        )
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewDataBinding.apply {
-            fragment = this@DetailFragment
+            view = this@DetailFragment
         }
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        getUserAndRepositoryInfo(
-            args.repoUrl,
-            args.userName
-        )
-    }
-
-    private fun getUserAndRepositoryInfo(repoUrl: String, userId: String) {
-        if (repoUrl.isEmpty() || userId.isEmpty())
-            return
-
-        _dataLoading.value = true
-        coroutineScope.launch {
-            val getRepoJob = async(Dispatchers.IO) { getRepositoryInfoUseCase(repoUrl) }
-            val getUserJob = async(Dispatchers.IO) { getUserInfoUseCase(userId) }
-
-            setDataBindingItems(getRepoJob.await(), getUserJob.await())
-            _dataLoading.value = false
-        }
-    }
-
-    private fun setDataBindingItems(repoResult: Result<Repository>, userResult: Result<Owner>) {
-        if (repoResult is Success && userResult is Success) {
-            viewDataBinding.repo = repoResult.data
-            viewDataBinding.owner = userResult.data
-        } else {
-            showError()
-        }
-    }
-
-    private fun showError() {
+    override fun showError() {
         with(tvActivityRepositoryMessage) {
             text = "Unexpected error."
             visibility = View.VISIBLE
         }
+    }
+
+    override fun hideProgressBar() {
+        _dataLoading.value = false
+    }
+
+    override fun showProgressBar() {
+        _dataLoading.value = true
+    }
+
+    override fun showRepositoryDetail(repository: Repository, owner: Owner) {
+        _repoInfo.value = repository
+        _ownerInfo.value = owner
     }
 }
