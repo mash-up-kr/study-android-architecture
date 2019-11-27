@@ -8,15 +8,16 @@ import androidx.annotation.LayoutRes
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 
-abstract class BaseFragment<T : ViewDataBinding, P : BasePresenter>(@LayoutRes private val layoutResId: Int) :
+abstract class BaseFragment<T : ViewDataBinding, P : ViewModel>(@LayoutRes private val layoutResId: Int) :
     Fragment() {
     lateinit var viewDataBinding: T
 
-    abstract val presenter: P
+    abstract val viewModel: P
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,15 +31,5 @@ abstract class BaseFragment<T : ViewDataBinding, P : BasePresenter>(@LayoutRes p
     ): View? {
         viewDataBinding.lifecycleOwner = this@BaseFragment.viewLifecycleOwner
         return viewDataBinding.root
-    }
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        presenter.start()
-    }
-
-    override fun onDestroy() {
-        presenter.finish()
-        super.onDestroy()
     }
 }

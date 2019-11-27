@@ -40,7 +40,7 @@ ext{
     lifecycleVersion = '2.1.0'
     retrofitVersion = '2.6.2'
     koinVersion = '2.0.0-rc-2'
-    glideVersion = "4.8.0"
+    glideVersion = "4.10.0"
     roomVersion = '2.1.0'
     coroutinesVersion = '1.2.1'
     espressoVersion = '3.2.0-beta01'

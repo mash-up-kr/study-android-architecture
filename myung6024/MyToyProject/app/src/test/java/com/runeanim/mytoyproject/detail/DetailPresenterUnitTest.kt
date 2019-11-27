@@ -8,26 +8,18 @@ import com.runeanim.mytoyproject.MainCoroutineRule
 import com.runeanim.mytoyproject.data.source.local.entity.RepositoryEntity
 import com.runeanim.mytoyproject.domain.GetRepositoryInfoUseCase
 import com.runeanim.mytoyproject.domain.GetUserInfoUseCase
-import com.runeanim.mytoyproject.ui.detail.DetailContract
-import com.runeanim.mytoyproject.ui.detail.DetailPresenter
+import com.runeanim.mytoyproject.ui.detail.DetailViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import org.junit.runner.RunWith
-import org.mockito.Mock
-import org.mockito.junit.MockitoJUnitRunner
 
-@RunWith(MockitoJUnitRunner::class)
 @ExperimentalCoroutinesApi
 class DetailPresenterUnitTest {
 
-    private lateinit var presenter: DetailPresenter
+    private lateinit var viewModel: DetailViewModel
 
     private lateinit var repoRepository: FakeRepository
-
-    @Mock
-    private lateinit var view: DetailContract.View
 
     // Set the main coroutines dispatcher for unit testing.
     @ExperimentalCoroutinesApi
@@ -44,18 +36,17 @@ class DetailPresenterUnitTest {
         val task2 = RepositoryEntity(2, "Description2", "two", null, "", 1)
         val task3 = RepositoryEntity(3, "Description3", "three", null, "", 2)
         repoRepository.addRepos(task1, task2, task3)
-        presenter = DetailPresenter(
+        viewModel = DetailViewModel(
             "testUrl",
             "testId",
             GetRepositoryInfoUseCase(repoRepository),
-            GetUserInfoUseCase(repoRepository),
-            view
+            GetUserInfoUseCase(repoRepository)
         )
     }
 
     @Test
     fun `진입했을 때 프로그래스바 작동`() {
-        Truth.assertThat(LiveDataTestUtil.getValue(presenter.dataLoading)).isTrue()
+        Truth.assertThat(LiveDataTestUtil.getValue(viewModel.isLoading)).isTrue()
     }
 
     @Test
@@ -66,10 +57,10 @@ class DetailPresenterUnitTest {
         // dispatcher를 멈추지 않고 true를 체크한다면 이미 getUserAndRepositoryInfo() 코루틴은 종료가 된 시점이기 때문에
         // false 상태만 보게 된다.
         mainCoroutineRule.pauseDispatcher()
-        presenter.getUserAndRepositoryInfo()
-        Truth.assertThat(LiveDataTestUtil.getValue(presenter.dataLoading)).isTrue()
+        viewModel.getUserAndRepositoryInfo()
+        Truth.assertThat(LiveDataTestUtil.getValue(viewModel.isLoading)).isTrue()
         mainCoroutineRule.resumeDispatcher()
-        Truth.assertThat(LiveDataTestUtil.getValue(presenter.dataLoading)).isFalse()
-        Truth.assertThat(LiveDataTestUtil.getValue(presenter.repoInfo)).isEqualTo(repoRepository.repository)
+        Truth.assertThat(LiveDataTestUtil.getValue(viewModel.isLoading)).isFalse()
+        Truth.assertThat(LiveDataTestUtil.getValue(viewModel.repoInfo)).isEqualTo(repoRepository.repository)
     }
 }

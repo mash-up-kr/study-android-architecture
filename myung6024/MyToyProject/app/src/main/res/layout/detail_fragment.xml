@@ -8,8 +8,8 @@
         <import type="android.view.View" />
 
         <variable
-            name="view"
-            type="com.runeanim.mytoyproject.ui.detail.DetailFragment" />
+            name="viewmodel"
+            type="com.runeanim.mytoyproject.ui.detail.DetailViewModel" />
     </data>
 
     <RelativeLayout
@@ -26,15 +26,15 @@
             android:layout_height="match_parent"
             android:inflatedId="@+id/controller"
             android:layout="@layout/detail_content"
-            android:visibility="@{view.dataLoading ? View.GONE : View.VISIBLE}"
-            app:view="@{view}" />
+            android:visibility="@{viewmodel.isLoading ? View.GONE : View.VISIBLE}"
+            app:viewmodel="@{viewmodel}" />
 
         <ProgressBar
             android:id="@+id/pbActivityRepository"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:visibility="@{view.dataLoading ? View.VISIBLE : View.GONE}" />
+            android:visibility="@{viewmodel.isLoading ? View.VISIBLE : View.GONE}" />
 
         <TextView
             android:id="@+id/tvActivityRepositoryMessage"
@@ -43,6 +43,7 @@
             android:layout_centerInParent="true"
             android:layout_marginLeft="4dp"
             android:layout_marginRight="4dp"
+            app:pbText="@{viewmodel.errorText}"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
             android:textColor="@color/githubBlack" />
 

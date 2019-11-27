@@ -10,8 +10,8 @@
         <import type="androidx.core.content.ContextCompat" />
 
         <variable
-            name="view"
-            type="com.runeanim.mytoyproject.ui.search.SearchFragment" />
+            name="viewmodel"
+            type="com.runeanim.mytoyproject.ui.repo.RepoViewModel" />
     </data>
 
     <RelativeLayout
@@ -26,27 +26,28 @@
             android:layout_height="wrap_content"
             android:focusable="true"
             app:iconifiedByDefault="false"
-            app:setOnQueryTextListener="@{view.onClickSearchButton}" />
+            app:setOnQueryTextListener="@{viewmodel.searchRepositoryByKeyWord}" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_repository"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@+id/searchView"
-            app:items="@{view.items}"
+            app:items="@{viewmodel.items}"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
         <ProgressBar
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:visibility="@{view.dataLoading ? View.VISIBLE : View.GONE}" />
+            android:visibility="@{viewmodel.isLoading ? View.VISIBLE : View.GONE}" />
 
         <TextView
             android:id="@+id/tvFragmentSearchMessage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            app:pbText="@{view.messageResId}" />
+            android:text="@string/unknown"
+            android:visibility="@{viewmodel.errorTextVisible ? View.VISIBLE : View.GONE}"/>
     </RelativeLayout>
 </layout>

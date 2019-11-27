@@ -6,15 +6,11 @@ import com.runeanim.mytoyproject.data.source.RepositoriesRepository
 import com.runeanim.mytoyproject.data.source.local.GithubDatabase
 import com.runeanim.mytoyproject.data.source.local.RepositoriesLocalDataSource
 import com.runeanim.mytoyproject.data.source.remote.RepositoriesRemoteDataSource
-import com.runeanim.mytoyproject.ui.detail.DetailContract
-import com.runeanim.mytoyproject.ui.detail.DetailPresenter
-import com.runeanim.mytoyproject.ui.main.MainContract
-import com.runeanim.mytoyproject.ui.main.MainPresenter
-import com.runeanim.mytoyproject.ui.search.SearchContract
-import com.runeanim.mytoyproject.ui.search.SearchPresenter
-import kotlinx.coroutines.CoroutineScope
+import com.runeanim.mytoyproject.ui.detail.DetailViewModel
+import com.runeanim.mytoyproject.ui.repo.RepoViewModel
 import kotlinx.coroutines.Dispatchers
 import org.koin.android.ext.koin.androidContext
+import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
 val ApplicationModule = module {
@@ -31,27 +27,14 @@ val ApplicationModule = module {
     single { RepositoriesLocalDataSource(get(), get()) }
     single { DefaultRepositoriesRepository(get(), get()) as RepositoriesRepository }
 
-    factory { (repoUrl: String, userId: String, view: DetailContract.View) ->
-        DetailPresenter(
+    viewModel { (repoUrl: String, userId: String) ->
+        DetailViewModel(
             repoUrl,
             userId,
             get(),
-            get(),
-            view
+            get()
         )
     }
-    factory { (view: MainContract.View) ->
-        MainPresenter(
-            get(),
-            get(),
-            view
-        )
-    }
-    factory { (view: SearchContract.View) ->
-        SearchPresenter(
-            get(),
-            get(),
-            view
-        )
-    }
+
+    viewModel { RepoViewModel(get(), get(), get(), get()) }
 }
