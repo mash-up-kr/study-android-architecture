@@ -6,6 +6,7 @@ interface BaseContract {
 
         fun hideProgress()
     }
-    interface  Presenter{gi
+    interface  Presenter{
+        fun apiStop()
     }
 }

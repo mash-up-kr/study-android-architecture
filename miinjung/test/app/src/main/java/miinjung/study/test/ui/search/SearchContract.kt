@@ -14,6 +14,5 @@ interface SearchContract {
     }
     interface Presenter:BaseContract.Presenter{
         fun searchRepos(query: String)
-        fun apiStop()
     }
 }

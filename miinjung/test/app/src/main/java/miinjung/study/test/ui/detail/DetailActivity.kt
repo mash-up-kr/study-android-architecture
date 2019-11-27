@@ -18,8 +18,9 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 class DetailActivity : AppCompatActivity(),DetailContract.View {
-    private val api by lazy { TestApplication.api }
-    private var apiCall:Call<Item>? = null
+
+    private lateinit var presenter: DetailPresenter
+
     private lateinit var name : String
     private lateinit var ownerLogin : String
 
@@ -33,6 +34,14 @@ class DetailActivity : AppCompatActivity(),DetailContract.View {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_detail)
 
+        presenter = DetailPresenter(this,this)
+        getKey()
+
+        presenter.searchRepos(ownerLogin,name)
+    }
+
+    override fun getKey(){
+
         val intent = intent
 
         intent.getStringExtra(KeyName.KEY_REPO_NAME)?.let{
@@ -41,49 +50,25 @@ class DetailActivity : AppCompatActivity(),DetailContract.View {
         intent.getStringExtra(KeyName.KEY_USER_LOGIN)?.let {
             ownerLogin = it
         }
-
-        searchRepos(name,ownerLogin)
     }
 
-    fun searchRepos(name: String, ownerLogin : String){
-        showProgress()
+    override fun dataBind(item: Item) {
+        Glide.with(this).load(item.owner?.avatarUrl).into(userImage)
+        userFullName.text = item.fullName
+        stars.text = "★ " + item.stargazersCount + "  stars"
 
-        apiCall = api?.getRepository(ownerLogin,name)
-        apiCall?.enqueue(object : Callback<Item> {
-            override fun onResponse(call: Call<Item>, response: Response<Item>) {
-                var data = response.body()
-                hideProgress()
+        if(item.language.isNullOrEmpty())
+            language.setText(R.string.nonLang)
+        else
+            language.text = item.language
 
-                if (response.isSuccessful && data != null) {
-                    data.let{
-                        Glide.with(this@DetailActivity).load(it.owner?.avatarUrl).into(userImage)
-                        userFullName.text = it.fullName
-                        stars.text = "★ " + it.stargazersCount + "  stars"
+        if(item.description.isNullOrEmpty())
+            description.setText(R.string.nonDesc)
+        else
+            description.text =item.description
 
-                        if(it.language.isNullOrEmpty())
-                            language.setText(R.string.nonLang)
-                        else
-                            language.text = it.language
-
-                        if(it.description.isNullOrEmpty())
-                            description.setText(R.string.nonDesc)
-                        else
-                            description.text =it.description
-
-                        val date = dateFormatInResponse.parse(it.updatedAt)
-                        updateAt.text = dateFormatToShow.format(date)
-
-                    }
-                } else {
-                    Toast.makeText(this@DetailActivity,"Unexpected Error",Toast.LENGTH_SHORT).show()
-                }
-            }
-
-            override fun onFailure(call: Call<Item>, t: Throwable) {
-                hideProgress()
-                Log.i("errer","error")
-            }
-        })
+        val date = dateFormatInResponse.parse(item.updatedAt)
+        updateAt.text = dateFormatToShow.format(date)
     }
 
     override fun showProgress() {
@@ -96,7 +81,7 @@ class DetailActivity : AppCompatActivity(),DetailContract.View {
 
     override fun onStop() {
         super.onStop()
-        apiCall?.run { cancel() }
+        presenter.apiStop()
     }
 
 
