@@ -54,8 +54,8 @@ class DetailActivity : AppCompatActivity(),DetailContract.View {
 
     override fun dataBind(item: Item) {
         Glide.with(this).load(item.owner?.avatarUrl).into(userImage)
-        userFullName.text = item.fullName
-        stars.text = "★ " + item.stargazersCount + "  stars"
+        userFullName.setText(item.fullName)
+        stars.setText("★ ${item.stargazersCount} stars")
 
         if(item.language.isNullOrEmpty())
             language.setText(R.string.nonLang)
