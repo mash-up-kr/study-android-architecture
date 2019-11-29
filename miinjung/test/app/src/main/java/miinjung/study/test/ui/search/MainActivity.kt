@@ -108,9 +108,8 @@ class MainActivity : AppCompatActivity(),SearchContract.View{
     }
 
     override fun rvDataBinding(item : ArrayList<Item>) {
-        searchAdapter!!.setItems(item)
-        searchAdapter!!.setItems(item)
-        searchAdapter!!.notifyDataSetChanged()
+        searchAdapter.setItems(item)
+        searchAdapter.setItems(item)
     }
 
     override fun queryTextSubmit(query: String) {

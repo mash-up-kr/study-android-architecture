@@ -52,6 +52,7 @@ class SearchAdapter(val _context: Context) :RecyclerView.Adapter<SearchAdapter.S
 
     fun setItems(dataList : ArrayList<Item>) {
         this.dataList = dataList
+        notifyDataSetChanged()
     }
 
 
