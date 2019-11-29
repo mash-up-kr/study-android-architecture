@@ -23,7 +23,13 @@ class RepoViewModel(
     private val getRepositoriesUseCase: GetRepositoriesUseCase,
     private val removeAllRepositoriesUseCase: RemoveAllRepositoriesUseCase
 ) : ViewModel() {
-    private var isClickedRepoList: Boolean? = null
+
+    private enum class RepoListType {
+        SEARCHED,
+        CLICKED
+    }
+
+    private var repoListType: RepoListType? = null
 
     private val _items = MutableLiveData<List<RepositoryEntity>>(emptyList())
     val items: LiveData<List<RepositoryEntity>> = _items
@@ -39,28 +45,28 @@ class RepoViewModel(
 
     val searchRepositoryByKeyWord: (String) -> Unit
         get() = fun(searchKeyWord: String) {
-            isClickedRepoList = false
-            _isLoading.value = true
-            _errorTextVisible.value = false
+            repoListType = RepoListType.SEARCHED
+            showProgressBar()
+            hideErrorText()
             wrapEspressoIdlingResource {
                 viewModelScope.launch {
                     val result = searchRepositoriesUseCase(searchKeyWord)
                     if (result is Result.Success) {
                         with(result.data.mapToPresentation()) {
                             _items.value = this
-                            _errorTextVisible.value = size == 0
+                            if (size == 0) showErrorText()
                         }
                     } else {
                         _items.value = emptyList()
-                        _errorTextVisible.value = true
+                        showErrorText()
                     }
-                    _isLoading.value = false
+                    hideProgressBar()
                 }
             }
         }
 
     fun getClickedRepositoryHistory() {
-        isClickedRepoList = true
+        repoListType = RepoListType.CLICKED
         wrapEspressoIdlingResource {
             viewModelScope.launch {
                 val result = getRepositoriesUseCase()
@@ -94,7 +100,27 @@ class RepoViewModel(
     }
 
     fun openRepo(repositoryEntity: RepositoryEntity) {
-        isClickedRepoList?.let { if (!it) saveClickedRepositoryHistory(repositoryEntity) }
+        repoListType?.let {
+            if (it == RepoListType.SEARCHED) saveClickedRepositoryHistory(
+                repositoryEntity
+            )
+        }
         _openRepoEvent.value = Event(repositoryEntity)
+    }
+
+    private fun showProgressBar() {
+        _isLoading.value = true
+    }
+
+    private fun hideProgressBar() {
+        _isLoading.value = false
+    }
+
+    private fun showErrorText() {
+        _errorTextVisible.value = true
+    }
+
+    private fun hideErrorText() {
+        _errorTextVisible.value = false
     }
 }

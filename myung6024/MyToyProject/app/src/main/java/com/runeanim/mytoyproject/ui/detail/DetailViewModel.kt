@@ -45,14 +45,14 @@ class DetailViewModel(
         if (repoUrl.isEmpty() || userId.isEmpty())
             return
 
-        _isLoading.value = true
+        showProgressBar()
         wrapEspressoIdlingResource {
             viewModelScope.launch {
                 val getRepoJob = async(Dispatchers.IO) { getRepositoryInfoUseCase(repoUrl) }
                 val getUserJob = async(Dispatchers.IO) { getUserInfoUseCase(userId) }
 
                 setInfoItems(getRepoJob.await(), getUserJob.await())
-                _isLoading.value = false
+                hideProgressBar()
             }
         }
     }
@@ -64,5 +64,13 @@ class DetailViewModel(
         } else {
             _errorText.value = R.string.unknown
         }
+    }
+
+    private fun showProgressBar() {
+        _isLoading.value = true
+    }
+
+    private fun hideProgressBar() {
+        _isLoading.value = false
     }
 }
