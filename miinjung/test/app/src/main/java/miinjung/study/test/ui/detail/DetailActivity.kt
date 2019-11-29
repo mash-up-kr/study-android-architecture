@@ -57,12 +57,12 @@ class DetailActivity : AppCompatActivity(),DetailContract.View {
         userFullName.setText(item.fullName)
         stars.setText("★ ${item.stargazersCount} stars")
 
-        if(item.language.isNullOrEmpty())
+        if(item.language.isEmpty())
             language.setText(R.string.nonLang)
         else
             language.text = item.language
 
-        if(item.description.isNullOrEmpty())
+        if(item.description.isEmpty())
             description.setText(R.string.nonDesc)
         else
             description.text =item.description
