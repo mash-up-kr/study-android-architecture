@@ -24,10 +24,10 @@ class DetailActivity : AppCompatActivity(),DetailContract.View {
     private lateinit var name : String
     private lateinit var ownerLogin : String
 
-    internal val dateFormatInResponse = SimpleDateFormat(
+    private val dateFormatInResponse = SimpleDateFormat(
         "yyyy-MM-dd'T'HH:mm:ssX", Locale.getDefault())
 
-    internal val dateFormatToShow = SimpleDateFormat(
+    private val dateFormatToShow = SimpleDateFormat(
         "yyyy-MM-dd HH:mm:ss", Locale.getDefault())
 
     override fun onCreate(savedInstanceState: Bundle?) {
