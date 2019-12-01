@@ -39,6 +39,10 @@ android {
         jvmTarget = "1.8"
     }
 
+    dataBinding {
+        enabled = true
+    }
+
 }
 
 dependencies {
@@ -92,8 +96,6 @@ dependencies {
     def coilVersion = "0.8.0"
     implementation "io.coil-kt:coil:$coilVersion"
 
-    //core
-    implementation project(':core')
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.0'
