@@ -15,7 +15,6 @@ import retrofit2.Response
 
 class RepoActivity : AppCompatActivity(), NetworkException {
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_repo)
@@ -23,7 +22,7 @@ class RepoActivity : AppCompatActivity(), NetworkException {
         getRepoResponse(SearchRecyclerviewAdapter.queryUserName, SearchRecyclerviewAdapter.queryRepoName)
     }
 
-    fun getRepoResponse(userName : String, repoName : String){
+    private fun getRepoResponse(userName : String, repoName : String){
        showProgress(pbActivityRepo)
 
         val getRepoResponse = SearchRetrofit.getService().getRepoResponse(userName, repoName)
@@ -42,9 +41,9 @@ class RepoActivity : AppCompatActivity(), NetworkException {
                             .load(it.owner.userImg).centerCrop()
                             .into(ivRepoActivity)
 
-                        tvNameRepoActivity.text = it.owner.userName + "/"
+                        tvNameRepoActivity.text = getString(R.string.user_name, it.owner.userName)
                         tvRepoNameRepoActivity.text = it.name
-                        tvStarNumRepoActivity.text = it.starNum.toString() + " stars"
+                        tvStarNumRepoActivity.text = getString(R.string.star_num, it.starNum)
 
                         tvLanguageRepoActivity.text =
                             if(it.language.isNullOrEmpty())

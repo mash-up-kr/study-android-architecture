@@ -52,7 +52,7 @@ class SearchRecyclerviewAdapter (var ctx : Context, var datalist : ArrayList<Sea
         }
     }
 
-    fun setQuery(user : String, repo : String){
+    private fun setQuery(user : String, repo : String){
         queryUserName = user
         queryRepoName = repo
     }

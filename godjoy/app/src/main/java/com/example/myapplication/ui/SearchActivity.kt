@@ -17,10 +17,10 @@ import retrofit2.Callback
 import retrofit2.Response
 
 class SearchActivity : AppCompatActivity(), NetworkException {
-    lateinit var searchItem : MenuItem
-    lateinit var searchView : SearchView
+    private lateinit var searchItem : MenuItem
+    private lateinit var searchView : SearchView
 
-    lateinit var searchRecyclerviewAdapter : SearchRecyclerviewAdapter
+    private lateinit var searchRecyclerviewAdapter : SearchRecyclerviewAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -64,13 +64,13 @@ class SearchActivity : AppCompatActivity(), NetworkException {
                 hideProgress(pbActivitySearch)
                 if(response.isSuccessful){
                     hideError(tvNoResultActivitySearch)
-                    response.body()!!.items?.let {repo->
+                    response.body()?.items?.let {repo->
                         with(searchRecyclerviewAdapter){
                             datalist = repo
                             notifyDataSetChanged()
                         }
                     }
-                    if(response.body()!!.items!!.size == 0){
+                    if(response.body()?.items?.size == 0){
                         showError(tvNoResultActivitySearch)
                     }
                 }else{
@@ -80,7 +80,7 @@ class SearchActivity : AppCompatActivity(), NetworkException {
         })
     }
 
-    fun configRecyclerView(){
+    private fun configRecyclerView(){
         val dataList : ArrayList<SearchRepo> = ArrayList()
 
         searchRecyclerviewAdapter = SearchRecyclerviewAdapter(this,dataList)
