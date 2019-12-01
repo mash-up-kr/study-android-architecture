@@ -5,7 +5,7 @@ import com.namget.myarchitecture.data.repository.RepoRepository
 import com.namget.myarchitecture.data.response.RepoListResponse
 import com.namget.myarchitecture.ext.e
 import com.namget.myarchitecture.ext.plusAssign
-import com.namget.myarchitecture.ui.base.BasePresent
+import com.namget.myarchitecture.ui.base.BaseDisposable
 
 /**
  * Created by Namget on 2019.11.12.
@@ -13,7 +13,7 @@ import com.namget.myarchitecture.ui.base.BasePresent
 class SearchPresenter(
     private val repoRepository: RepoRepository,
     private val searchView: SearchContract.View
-) : BasePresent(), SearchContract.Presenter {
+) : BaseDisposable(), SearchContract.Presenter {
 
     override fun requestRepoList(query: String) {
         searchView.hideKeyboard()

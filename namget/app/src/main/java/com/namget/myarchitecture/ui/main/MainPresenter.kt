@@ -4,7 +4,7 @@ import com.namget.myarchitecture.R
 import com.namget.myarchitecture.data.repository.RepoRepository
 import com.namget.myarchitecture.ext.e
 import com.namget.myarchitecture.ext.plusAssign
-import com.namget.myarchitecture.ui.base.BasePresent
+import com.namget.myarchitecture.ui.base.BaseDisposable
 
 /**
  * Created by Namget on 2019.11.13.
@@ -12,7 +12,9 @@ import com.namget.myarchitecture.ui.base.BasePresent
 class MainPresenter(
     private val repoRepository: RepoRepository,
     private val mainView: MainContract.View
-) : BasePresent(), MainContract.Presenter {
+) : BaseDisposable(), MainContract.Presenter {
+
+
 
     override fun unsubscribe() {
         disposable.dispose()

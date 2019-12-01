@@ -9,6 +9,7 @@ abstract class BaseActivity<P : BasePresenter> : AppCompatActivity() {
 
     abstract val presenter : P
 
+
     override fun onDestroy() {
         presenter.unsubscribe()
         super.onDestroy()
