@@ -1,17 +1,17 @@
 package com.namget.myarchitecture.ui.base
 
 import androidx.appcompat.app.AppCompatActivity
+import com.namget.myarchitecture.ui.main.MainViewModel
 
 /**
  * Created by Namget on 2019.10.23.
  */
-abstract class BaseActivity<P : BasePresenter> : AppCompatActivity() {
+abstract class BaseActivity<M : BaseViewModel> : AppCompatActivity() ,  {
 
-    abstract val presenter : P
-
+    abstract val viewModel : M
 
     override fun onDestroy() {
-        presenter.unsubscribe()
+        viewModel.unSubscribe()
         super.onDestroy()
     }
 
