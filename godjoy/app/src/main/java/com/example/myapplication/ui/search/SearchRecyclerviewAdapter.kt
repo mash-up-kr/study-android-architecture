@@ -1,4 +1,4 @@
-package com.example.myapplication.ui
+package com.example.myapplication.ui.search
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -9,8 +9,9 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.example.myapplication.network.model.SearchRepo
+import com.example.myapplication.model.SearchRepo
 import com.example.myapplication.R
+import com.example.myapplication.ui.repo.RepoActivity
 import org.jetbrains.anko.startActivity
 
 class SearchRecyclerviewAdapter (var ctx : Context, var datalist : ArrayList<SearchRepo>): RecyclerView.Adapter<SearchRecyclerviewAdapter.Holder>(){

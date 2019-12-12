@@ -15,9 +15,9 @@
             android:roundIcon="@mipmap/ic_launcher_round"
             android:supportsRtl="true"
             android:theme="@style/AppTheme">
-        <activity android:name=".ui.RepoActivity">
+        <activity android:name=".ui.repo.RepoActivity">
         </activity>
-        <activity android:name=".ui.SearchActivity">
+        <activity android:name=".ui.search.SearchActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 

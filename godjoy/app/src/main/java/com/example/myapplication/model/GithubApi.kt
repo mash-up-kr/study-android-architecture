@@ -1,13 +1,11 @@
-package com.example.myapplication.network
+package com.example.myapplication.model
 
-import com.example.myapplication.network.model.SearchRepo
-import com.example.myapplication.network.model.SearchRepoResponse
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
 
-interface RetrofitService {
+interface GithubApi {
     
     @GET("search/repositories")
     fun getSearchRepoResponse(
