@@ -1,8 +1,7 @@
 package com.namget.myarchitecture.ui.base
 
 import androidx.databinding.BaseObservable
-import androidx.databinding.Observable
-import androidx.databinding.ObservableField
+import androidx.databinding.ObservableBoolean
 import io.reactivex.disposables.CompositeDisposable
 
 /**
@@ -10,8 +9,8 @@ import io.reactivex.disposables.CompositeDisposable
  */
 abstract class BaseViewModel : BaseObservable(){
     protected val disposable = CompositeDisposable()
-    val isLoading = ObservableField<Boolean>(false)
-    protected val toastText = ObservableField<Int>(0)
+    val isLoading = ObservableBoolean(false)
+
 
     fun unSubscribe(){
         disposable.dispose()

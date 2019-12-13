@@ -9,20 +9,20 @@ import com.namget.myarchitecture.R
 import com.namget.myarchitecture.data.repository.RepoRepository
 import com.namget.myarchitecture.data.repository.RepoRepositoryImpl
 import com.namget.myarchitecture.data.source.local.entity.RepoItemEntity
-import com.namget.myarchitecture.ext.showToast
+import com.namget.myarchitecture.databinding.ActivityMainBinding
 import com.namget.myarchitecture.ui.base.BaseActivity
 import com.namget.myarchitecture.ui.base.RepoRepositoryInf
 import com.namget.myarchitecture.ui.search.SearchActivity
 import kotlinx.android.synthetic.main.activity_main.*
 
-class MainActivity : BaseActivity<MainViewModel>(), RepoRepositoryInf {
+class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(R.layout.activity_main),
+    RepoRepositoryInf {
     private lateinit var recyclerView: RecyclerView
     private lateinit var mainAdapter: MainAdapter
     private val repoList: MutableList<RepoItemEntity> = arrayListOf()
     override val viewModel: MainViewModel by lazy {
-        MainViewModel(repoRepository) {
-            showToast(it)
-        }
+        MainViewModel(repoRepository, toast)
+
     }
     override val repoRepository: RepoRepository by lazy {
         RepoRepositoryImpl
@@ -31,7 +31,6 @@ class MainActivity : BaseActivity<MainViewModel>(), RepoRepositoryInf {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
         init()
     }
 

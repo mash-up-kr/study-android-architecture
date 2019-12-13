@@ -27,5 +27,6 @@
 
     <!--stars format-->
     <string name="stars_format">%d stars</string>
+    <string name="no_language">No language specified</string>
 
 </resources>
