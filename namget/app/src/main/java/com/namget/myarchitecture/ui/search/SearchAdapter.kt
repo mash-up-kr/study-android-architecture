@@ -16,8 +16,14 @@ class SearchAdapter(
 ) :
     ListAdapter<RepoListResponse.RepoItem, SearchViewHolder>(diffCallback) {
 
-    fun getAdapterItem(position: Int) : RepoListResponse.RepoItem{
+    fun getAdapterItem(position: Int): RepoListResponse.RepoItem {
         return getItem(position)
+    }
+
+    override fun submitList(submitList: List<RepoListResponse.RepoItem>?) {
+        val list: MutableList<RepoListResponse.RepoItem> = arrayListOf()
+        submitList?.let { list.addAll(submitList) }
+        super.submitList(list)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SearchViewHolder {

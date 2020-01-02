@@ -6,10 +6,11 @@ import java.util.*
 /**
  * Created by Namget on 2019.10.25.
  */
-fun Date.dateToNumberFormat(): String {
+fun Date?.dateToNumberFormat(): String {
+
     try {
         val dateFormat = SimpleDateFormat("yyyy-MM-dd kk:mm:ss", Locale.KOREA)
-        return dateFormat.format(this)
+        this?.let { dateFormat.format(it) }
     } catch (e: IllegalArgumentException) {
         e("DateFormatError", "error : ", e)
     }

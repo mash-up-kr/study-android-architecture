@@ -12,7 +12,7 @@
         <import type="android.view.View" />
 
         <variable
-            name="viewModel"
+            name="viewmodel"
             type="com.namget.myarchitecture.ui.repo.RepoViewModel" />
     </data>
 
@@ -37,7 +37,7 @@
                     android:id="@+id/repoProfileImage"
                     android:layout_width="80dp"
                     android:layout_height="80dp"
-                    android:coilLoad="@{viewModel.userInfo.avatarUrl}"
+                    android:coilLoad="@{viewmodel.userInfo.avatarUrl}"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
@@ -61,7 +61,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="4dp"
                         android:maxLines="2"
-                        android:text="@{viewModel.repoInfo.fullName}"
+                        android:text="@{viewmodel.repoInfo.fullName}"
                         android:textAppearance="?android:textAppearanceLarge"
                         android:textColor="@android:color/holo_blue_dark"
                         tools:text="username/myrepository" />
@@ -72,7 +72,7 @@
                         android:layout_height="wrap_content"
                         android:drawableStart="@drawable/ic_star_black_24dp"
                         android:gravity="center"
-                        android:text="@{String.format(@string/stars_format, viewModel.repoInfo.starCount)}"
+                        android:text="@{String.format(@string/stars_format, viewmodel.repoInfo.starCount)}"
                         android:textAppearance="?android:textAppearanceSmall"
                         android:textColor="@android:color/black"
                         tools:text="100 Stars" />
@@ -93,7 +93,7 @@
                 <TextView
                     android:id="@+id/repoUserName"
                     style="@style/RepoDetailTitleStyle"
-                    android:text="@{viewModel.userInfo.name}"
+                    android:text="@{viewmodel.userInfo.name}"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     tools:text="LeeJaeWoo" />
@@ -120,7 +120,7 @@
                 <TextView
                     android:id="@+id/repoFollowerTitle"
                     style="@style/RepoDetailTitleStyle"
-                    android:text="@{String.format(@string/follow_format, viewModel.userInfo.followers,viewModel.userInfo.following)}"
+                    android:text="@{String.format(@string/follow_format, viewmodel.userInfo.followers,viewmodel.userInfo.following)}"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     tools:text="200 / 30" />
@@ -148,7 +148,7 @@
                     style="@style/RepoDetailTitleStyle"
                     android:layout_width="0dp"
                     android:maxLines="2"
-                    android:text="@{viewModel.repoInfo.description}"
+                    android:text="@{viewmodel.repoInfo.description}"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
@@ -175,7 +175,7 @@
                 <TextView
                     android:id="@+id/repoLanguageTitle"
                     style="@style/RepoDetailTitleStyle"
-                    android:text="@{TextUtils.isEmpty(viewModel.repoInfo.language) ? @string/no_language : viewModel.repoInfo.language}"
+                    android:text="@{TextUtils.isEmpty(viewmodel.repoInfo.language) ? @string/no_language : viewmodel.repoInfo.language}"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     tools:text="Kotlin" />
@@ -201,7 +201,7 @@
                 <TextView
                     android:id="@+id/repoLastUpdateTitle"
                     style="@style/RepoDetailTitleStyle"
-                    android:text="@{DateExtKt.dateToNumberFormat(viewModel.repoInfo.updateTime)}"
+                    android:text="@{DateExtKt.dateToNumberFormat(viewmodel.repoInfo.updateTime)}"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     tools:text="yyyy/MM/dd" />

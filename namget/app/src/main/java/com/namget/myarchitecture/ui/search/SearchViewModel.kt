@@ -42,6 +42,6 @@ class SearchViewModel(
 
 
     companion object {
-        private const val TAG = "SearchPresenter"
+        private const val TAG = "SearchViewModel"
     }
 }

@@ -55,9 +55,7 @@ class SearchActivity :
                 oldItem: RepoListResponse.RepoItem,
                 newItem: RepoListResponse.RepoItem
             ): Boolean {
-                return oldItem.fullName == newItem.fullName &&
-                        oldItem.language == newItem.language &&
-                        oldItem.owner == newItem.owner
+                return oldItem == newItem
             }
         }
 

@@ -33,7 +33,7 @@ class MainViewModel(
 
 
     companion object {
-        private const val TAG = "MainPresenter"
+        private const val TAG = "MainViewModel"
     }
 
 }

@@ -8,6 +8,8 @@ import coil.api.load
  * Created by Namget on 2019.12.13.
  */
 @BindingAdapter("android:coilLoad")
-fun ImageView.coilLoad(url : String){
-    this.load(url)
+fun ImageView.coilLoad(url : String?){
+    url?.run {
+        load(this)
+    }
 }
