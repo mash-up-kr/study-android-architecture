@@ -226,16 +226,6 @@
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <!--    <TextView-->
-        <!--        android:id="@+id/tvActivityRepositoryMessage"-->
-        <!--        android:layout_width="wrap_content"-->
-        <!--        android:layout_height="wrap_content"-->
-        <!--        android:layout_centerInParent="true"-->
-        <!--        android:layout_marginLeft="4dp"-->
-        <!--        android:layout_marginRight="4dp"-->
-        <!--        android:textAppearance="@style/TextAppearance.AppCompat.Medium"-->
-        <!--        android:textColor="@color/githubBlack" />-->
-
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
