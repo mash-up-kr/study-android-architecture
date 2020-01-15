@@ -8,11 +8,11 @@ import java.util.*
  */
 fun Date?.dateToNumberFormat(): String {
 
-    try {
+    return try {
         val dateFormat = SimpleDateFormat("yyyy-MM-dd kk:mm:ss", Locale.KOREA)
-        this?.let { dateFormat.format(it) }
+        this?.let { dateFormat.format(it) } ?: ""
     } catch (e: IllegalArgumentException) {
         e("DateFormatError", "error : ", e)
+        return ""
     }
-    return ""
 }

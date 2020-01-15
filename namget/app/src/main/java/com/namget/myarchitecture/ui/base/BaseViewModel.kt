@@ -11,6 +11,14 @@ abstract class BaseViewModel : BaseObservable(){
     protected val disposable = CompositeDisposable()
     val isLoading = ObservableBoolean(false)
 
+    protected fun showLoading(){
+        isLoading.set(true)
+    }
+
+    protected fun hideLoading(){
+        isLoading.set(false)
+    }
+
 
     fun unSubscribe(){
         disposable.dispose()

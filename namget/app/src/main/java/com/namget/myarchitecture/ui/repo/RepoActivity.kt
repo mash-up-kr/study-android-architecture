@@ -7,15 +7,13 @@ import com.namget.myarchitecture.data.repository.RepoRepository
 import com.namget.myarchitecture.data.repository.RepoRepositoryImpl
 import com.namget.myarchitecture.databinding.ActivityRepoBinding
 import com.namget.myarchitecture.ui.base.BaseActivity
-import com.namget.myarchitecture.ui.base.RepoRepositoryInf
 import com.namget.myarchitecture.util.URL_REPO_DATA
 import com.namget.myarchitecture.util.URL_USER_DATA
 
 /**
  * Created by Namget on 2019.10.22.
  */
-class RepoActivity : BaseActivity<ActivityRepoBinding, RepoViewModel>(R.layout.activity_repo),
-    RepoRepositoryInf {
+class RepoActivity : BaseActivity<ActivityRepoBinding, RepoViewModel>(R.layout.activity_repo) {
     private lateinit var repoUrl: String
     private lateinit var userUrl: String
 
@@ -23,8 +21,7 @@ class RepoActivity : BaseActivity<ActivityRepoBinding, RepoViewModel>(R.layout.a
     override val viewModel: RepoViewModel by lazy {
         RepoViewModel(repoRepository, toast)
     }
-
-    override val repoRepository: RepoRepository by lazy {
+    private val repoRepository: RepoRepository by lazy {
         RepoRepositoryImpl
     }
 

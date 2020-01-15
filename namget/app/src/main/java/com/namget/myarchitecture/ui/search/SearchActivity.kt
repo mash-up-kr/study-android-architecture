@@ -12,7 +12,6 @@ import com.namget.myarchitecture.data.repository.RepoRepositoryImpl
 import com.namget.myarchitecture.data.response.RepoListResponse
 import com.namget.myarchitecture.databinding.ActivitySearchBinding
 import com.namget.myarchitecture.ui.base.BaseActivity
-import com.namget.myarchitecture.ui.base.RepoRepositoryInf
 import com.namget.myarchitecture.ui.repo.RepoActivity
 import com.namget.myarchitecture.util.URL_REPO_DATA
 import com.namget.myarchitecture.util.URL_USER_DATA
@@ -31,14 +30,13 @@ import kotlinx.android.synthetic.main.activity_search.*
  */
 
 class SearchActivity :
-    BaseActivity<ActivitySearchBinding, SearchViewModel>(R.layout.activity_search),
-    RepoRepositoryInf {
+    BaseActivity<ActivitySearchBinding, SearchViewModel>(R.layout.activity_search){
     private lateinit var menuSearch: MenuItem
     private lateinit var searchView: SearchView
     override val viewModel: SearchViewModel by lazy {
         SearchViewModel(repoRepository, toast, keyBoard)
     }
-    override val repoRepository: RepoRepository by lazy {
+    private val repoRepository: RepoRepository by lazy {
         RepoRepositoryImpl
     }
 

@@ -2,10 +2,12 @@ package com.namget.myarchitecture.ui.search
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import com.namget.myarchitecture.R
 import com.namget.myarchitecture.data.response.RepoListResponse
+import com.namget.myarchitecture.databinding.ItemSearchBinding
 
 /**
  * Created by Namget on 2019.10.22.
@@ -27,9 +29,13 @@ class SearchAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SearchViewHolder {
-        val inflater =
-            LayoutInflater.from(parent.context).inflate(R.layout.item_search, parent, false)
-        return SearchViewHolder(inflater.rootView, selectedCallback)
+        val binding = DataBindingUtil.inflate<ItemSearchBinding>(
+            LayoutInflater.from(parent.context),
+            R.layout.item_search,
+            parent,
+            false
+        )
+        return SearchViewHolder(binding, selectedCallback)
     }
 
     override fun onBindViewHolder(holder: SearchViewHolder, position: Int) {

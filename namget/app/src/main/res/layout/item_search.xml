@@ -1,51 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="72dp"
-    android:background="?attr/selectableItemBackground"
-    android:orientation="vertical"
-    android:paddingLeft="12dp"
-    android:paddingRight="12dp">
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <ImageView
-        android:id="@+id/repositoryImage"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:layout_centerVertical="true"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:src="@drawable/ic_launcher_background" />
+    <data>
+        <variable
+            name="repoEntitiy"
+            type="com.namget.myarchitecture.data.source.local.entity.RepoItemEntity" />
+    </data>
 
-    <LinearLayout
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="12dp"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="72dp"
+        android:background="?attr/selectableItemBackground"
         android:orientation="vertical"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toRightOf="@id/repositoryImage"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:paddingLeft="12dp"
+        android:paddingRight="12dp">
 
-        <TextView
-            android:id="@+id/repositoryName"
-            android:layout_width="wrap_content"
+        <ImageView
+            android:id="@+id/repositoryImage"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_centerVertical="true"
+            android:coilLoad="@{repoEntitiy.avatarUrl}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:src="@drawable/ic_launcher_background" />
+
+        <LinearLayout
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:ellipsize="end"
-            android:maxLines="1"
-            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-            android:textColor="@android:color/black"
-            tools:text="Owner/Repository" />
+            android:layout_marginStart="12dp"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toRightOf="@id/repositoryImage"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
-        <TextView
-            android:id="@+id/repositoryLanguage"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="@style/TextAppearance.AppCompat.Small"
-            tools:text="Language" />
+            <TextView
+                android:id="@+id/repositoryName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:text="@{repoEntitiy.fullName}"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                android:textColor="@android:color/black"
+                tools:text="Owner/Repository" />
 
-    </LinearLayout>
+            <TextView
+                android:id="@+id/repositoryLanguage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{(repoEntitiy.language == null || repoEntitiy.language.empty) ? @string/no_language : repoEntitiy.language}"
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+                android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                tools:text="Language" />
+
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
