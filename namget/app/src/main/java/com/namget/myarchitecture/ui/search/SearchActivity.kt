@@ -30,7 +30,7 @@ import kotlinx.android.synthetic.main.activity_search.*
  */
 
 class SearchActivity :
-    BaseActivity<ActivitySearchBinding, SearchViewModel>(R.layout.activity_search){
+    BaseActivity<ActivitySearchBinding, SearchViewModel>(R.layout.activity_search) {
     private lateinit var menuSearch: MenuItem
     private lateinit var searchView: SearchView
     override val viewModel: SearchViewModel by lazy {
@@ -102,6 +102,7 @@ class SearchActivity :
             override fun onQueryTextSubmit(query: String?): Boolean {
                 if (!query.isNullOrEmpty()) {
                     viewModel.requestRepoList(query)
+                    menuSearch.collapseActionView()
                 }
                 return true
             }
@@ -110,13 +111,13 @@ class SearchActivity :
                 return false
             }
         })
-        menuSearch.expandActionView()
+        menuSearch.collapseActionView()
         return true
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == R.id.menu_search) {
-            menuSearch.expandActionView()
+            menuSearch.collapseActionView()
             return true
         }
         return super.onOptionsItemSelected(item)
