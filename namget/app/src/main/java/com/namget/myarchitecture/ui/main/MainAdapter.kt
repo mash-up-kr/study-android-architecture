@@ -2,9 +2,11 @@ package com.namget.myarchitecture.ui.main
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.namget.myarchitecture.R
 import com.namget.myarchitecture.data.source.local.entity.RepoItemEntity
+import com.namget.myarchitecture.databinding.ItemSearchBinding
 
 /**
  * Created by Namget on 2019.10.25.
@@ -14,8 +16,13 @@ class MainAdapter(private val list: MutableList<RepoItemEntity>) :
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MainViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_search, parent, false)
-        return MainViewHolder(view)
+        val binding = DataBindingUtil.inflate<ItemSearchBinding>(
+            LayoutInflater.from(parent.context),
+            R.layout.item_search,
+            parent,
+            false
+        )
+        return MainViewHolder(binding)
     }
 
     fun replaceItems(replaceList: List<RepoItemEntity>) {

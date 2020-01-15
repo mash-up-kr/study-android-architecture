@@ -10,10 +10,8 @@ import com.namget.myarchitecture.R
 import com.namget.myarchitecture.data.repository.RepoRepository
 import com.namget.myarchitecture.data.repository.RepoRepositoryImpl
 import com.namget.myarchitecture.data.response.RepoListResponse
-import com.namget.myarchitecture.ext.setVisible
-import com.namget.myarchitecture.ext.showToast
+import com.namget.myarchitecture.databinding.ActivitySearchBinding
 import com.namget.myarchitecture.ui.base.BaseActivity
-import com.namget.myarchitecture.ui.base.RepoRepositoryInf
 import com.namget.myarchitecture.ui.repo.RepoActivity
 import com.namget.myarchitecture.util.URL_REPO_DATA
 import com.namget.myarchitecture.util.URL_USER_DATA
@@ -31,13 +29,14 @@ import kotlinx.android.synthetic.main.activity_search.*
  *  Companion object
  */
 
-class SearchActivity : BaseActivity<SearchPresenter>(), SearchContract.View , RepoRepositoryInf{
+class SearchActivity :
+    BaseActivity<ActivitySearchBinding, SearchViewModel>(R.layout.activity_search) {
     private lateinit var menuSearch: MenuItem
     private lateinit var searchView: SearchView
-    override val presenter: SearchPresenter by lazy {
-        SearchPresenter(repoRepository, this)
+    override val viewModel: SearchViewModel by lazy {
+        SearchViewModel(repoRepository, toast, keyBoard)
     }
-    override val repoRepository: RepoRepository by lazy {
+    private val repoRepository: RepoRepository by lazy {
         RepoRepositoryImpl
     }
 
@@ -54,9 +53,7 @@ class SearchActivity : BaseActivity<SearchPresenter>(), SearchContract.View , Re
                 oldItem: RepoListResponse.RepoItem,
                 newItem: RepoListResponse.RepoItem
             ): Boolean {
-                return oldItem.fullName == newItem.fullName &&
-                        oldItem.language == newItem.language &&
-                        oldItem.owner == newItem.owner
+                return oldItem == newItem
             }
         }
 
@@ -64,7 +61,7 @@ class SearchActivity : BaseActivity<SearchPresenter>(), SearchContract.View , Re
         SearchAdapter(diffUtilCallback) {
             //db
             val item = searchAdapter.getAdapterItem(it)
-            presenter.insertRepoData(item)
+            viewModel.insertRepoData(item)
             //detail
             startRepoActivity(
                 item.fullName,
@@ -76,7 +73,6 @@ class SearchActivity : BaseActivity<SearchPresenter>(), SearchContract.View , Re
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_search)
         init()
     }
 
@@ -90,23 +86,6 @@ class SearchActivity : BaseActivity<SearchPresenter>(), SearchContract.View , Re
             adapter = searchAdapter
         }
     }
-
-    override fun showDialog() {
-        progressBar.setVisible(true)
-        searchRecylcerView.setVisible(false)
-    }
-
-    override fun hideDialog() {
-        progressBar.setVisible(false)
-        searchRecylcerView.setVisible(true)
-    }
-
-    override fun hideKeyboard() {
-        hideKeyboard()
-    }
-
-    override fun submitList(list: List<RepoListResponse.RepoItem>?) = searchAdapter.submitList(list)
-    override fun makeToast(resId: Int) = showToast(resId)
 
     private fun startRepoActivity(fullName: String, userId: String) {
         startActivity(Intent(this, RepoActivity::class.java).apply {
@@ -122,7 +101,8 @@ class SearchActivity : BaseActivity<SearchPresenter>(), SearchContract.View , Re
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 if (!query.isNullOrEmpty()) {
-                    presenter.requestRepoList(query)
+                    viewModel.requestRepoList(query)
+                    menuSearch.collapseActionView()
                 }
                 return true
             }
@@ -131,14 +111,13 @@ class SearchActivity : BaseActivity<SearchPresenter>(), SearchContract.View , Re
                 return false
             }
         })
-
-        menuSearch.expandActionView()
+        menuSearch.collapseActionView()
         return true
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == R.id.menu_search) {
-            menuSearch.expandActionView()
+            menuSearch.collapseActionView()
             return true
         }
         return super.onOptionsItemSelected(item)
