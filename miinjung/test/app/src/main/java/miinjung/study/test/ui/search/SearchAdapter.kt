@@ -1,7 +1,5 @@
 package miinjung.study.test.ui.search
 
-import android.content.Context
-import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,10 +10,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import miinjung.study.test.R
 import miinjung.study.test.model.Item
-import miinjung.study.test.ui.detail.DetailActivity
-import miinjung.study.test.util.KeyName
 
-class SearchAdapter(val _context: Context) :RecyclerView.Adapter<SearchAdapter.SearchViewHolder>(){
+class SearchAdapter :RecyclerView.Adapter<SearchAdapter.SearchViewHolder>(){
 
     private var dataList : ArrayList<Item> = arrayListOf()
 
@@ -28,7 +24,7 @@ class SearchAdapter(val _context: Context) :RecyclerView.Adapter<SearchAdapter.S
 
         dataList[position].let{data->
             Glide.with(holder.itemView.context).load(data.owner!!.avatarUrl).into(holder.imageSearch)
-            if(data.language.isNullOrEmpty())
+            if(data.language.isEmpty())
                 holder.textUserLanguage.setText(R.string.nonLang)
             else
                 holder.textUserLanguage.text = data.language
@@ -37,14 +33,8 @@ class SearchAdapter(val _context: Context) :RecyclerView.Adapter<SearchAdapter.S
 
             holder.itemBox.setOnClickListener {
 
-
-                val intent = Intent(_context, DetailActivity::class.java)
-
-                intent.putExtra(KeyName.KEY_REPO_NAME,data.name)
-                intent.putExtra(KeyName.KEY_USER_LOGIN,data.owner?.login)
-
-                _context.startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
             }
+
         }
     }
 

@@ -10,6 +10,7 @@ interface SearchContract {
         fun initRecycleview()
         fun rvDataBinding(item : ArrayList<Item>)
         fun queryTextSubmit(query:String)
+        fun changeActivity(login:String, name:String)
 
     }
     interface Presenter:BaseContract.Presenter{

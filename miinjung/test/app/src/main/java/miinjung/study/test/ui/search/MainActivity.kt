@@ -1,6 +1,7 @@
 package miinjung.study.test.ui.search
 
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
@@ -11,11 +12,14 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.activity_main.*
 import miinjung.study.test.R
 import miinjung.study.test.model.Item
+import miinjung.study.test.ui.detail.DetailActivity
+import miinjung.study.test.util.KeyName
 
 class MainActivity : AppCompatActivity(),SearchContract.View{
 
     private lateinit var presenter: SearchPresenter
     private lateinit var searchAdapter:SearchAdapter
+    var change = changeActivity("","")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,6 +29,7 @@ class MainActivity : AppCompatActivity(),SearchContract.View{
 
 
         initRecycleview()
+
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -101,7 +106,7 @@ class MainActivity : AppCompatActivity(),SearchContract.View{
 
 
     override fun initRecycleview(){
-        searchAdapter = SearchAdapter(this.applicationContext)
+        searchAdapter = SearchAdapter()
 
         rvSearchList.adapter = this.searchAdapter
         rvSearchList.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
@@ -109,13 +114,20 @@ class MainActivity : AppCompatActivity(),SearchContract.View{
 
     override fun rvDataBinding(item : ArrayList<Item>) {
         searchAdapter.setItems(item)
-        searchAdapter.setItems(item)
     }
 
     override fun queryTextSubmit(query: String) {
         supportActionBar?.setTitle("search")
         supportActionBar?.run{ subtitle = query }
         presenter.searchRepos(query)
+    }
+
+    override fun changeActivity(login: String, name: String) {
+        val intent = Intent(this, DetailActivity::class.java)
+        intent.putExtra(KeyName.KEY_REPO_NAME,name)
+        intent.putExtra(KeyName.KEY_USER_LOGIN,login)
+
+        this.startActivity(intent)
     }
 
 }
