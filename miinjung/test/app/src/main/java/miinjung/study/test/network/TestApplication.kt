@@ -5,21 +5,12 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 
 object TestApplication{
-    var api : ServerInterface? = null
-    val baseURL =String.format("https://api.github.com")
+    private val baseURL =String.format("https://api.github.com")
 
-    init{
-        synchronized(TestApplication::class.java) {
+    private val retrofit = Retrofit.Builder()
+        .baseUrl(baseURL)
+        .addConverterFactory(GsonConverterFactory.create())
+        .build()
 
-            if (api == null) {
-
-                val retrofit = Retrofit.Builder()
-                    .baseUrl(baseURL)
-                    .addConverterFactory(GsonConverterFactory.create())
-                    .build()
-
-                api = retrofit.create(ServerInterface::class.java)
-            }
-        }
-    }
+    val api : ServerInterface = retrofit.create(ServerInterface::class.java)
 }
