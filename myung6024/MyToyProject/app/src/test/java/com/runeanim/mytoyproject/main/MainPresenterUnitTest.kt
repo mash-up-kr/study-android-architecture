@@ -8,28 +8,23 @@ import com.runeanim.mytoyproject.MainCoroutineRule
 import com.runeanim.mytoyproject.data.source.local.entity.RepositoryEntity
 import com.runeanim.mytoyproject.domain.GetRepositoriesUseCase
 import com.runeanim.mytoyproject.domain.RemoveAllRepositoriesUseCase
-import com.runeanim.mytoyproject.ui.main.MainContract
-import com.runeanim.mytoyproject.ui.main.MainPresenter
+import com.runeanim.mytoyproject.domain.SaveRepositoryUseCase
+import com.runeanim.mytoyproject.domain.SearchRepositoriesUseCase
+import com.runeanim.mytoyproject.ui.repo.RepoViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import org.junit.runner.RunWith
-import org.mockito.Mock
-import org.mockito.junit.MockitoJUnitRunner
 
-@RunWith(MockitoJUnitRunner::class)
 @ExperimentalCoroutinesApi
-class MainPresenterUnitTest {
+class MainviewModelUnitTest {
 
-    private lateinit var presenter: MainPresenter
+    private lateinit var viewModel: RepoViewModel
 
     // Use a fake repository to be injected into the viewmodel
     private lateinit var repoRepository: FakeRepository
 
     // view는 만들어서 넣어주기 힘드니 Mock으로 사용한다.
-    @Mock
-    private lateinit var view: MainContract.View
 
     // Set the main coroutines dispatcher for unit testing.
     // Coroutine 테스트를 위한 rule이다.
@@ -52,40 +47,41 @@ class MainPresenterUnitTest {
         val task2 = RepositoryEntity(2, "Description2", "two", null, "", 1)
         val task3 = RepositoryEntity(3, "Description3", "three", null, "", 2)
         repoRepository.addRepos(task1, task2, task3)
-        presenter = MainPresenter(
+        viewModel = RepoViewModel(
+            SearchRepositoriesUseCase(repoRepository),
+            SaveRepositoryUseCase(repoRepository),
             GetRepositoriesUseCase(repoRepository),
-            RemoveAllRepositoriesUseCase(repoRepository),
-            view
+            RemoveAllRepositoriesUseCase(repoRepository)
         )
     }
 
     @Test
     fun `전체 삭제하기`() {
-        presenter.onClickRemoveAllFloatingButton()
-        Truth.assertThat(LiveDataTestUtil.getValue(presenter.items)).hasSize(0)
+        viewModel.removeAllRepositoryHistory()
+        Truth.assertThat(LiveDataTestUtil.getValue(viewModel.items)).hasSize(0)
     }
 
     @Test
     fun `저장된 목록 불러오기`() {
-        presenter.getRepositoryHistory()
-        Truth.assertThat(LiveDataTestUtil.getValue(presenter.items)).hasSize(3)
+        viewModel.getClickedRepositoryHistory()
+        Truth.assertThat(LiveDataTestUtil.getValue(viewModel.items)).hasSize(3)
     }
 
     @Test
     fun `전체 삭제하기 + 저장된 목록 불러오기`() {
-        presenter.onClickRemoveAllFloatingButton()
-        Truth.assertThat(LiveDataTestUtil.getValue(presenter.items)).hasSize(0)
+        viewModel.removeAllRepositoryHistory()
+        Truth.assertThat(LiveDataTestUtil.getValue(viewModel.items)).hasSize(0)
 
-        presenter.getRepositoryHistory()
-        Truth.assertThat(LiveDataTestUtil.getValue(presenter.items)).hasSize(0)
+        viewModel.getClickedRepositoryHistory()
+        Truth.assertThat(LiveDataTestUtil.getValue(viewModel.items)).hasSize(0)
     }
 
     @Test
     fun `저장된 목록 불러오기 + 전체 삭제하기`() {
-        presenter.getRepositoryHistory()
-        Truth.assertThat(LiveDataTestUtil.getValue(presenter.items)).hasSize(3)
+        viewModel.getClickedRepositoryHistory()
+        Truth.assertThat(LiveDataTestUtil.getValue(viewModel.items)).hasSize(3)
 
-        presenter.onClickRemoveAllFloatingButton()
-        Truth.assertThat(LiveDataTestUtil.getValue(presenter.items)).hasSize(0)
+        viewModel.removeAllRepositoryHistory()
+        Truth.assertThat(LiveDataTestUtil.getValue(viewModel.items)).hasSize(0)
     }
 }

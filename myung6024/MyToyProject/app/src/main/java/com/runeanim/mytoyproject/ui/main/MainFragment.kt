@@ -1,74 +1,69 @@
 package com.runeanim.mytoyproject.ui.main
 
 import android.os.Bundle
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.navigation.fragment.findNavController
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.runeanim.mytoyproject.R
 import com.runeanim.mytoyproject.base.BaseFragment
 import com.runeanim.mytoyproject.data.source.local.entity.RepositoryEntity
 import com.runeanim.mytoyproject.databinding.MainFragmentBinding
-import com.runeanim.mytoyproject.ui.RepoItemClickListener
-import com.runeanim.mytoyproject.ui.RepoListAdapter
+import com.runeanim.mytoyproject.ui.repo.RepoListAdapter
+import com.runeanim.mytoyproject.ui.repo.RepoViewModel
+import com.runeanim.mytoyproject.util.EventObserver
 import org.koin.android.ext.android.inject
-import org.koin.core.parameter.parametersOf
 
-class MainFragment : BaseFragment<MainFragmentBinding, MainPresenter>(R.layout.main_fragment),
-    MainContract.View {
+class MainFragment : BaseFragment<MainFragmentBinding, RepoViewModel>(R.layout.main_fragment) {
 
-    override val presenter: MainPresenter by inject {
-        parametersOf(
-            this as MainContract.View
-        )
-    }
+    override val viewModel: RepoViewModel by inject()
 
     private lateinit var listAdapter: RepoListAdapter
-
-    private val _items = MutableLiveData<List<RepositoryEntity>>(emptyList())
-    val items: LiveData<List<RepositoryEntity>>
-        get() = _items
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewDataBinding.apply {
-            view = this@MainFragment
+            viewmodel = viewModel
         }
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        setupNavigation()
+        setupFab()
         setupListAdapter()
+
+        viewModel.getClickedRepositoryHistory()
     }
 
     private fun setupListAdapter() {
-        listAdapter = RepoListAdapter(object :
-            RepoItemClickListener {
-            override fun onClickRepositoryItem(repositoryEntity: RepositoryEntity) {
-                onClickListItem(repositoryEntity)
-            }
-        })
+        listAdapter = RepoListAdapter(viewModel)
         viewDataBinding.rvRepository.adapter = listAdapter
     }
 
-    override fun showRepositoryHistory(result: List<RepositoryEntity>) {
-        _items.value = result
+    private fun setupNavigation() {
+        viewModel.openRepoEvent.observe(this, EventObserver {
+            openRepoDetail(it)
+        })
     }
 
-    private fun onClickListItem(repositoryEntity: RepositoryEntity) {
+    private fun setupFab() {
+        activity?.findViewById<FloatingActionButton>(R.id.search_repo_fab)?.let {
+            it.setOnClickListener {
+                navigateToSearchRepo()
+            }
+        }
+    }
+
+    private fun navigateToSearchRepo(){
+        MainFragmentDirections.actionMainScreenToSearchScreen()
+            .also { findNavController().navigate(it) }
+    }
+
+    private fun openRepoDetail(repositoryEntity: RepositoryEntity){
         with(repositoryEntity) {
             MainFragmentDirections.actionGlobalDetailScreen(
                 fullName,
                 ownerName
             ).also { findNavController().navigate(it) }
         }
-    }
-
-    fun onClickRemoveAllFloatingButton() {
-        presenter.removeAllRepositoryHistory()
-    }
-
-    fun onClickSearchFloatingButton() {
-        MainFragmentDirections.actionMainScreenToSearchScreen()
-            .also { findNavController().navigate(it) }
     }
 }

@@ -7,11 +7,7 @@
     <fragment
         android:id="@+id/main_screen"
         android:name="com.runeanim.mytoyproject.ui.main.MainFragment"
-        android:label="Main screen"
-        app:enterAnim="@anim/slide_in_right"
-        app:exitAnim="@anim/slide_out_left"
-        app:popEnterAnim="@anim/slide_in_left"
-        app:popExitAnim="@anim/slide_out_right">
+        android:label="Main screen">
         <action
             android:id="@+id/action_main_screen_to_search_screen"
             app:destination="@id/search_screen"
@@ -25,20 +21,12 @@
         android:id="@+id/search_screen"
         android:name="com.runeanim.mytoyproject.ui.search.SearchFragment"
         android:label="Search screen"
-        app:enterAnim="@anim/slide_in_right"
-        app:exitAnim="@anim/slide_out_left"
-        app:popEnterAnim="@anim/slide_in_left"
-        app:popExitAnim="@anim/slide_out_right"
         tools:layout="@layout/search_fragment" />
 
     <fragment
         android:id="@+id/detail_screen"
         android:name="com.runeanim.mytoyproject.ui.detail.DetailFragment"
         android:label="Detail screen"
-        app:enterAnim="@anim/slide_in_right"
-        app:exitAnim="@anim/slide_out_left"
-        app:popEnterAnim="@anim/slide_in_left"
-        app:popExitAnim="@anim/slide_out_right"
         tools:layout="@layout/detail_fragment">
         <argument
             android:name="repoUrl"
@@ -51,8 +39,8 @@
     <action
         android:id="@+id/action_global_detail_screen"
         app:destination="@id/detail_screen"
-        app:enterAnim="@anim/slide_in_right"
-        app:exitAnim="@anim/slide_out_left"
-        app:popEnterAnim="@anim/slide_in_left"
-        app:popExitAnim="@anim/slide_out_right" />
+        app:enterAnim="@anim/nav_default_enter_anim"
+        app:exitAnim="@anim/nav_default_exit_anim"
+        app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+        app:popExitAnim="@anim/nav_default_pop_exit_anim" />
 </navigation>

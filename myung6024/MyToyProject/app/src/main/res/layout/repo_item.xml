@@ -8,15 +8,15 @@
             type="com.runeanim.mytoyproject.data.source.local.entity.RepositoryEntity" />
 
         <variable
-            name="listener"
-            type="com.runeanim.mytoyproject.ui.RepoItemClickListener" />
+            name="viewmodel"
+            type="com.runeanim.mytoyproject.ui.repo.RepoViewModel" />
     </data>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:onClick="@{() -> listener.onClickRepositoryItem(item)}">
+        android:onClick="@{() -> viewmodel.openRepo(item)}">
 
         <ImageView
             android:layout_width="50dp"

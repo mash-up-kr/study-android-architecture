@@ -1,4 +1,4 @@
-package com.runeanim.mytoyproject
+package com.runeanim.mytoyproject.ui.repo
 
 import android.view.View
 import android.widget.ImageView
@@ -8,7 +8,7 @@ import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.runeanim.mytoyproject.data.source.local.entity.RepositoryEntity
-import com.runeanim.mytoyproject.ui.RepoListAdapter
+import com.runeanim.mytoyproject.ui.repo.RepoListAdapter
 
 @BindingAdapter("app:items")
 fun setItems(listView: RecyclerView, items: List<RepositoryEntity>) {
